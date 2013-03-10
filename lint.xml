@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="NewApi">
+        <ignore path="src/com/cm/wifiscanner/DownloadUpdateService.java" />
+        <ignore path="src/com/cm/wifiscanner/SettingActivity.java" />
+        <ignore path="src/com/cm/wifiscanner/util/Utils.java" />
+        <ignore path="src/com/cm/wifiscanner/wifi/WiFiScanService.java" />
+    </issue>
+</lint>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wifi_status">
+        <!-- Status message of Wi-Fi when it is idle. -->
+        <item></item>
+        <!-- Status message of Wi-Fi when it is scanning. -->
+        <item>Scanning\u2026</item>
+        <!-- Status message of Wi-Fi when it is connecting. -->
+        <item>Connecting\u2026</item>
+        <!-- Status message of Wi-Fi when it is authenticating. -->
+        <item>Authenticating\u2026</item>
+        <!-- Status message of Wi-Fi when it is obtaining IP address. -->
+        <item>Obtaining IP address\u2026</item>
+        <!-- Status message of Wi-Fi when it is connected. -->
+        <item>Connected</item>
+        <!-- Status message of Wi-Fi when it is suspended. -->
+        <item>Suspended</item>
+        <!-- Status message of Wi-Fi when it is disconnecting. -->
+        <item>Disconnecting\u2026</item>
+        <!-- Status message of Wi-Fi when it is disconnected. -->
+        <item>Disconnected</item>
+        <!-- Status message of Wi-Fi when it is a failure. -->
+        <item>Unsuccessful</item>
+        <!-- Status message of Wi-Fi when it is blocked. -->
+        <item>Blocked</item>
+        <!-- Status message of Wi-Fi when connectiong is being verified. -->
+        <item>Temporarily avoiding poor connection</item>
+    </string-array>
+
+    <string-array name="wifi_status_with_ssid">
+        <!-- Status message of Wi-Fi when it is idle. -->
+        <item></item>
+        <!-- Status message of Wi-Fi when it is scanning. -->
+        <item>Scanning\u2026</item>
+        <!-- Status message of Wi-Fi when it is connecting to a network. -->
+        <item>Connecting to %1$s \u2026</item>
+        <!-- Status message of Wi-Fi when it is authenticating with a network. -->
+        <item>Authenticating with %1$s \u2026</item>
+        <!-- Status message of Wi-Fi when it is obtaining IP address from a network. -->
+        <item>Obtaining IP address from %1$s \u2026</item>
+        <!-- Status message of Wi-Fi when it is connected to a network. -->
+        <item>Connected to %1$s </item>
+        <!-- Status message of Wi-Fi when it is suspended. -->
+        <item>Suspended</item>
+        <!-- Status message of Wi-Fi when it is disconnecting from a network. -->
+        <item>Disconnecting from %1$s \u2026</item>
+        <!-- Status message of Wi-Fi when it is disconnected. -->
+        <item>Disconnected</item>
+        <!-- Status message of Wi-Fi when it is a failure. -->
+        <item>Unsuccessful</item>
+        <!-- Status message of Wi-Fi when it is blocked. -->
+        <item>Blocked</item>
+        <!-- Status message of Wi-Fi when connectiong is being verified. -->
+        <item>Temporarily avoiding poor connection</item>
+    </string-array>
+
+    <!-- Match this with the constants in AccessPoint. --> <skip />
+    <!-- Wi-Fi settings.  The type of security a Wi-Fi network has. -->
+    <string-array name="wifi_security">
+        <!-- The Wi-Fi network does not have any security. -->
+        <item>Open</item>
+        <!-- Do not translate. -->
+        <item>WEP</item>
+        <!-- Do not translate. -->
+        <item>WPA/WPA2 PSK</item>
+        <!-- Do not translate. -->
+        <item>802.1x EAP</item>
+    </string-array>
+
+   <!-- Wi-Fi AP settings.  The type of security a Wi-Fi AP supports. -->
+   <!-- Note that adding/removing/moving the items will need wifi settings code change. -->
+    <string-array name="wifi_ap_security" translatable="false">
+        <item>Open</item>
+        <!-- Do not translate. -->
+        <item>WPA2 PSK</item>
+    </string-array>
+
+    <!-- Match this with the constants in WifiDialog. --> <skip />
+    <!-- Wi-Fi settings.  The type of EAP method a Wi-Fi network has. -->
+    <string-array name="wifi_eap_method">
+        <!-- Do not translate. -->
+        <item>PEAP</item>
+        <!-- Do not translate. -->
+        <item>TLS</item>
+        <!-- Do not translate. -->
+        <item>TTLS</item>
+    </string-array>
+
+    <!-- Phase 2 options -->
+    <string-array name="wifi_phase2_entries">
+        <item>None</item>
+        <item>PAP</item>
+        <item>MSCHAP</item>
+        <item>MSCHAPV2</item>
+        <item>GTC</item>
+    </string-array>
+
+     <string-array name="wifi_signal">
+        <item>Poor</item>
+        <item>Fair</item>
+        <item>Good</item>
+        <item>Excellent</item>
+    </string-array>
+    
+    <string-array name="wifi_filter_mode_entries" >
+        <item>Visible</item>
+        <item>All</item>
+        <item>Open</item>
+        <item>Need Authorize</item>
+    </string-array>
+
+    <string-array name="wifi_filter_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="wifi_filter_mode_summary_entries" >
+        <item>Only show visible WiFi</item>
+        <item>Show all WiFi</item>
+        <item>Only show open WiFi</item>
+        <item>Only show Wifi which need authorization</item>
+    </string-array>
+</resources>

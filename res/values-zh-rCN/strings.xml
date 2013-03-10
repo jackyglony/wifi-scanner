@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">时讯无线</string>
+    <string name="menu_settings">设置</string>
+
+    <string name="tab_wifi">WIFI</string>
+    <string name="tab_favourite">FAV</string>
+    <string name="tab_jabber">JAB</string>
+    <string name="tab_setting">SET</string>
+
+    <string name="wifi_hub_user_name">名字</string>
+    <string name="wifi_hub_user_password">密码</string>
+
+    <string name="wifi_secured_first_item">通过 %1$s保护</string>
+    <!-- Substring of wifi status for wifi with authentication.  This version is for when the
+         string is not first in the list (lowercase in english) -->
+    <string name="wifi_secured_second_item">, 通过 %1$s保护</string>
+
+    <!-- Do not translate.  Concise terminology for wifi with WEP security -->
+    <string name="wifi_security_short_wep">WEP</string>
+    <!-- Do not translate.  Concise terminology for wifi with WPA security -->
+    <string name="wifi_security_short_wpa">WPA</string>
+    <!-- Do not translate.  Concise terminology for wifi with WPA2 security -->
+    <string name="wifi_security_short_wpa2">WPA2</string>
+    <!-- Do not translate.  Concise terminology for wifi with both WPA/WPA2 security -->
+    <string name="wifi_security_short_wpa_wpa2">WPA/WPA2</string>
+    <!-- Do not translate.  Concise terminology for wifi with unknown PSK type -->
+    <string name="wifi_security_short_psk_generic">@string/wifi_security_short_wpa_wpa2</string>
+    <!-- Do not translate.  Concise terminology for wifi with 802.1x EAP security -->
+    <string name="wifi_security_short_eap">802.1x</string>
+
+    <!-- Status for networks disabled for unknown reason -->
+    <string name="wifi_disabled_generic">禁止</string>
+    <!-- Status for networked disabled from a DNS or DHCP failure -->
+    <string name="wifi_disabled_network_failure">禁止信号差的网络</string>
+    <!-- Status for networks disabled from authentication failure (wrong password
+         or certificate). -->
+    <string name="wifi_disabled_password_failure">鉴权错误</string>
+    <!-- Substring of status line when WiFi Protected Setup (WPS) is available and
+         string is listed first [CHAR LIMIT=20]-->
+    <string name="wifi_wps_available_first_item">可以使用WPS</string>
+    <!-- Substring of wifi status when WiFi Protected Setup (WPS) is available and
+         string is listed after a wifi_secured_* string-->
+    <string name="wifi_wps_available_second_item">\u0020(可以使用WPS)</string>
+
+    <!-- Used in WiFi settings dialogs when WiFi does not have any security. -->
+    <string name="wifi_security_none">无</string>
+    <!-- Do not translate.  Terminology for wifi with WEP security -->
+    <string name="wifi_security_wep">WEP</string>
+    <!-- Do not translate.  Terminology for wifi with WPA security -->
+    <string name="wifi_security_wpa">WPA PSK</string>
+    <!-- Do not translate.  Terminology for wifi with WPA2 security -->
+    <string name="wifi_security_wpa2">WPA2 PSK</string>
+    <!-- Do not translate.  Terminology for wifi with both WPA/WPA2 security, or unknown -->
+    <string name="wifi_security_wpa_wpa2">WPA/WPA2 PSK</string>
+    <!-- Do not translate.  Terminology for wifi with unknown PSK type -->
+    <string name="wifi_security_psk_generic">@string/wifi_security_wpa_wpa2</string>
+    <!-- Do not translate.  Concise terminology for wifi with 802.1x EAP security -->
+    <string name="wifi_security_eap">802.1x EAP</string>
+
+    <!-- Used in the 1st-level settings screen to turn on WiFi -->
+    <string name="wifi_quick_toggle_title">WiFi开关</string>
+    <!-- Used in the 1st-level settings screen as the turn-on summary -->
+    <string name="wifi_quick_toggle_summary">打开 WiFi</string>
+    <!-- Used in the 1st-level settings screen to go to the 2nd-level settings screen -->
+    <string name="wifi_settings">WiFi 设置</string>
+    <!-- Title of the Wi-fi settings screen -->
+    <string name="wifi_settings_category">WiFi 设置</string>
+    <!-- Summary text of the Wi-fi settings screen -->
+    <string name="wifi_settings_summary">创建 &amp; 管理无线接入点</string>
+    <!-- Summary text when turning WiFi or bluetooth on -->
+    <string name="wifi_starting">正在打开\u2026</string>
+    <!-- Summary text when turning WiFi or bluetooth off -->
+    <string name="wifi_stopping">关闭\u2026</string>
+    <!-- Summary text when WiFi or bluetooth has error -->
+    <string name="wifi_error">错误</string>
+    <!-- Toast message when WiFi or bluetooth is disallowed in airplane mode -->
+    <string name="wifi_in_airplane_mode">飞行模式中</string>
+    <!-- Toast message when WiFi cannot scan for networks -->
+    <string name="wifi_fail_to_scan">不能扫描WiFi</string>
+    <!-- Checkbox title for option to notify user when open networks are nearby -->
+    <string name="wifi_notify_open_networks">网络通知</string>
+    <!-- Checkbox summary for option to notify user when open networks are nearby -->
+    <string name="wifi_notify_open_networks_summary">当WiFi可用时通知我</string>
+    <!-- Action message to manually add a wifi network -->
+    <string name="wifi_add_network">添加网络</string>
+    <!-- Header for the list of wifi networks-->
+    <string name="wifi_access_points">WiFi 网络</string>
+    <!-- Menu option to scan WiFi networks -->
+    <string name="wifi_menu_scan">扫描</string>
+    <!-- Menu option to WiFi advanced settings -->
+    <string name="wifi_menu_advanced">高级</string>
+    <!-- Menu option to connect to a WiFi network -->
+    <string name="wifi_menu_connect">连接到网络</string>
+    <!-- Menu option to delete a WiFi network -->
+    <string name="wifi_menu_forget">忘记</string>
+    <!-- Menu option to modify a WiFi network configuration -->
+    <string name="wifi_menu_modify">修改</string>
+
+    <string name="progress_scanning">扫描中</string>
+
+    <!-- Checkbox title for option to filter out secured access points -->
+    <string name="wifi_filter">WiFi过滤</string>
+    <!-- Checkbox summary for option to filter out secured access points -->
+    <string name="wifi_filter_only_open_summary">只显示可用网络</string>
+    <string name="wifi_filter_all_summary">显示所有网络</string>
+
+    <string name="hub_login_success">登录成功</string>
+    <string name="hub_login_failure">登陆失败</string>
+
+    <!-- Dialog for Access Points --> <skip />
+    <!-- Label for the SSID of the network -->
+    <string name="wifi_ssid">网络 SSID</string>
+    <!-- Label for the security of the connection -->
+    <string name="wifi_security">安全</string>
+    <!-- Label for the signal strength of the connection -->
+    <string name="wifi_signal">信号强度</string>
+    <!-- Label for the status of the connection -->
+    <string name="wifi_status">状态</string>
+    <!-- Label for the link speed of the connection -->
+    <string name="wifi_speed">连接速度</string>
+    <!-- Label for the IP address of the connection -->
+    <string name="wifi_ip_address">IP地址</string>
+    <!-- Label for the EAP method of the network -->
+    <string name="wifi_eap_method">EAP方法</string>
+    <!-- Label for the phase2 -->
+    <string name="please_select_phase2">鉴权第二阶段</string>
+    <!-- Label for the EAP CA certificate of the network -->
+    <string name="wifi_eap_ca_cert">CA证书</string>
+    <!-- Label for the EAP user certificate of the network -->
+    <string name="wifi_eap_user_cert">用户证书</string>
+    <!-- Label for the EAP identity of the network -->
+    <string name="wifi_eap_identity">身份</string>
+    <!-- Label for the EAP anonymous identity of the network -->
+    <string name="wifi_eap_anonymous">匿名</string>
+    <!-- Label for the password of the secured network -->
+    <string name="wifi_password">密码</string>
+    <!-- Label for the check box to show password -->
+    <string name="wifi_show_password">显示密码.</string>
+    <!-- Hint for unchanged fields -->
+    <string name="wifi_unchanged">(没有修改)</string>
+    <!-- Hint for unspecified fields -->
+    <string name="wifi_unspecified">(没有指定)</string>
+    <!-- Summary for the remembered network. -->
+    <string name="wifi_remembered">已保存</string>
+    <!-- Summary for the disabled network. -->
+    <string name="wifi_disabled">已禁止</string>
+    <!-- Summary for the remembered network but currently not in range. -->
+    <string name="wifi_not_in_range">不在范围内</string>
+    <!-- Summary for the secured network. -->
+    <string name="wifi_secured">通过%1$s保护</string>
+    <!-- Summary for the secured and remembered network. Status can be "Remembered", "Disabled" or "Not in range". -->
+    <string name="wifi_secured_with_status">%2$s, 通过 %1$s保护</string>
+    <!-- Button label to connect to a WiFi network -->
+    <string name="wifi_connect">连接</string>
+    <!-- Button label to delete a WiFi network -->
+    <string name="wifi_forget">忘记</string>
+    <!-- Button label to save a WiFi network configuration -->
+    <string name="wifi_save">保存</string>
+    <!-- Button label to dismiss the dialog -->
+    <string name="wifi_cancel">取消</string>
+
+    <string name="wifi_user_name">名字</string>
+    <string name="hub_login_anonymous">匿名登录</string>
+
+    <string name="title_wifi_list">扫描WiFi</string>
+    <string name="title_tab2">Tab2</string>
+    <string name="title_tab3">个人中心</string>
+    <string name="title_settings">设置</string>
+
+    <!-- settings String -->
+    <string name="wifi_account_settings">帐号设置</string>
+    <string name="wifi_add_account">点击添加一个新的帐号</string>
+    <string name="wifi_edit_account">当前帐号： %1$s</string>
+    <string name="wifi_current_version">当前版本号: %1$s</string>
+    <string name="wifi_check_update">检查更新</string>
+    <string name="wifi_about_applition">关于我们</string>
+    <string name="wifi_current_account_txt">当前帐号</string>
+    <string name="wifi_phone_number">手机号</string>
+
+    <string name="wifi_account_dialog_edit">修改</string>
+    <string name="wifi_account_dialog_save">保存</string>
+    <string name="wifi_account_dialog_delete">删除</string>
+    <string name="wifi_account_dialog_cancel">取消</string>
+    <string name="wifi_notification_login_successful">已成功登陆时讯无线</string>
+    <string name="wifi_notification_login_failure">登陆失败</string>
+
+    <string name="wifi_auto_login_title">开启自动登陆</string>
+    <string name="wifi_auto_login_summary">当发现可用WiFi网络时即使在程序关闭时也为我自动使用保存的帐号登陆</string>
+    <string name="wifi_enable_notification_title">启用状态栏通知</string>
+    <string name="wifi_enable_notification_summary">当登录成功时，在状态栏显示通知</string>
+    <string name="wifi_settings_logout">时讯无线联盟热点</string>
+    <string name="wifi_login_successfully_status">登录成功，点击可下线</string>
+    <string name="wifi_logout_successfully_status">发现时讯无线热点，但尚未登录，点击登录</string>
+    <string name="wifi_cannot_login_status">没有发现时讯无线热点</string>
+    <string name="wifi_not_need_login_status">已经连接互联网(未通过时讯无线热点登录)</string>
+    <string name="wifi_no_wifi_status">没有连接网络</string>
+    <string name="wifi_loging_status">正在登陆至时讯无线\u2026</string>
+    <string name="wifi_logouting_status">正在下线\u2026</string>
+    <string name="wifi_checking_status">正在检查当前网络状态\u2026</string>
+    <string name="wifi_login_fail_status">登录失败，点击重试</string>
+    <string name="wifi_login_unknow_status">状态未知，点击重新检查</string>
+    <string name="wifi_no_connection_satus">无法连接网络</string>
+    <string name="wifi_second_checking_satus">已经连接网络, 正在检查是否为时讯网络\u2026</string>
+    <string name="wifi_configure_gateway">配置网关</string>
+    <string name="wifi_gateway_name">输入网关地址</string>
+    <string name="wifi_login_success_toast">您已登陆时讯无线网络，\n现在开始畅游网络！</string>
+    <string name="wifi_logout_success_toast">已从时讯网络下线</string>
+    <string name="wifi_change_account_toast">登陆失败，请尝试其他帐号</string>
+    <string name="wifi_login_failure_unkown_reason">登陆失败，点击重新尝试</string>
+    <string name="wifi_login_failure_with_reason">登录失败，原因： </string>
+    <string name="wifi_check_wifi_settings">进入设置</string>
+    <string name="wifi_constom_hotline">客服热线：400&#8211;080&#8211;9500</string>
+    <string name="wifi_partership">商家报装</string>
+
+    <string name="settings_wifi_filter_mode_title">选择过滤条件</string>
+    <string name="settings_share_title">向朋友分享</string>
+    <string name="share_information">我正在使用时讯无线的无线免费上网，你也免费使用！详细地址可见：http://www.591wifi.com</string>
+
+    <!-- Download Message -->
+    <string name="update_no_avail_dick_toast">没有可用磁盘</string>
+    <string name="update_no_enough_space_toast">SD卡空间不足</string>
+    <string name="update_download_error_toast">下载过程中出现问题</string>
+    <string name="update_start_download_toast">开始下载更新包</string>
+    <string name="update_unknown_error_toast">出现未知错误</string>
+    <string name="update_downloading_package">正在下载更新程序\u2026</string>
+    <string name="update_background_update">后台更新</string>
+    <string name="update_find_new_version_msg">发现新版本！是否要进行更新？</string>
+    <string name="update_find_new_version_title">更新确认</string>
+</resources>

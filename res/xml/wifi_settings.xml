@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/wifi_settings_category" >
+
+    <CheckBoxPreference
+        android:key="enable_wifi"
+        android:persistent="false"
+        android:summary="@string/wifi_quick_toggle_summary"
+        android:title="@string/wifi_quick_toggle_title" />
+<!--     <CheckBoxPreference -->
+<!--         android:key="filter_open_wifi" -->
+<!--         android:persistent="true" -->
+<!--         android:summary="@string/wifi_filter_only_open_summary" -->
+<!--         android:title="@string/wifi_filter" /> -->
+
+    <ListPreference
+        android:defaultValue="0"
+        android:dialogTitle="@string/settings_wifi_filter_mode_title"
+        android:entries="@array/wifi_filter_mode_entries"
+        android:entryValues="@array/wifi_filter_mode_values"
+        android:key="wifi_filter_mode"
+        android:title="@string/wifi_filter" />
+
+    <Preference
+        android:key="login_status"
+        android:persistent="false"
+        android:title="@string/wifi_settings_logout" />
+
+    <com.cm.wifiscanner.wifi.ProgressCategory
+        android:dependency="enable_wifi"
+        android:key="access_points"
+        android:persistent="false"
+        android:title="@string/wifi_access_points" />
+    <!--
+    <Preference
+        android:key="add_network"
+        android:persistent="false"
+        android:title="@string/wifi_add_network" /> 
+    -->
+
+</PreferenceScreen>

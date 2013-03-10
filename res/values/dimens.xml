@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toggle_btn_margin_top">5dip</dimen>
+    <dimen name="toggle_btn_margin_left">5dip</dimen>
+
+    <dimen name="list_margin_top">2dip</dimen>
+    <dimen name="list_margin_left">8dip</dimen>
+    <dimen name="list_margin_right">8dip</dimen>
+
+    <dimen name="list_item_min_height">20dip</dimen>
+    <dimen name="list_item_padding">2dip</dimen>
+
+    <dimen name="footer_margin_top">4dip</dimen>
+    <dimen name="footer_margin_left">8dip</dimen>
+    <dimen name="footer_margin_right">8dip</dimen>
+    <dimen name="footer_margin_bottom">2dip</dimen>
+
+    <dimen name="general_item_image_width">48dip</dimen>
+    <dimen name="general_item_image_height">48dip</dimen>
+</resources>

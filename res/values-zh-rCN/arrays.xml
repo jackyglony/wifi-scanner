@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wifi_status">
+        <!-- Status message of Wi-Fi when it is idle. -->
+        <item></item>
+        <!-- Status message of Wi-Fi when it is scanning. -->
+        <item>扫描中\u2026</item>
+        <!-- Status message of Wi-Fi when it is connecting. -->
+        <item>连接中\u2026</item>
+        <!-- Status message of Wi-Fi when it is authenticating. -->
+        <item>鉴权中\u2026</item>
+        <!-- Status message of Wi-Fi when it is obtaining IP address. -->
+        <item>正在获取IP地址\u2026</item>
+        <!-- Status message of Wi-Fi when it is connected. -->
+        <item>已连接</item>
+        <!-- Status message of Wi-Fi when it is suspended. -->
+        <item>已被暂停</item>
+        <!-- Status message of Wi-Fi when it is disconnecting. -->
+        <item>正在断开连接\u2026</item>
+        <!-- Status message of Wi-Fi when it is disconnected. -->
+        <item>已断开连接</item>
+        <!-- Status message of Wi-Fi when it is a failure. -->
+        <item>失败</item>
+        <!-- Status message of Wi-Fi when it is blocked. -->
+        <item>已被阻止</item>
+        <!-- Status message of Wi-Fi when connectiong is being verified. -->
+        <item>Temporarily avoiding poor connection</item>
+    </string-array>
+
+    <string-array name="wifi_status_with_ssid">
+        <!-- Status message of Wi-Fi when it is idle. -->
+        <item></item>
+        <!-- Status message of Wi-Fi when it is scanning. -->
+        <item>正在扫描\u2026</item>
+        <!-- Status message of Wi-Fi when it is connecting to a network. -->
+        <item>正在连接至 %1$s \u2026</item>
+        <!-- Status message of Wi-Fi when it is authenticating with a network. -->
+        <item>正在使用 %1$s 鉴权 \u2026</item>
+        <!-- Status message of Wi-Fi when it is obtaining IP address from a network. -->
+        <item>正在从 %1$s 获取IP地址\u2026</item>
+        <!-- Status message of Wi-Fi when it is connected to a network. -->
+        <item>已连接至 %1$s </item>
+        <!-- Status message of Wi-Fi when it is suspended. -->
+        <item>已被暂停</item>
+        <!-- Status message of Wi-Fi when it is disconnecting from a network. -->
+        <item>正在从%1$s 断开连接 \u2026</item>
+        <!-- Status message of Wi-Fi when it is disconnected. -->
+        <item>已断开连接</item>
+        <!-- Status message of Wi-Fi when it is a failure. -->
+        <item>失败</item>
+        <!-- Status message of Wi-Fi when it is blocked. -->
+        <item>已被阻止</item>
+        <!-- Status message of Wi-Fi when connectiong is being verified. -->
+        <item>Temporarily avoiding poor connection</item>
+    </string-array>
+
+    <!-- Match this with the constants in AccessPoint. --> <skip />
+    <!-- Wi-Fi settings.  The type of security a Wi-Fi network has. -->
+    <string-array name="wifi_security">
+        <!-- The Wi-Fi network does not have any security. -->
+        <item>开放</item>
+        <!-- Do not translate. -->
+        <item>WEP</item>
+        <!-- Do not translate. -->
+        <item>WPA/WPA2 PSK</item>
+        <!-- Do not translate. -->
+        <item>802.1x EAP</item>
+    </string-array>
+
+    <!-- Match this with the constants in WifiDialog. --> <skip />
+    <!-- Wi-Fi settings.  The type of EAP method a Wi-Fi network has. -->
+    <string-array name="wifi_eap_method">
+        <!-- Do not translate. -->
+        <item>PEAP</item>
+        <!-- Do not translate. -->
+        <item>TLS</item>
+        <!-- Do not translate. -->
+        <item>TTLS</item>
+    </string-array>
+
+    <!-- Phase 2 options -->
+    <string-array name="wifi_phase2_entries">
+        <item>无</item>
+        <item>PAP</item>
+        <item>MSCHAP</item>
+        <item>MSCHAPV2</item>
+        <item>GTC</item>
+    </string-array>
+
+     <string-array name="wifi_signal">
+        <item>差</item>
+        <item>一般</item>
+        <item>好</item>
+        <item>很好</item>
+    </string-array>
+
+    <string-array name="wifi_filter_mode_entries" >
+        <item>可见</item>
+        <item>所有</item>
+        <item>开放</item>
+        <item>已加密</item>
+    </string-array>
+    
+    <string-array name="wifi_filter_mode_summary_entries" >
+        <item>仅显示可见WiFi</item>
+        <item>显示所有WiFi</item>
+        <item>仅显示开放WiFi</item>
+        <item>仅显示加密WiFi</item>
+    </string-array>
+</resources>
