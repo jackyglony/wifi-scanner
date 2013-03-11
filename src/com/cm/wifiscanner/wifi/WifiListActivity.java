@@ -1,7 +1,6 @@
 package com.cm.wifiscanner.wifi;
 
 import com.cm.wifiscanner.AccountSettingsDialog;
-import com.cm.wifiscanner.DownloadUpdateService;
 import com.cm.wifiscanner.R;
 import com.cm.wifiscanner.hub.LoginUtils;
 import com.cm.wifiscanner.util.Constants;
@@ -10,6 +9,7 @@ import com.cm.wifiscanner.util.KeyStore;
 import com.cm.wifiscanner.util.Logger;
 import com.cm.wifiscanner.util.Utils;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,10 +30,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.Message;
-import android.os.SystemClock;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -54,18 +51,11 @@ public class WifiListActivity extends PreferenceActivity implements
 
     private static final String TAG = "WifiScannerActivity";
 
-    private static final String EXTRA_HUB_NAME = "user_name";
-    private static final String EXTRA_HUB_PASSWORD = "user_password";
-
-    private static final int REQUEST_LOGIN = 0;
-
     private static final int INVALID_NETWORK_ID = -1;
 
     private final IntentFilter mFilter;
     private final BroadcastReceiver mReceiver;
 
-    private Handler mHandler;
-    private Handler mUIHandler;
     private WifiManager mWifiManager;
     private ProgressCategory mAccessPoints;
 
@@ -89,9 +79,6 @@ public class WifiListActivity extends PreferenceActivity implements
     private ListPreference mWifiFilterListPref;
 
     private Scanner mScanner;
-
-    private String mLastHubUser;
-    private String mLastHubPwd;
 
     // First Check Status is result of Check Baidu
     private int mFirstCheckStatus = Constants.CANNOT_CONNECT;
@@ -118,40 +105,7 @@ public class WifiListActivity extends PreferenceActivity implements
             }
         };
 
-        // TODO: delete test code in future
-        Logger.debug(
-                TAG,
-                "Avail Memory: "
-                        + DownloadUpdateService
-                                .getAvailableInternalMemorySize());
-
         mScanner = new Scanner();
-
-        HandlerThread hanlderThread = new HandlerThread("hub_login_handler");
-        hanlderThread.start();
-        mHandler = new Handler(hanlderThread.getLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-
-                Bundle bundle = msg.getData();
-                if (bundle != null) {
-                    Logger.debug(TAG, "received an login message");
-
-                    String name = bundle.getString(EXTRA_HUB_NAME);
-                    String pwd = bundle.getString(EXTRA_HUB_PASSWORD);
-
-                    // if (LoginUtils.getInstance(mContext).loginHub(name, pwd,
-                    // Constants.TEST_URL)) {
-                    // Toast.makeText(WifiListActivity.this,
-                    // R.string.hub_login_success, Toast.LENGTH_LONG)
-                    // .show();
-                    // } else {
-                    // Toast.makeText(mContext, R.string.hub_login_failure,
-                    // Toast.LENGTH_LONG).show();
-                    // }
-                }
-            }
-        };
     }
 
     @SuppressWarnings("deprecation")
@@ -184,15 +138,6 @@ public class WifiListActivity extends PreferenceActivity implements
         // updateFilterState();
         // this.getListView().setBackgroundColor(0xfff3f3f3);
         // this.getListView().setBackgroundResource(R.drawable.bg);
-        registerForContextMenu(getListView());
-        
-        mUIHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                WifiSecondCheckStatus task = new WifiSecondCheckStatus(mContext);
-                task.execute();
-            }
-          };
     }
 
     @Override
@@ -264,10 +209,6 @@ public class WifiListActivity extends PreferenceActivity implements
     @Override
     protected void onDestroy() {
         Logger.debug(TAG, "onDestroy");
-        Looper looper = mHandler.getLooper();
-        if (looper != null) {
-            looper.quit();
-        }
         super.onDestroy();
     }
 
@@ -278,9 +219,7 @@ public class WifiListActivity extends PreferenceActivity implements
         if (preference instanceof AccessPoint) {
             mSelectedAccessPoint = (AccessPoint) preference;
             showDialog(mSelectedAccessPoint, false);
-            // } else if (preference == mWifiFilter) {
-            // updateFilterState();
-            // updateAccessPoints();
+
         } else if (TextUtils.equals(preference.getKey(),
                 Constants.LOGIN_STATUS_KEY)) {
             int status = Utils.getLoginStatus(this);
@@ -413,15 +352,6 @@ public class WifiListActivity extends PreferenceActivity implements
             updateConnectionState(info.getDetailedState());
         } else if (WifiManager.RSSI_CHANGED_ACTION.equals(action)) {
             updateConnectionState(null);
-
-            if (!TextUtils.isEmpty(mLastHubUser)) {
-                Message msg = mHandler.obtainMessage(0);
-                msg.what = REQUEST_LOGIN;
-                mHandler.sendMessage(msg);
-
-                mLastHubUser = null;
-                mLastHubPwd = null;
-            }
         }
     }
 
@@ -525,6 +455,7 @@ public class WifiListActivity extends PreferenceActivity implements
                 accessPoints.add(accessPoint);
             }
         }
+
         List<ScanResult> results = mWifiManager.getScanResults();
         if (results != null) {
             for (ScanResult result : results) {
@@ -552,66 +483,6 @@ public class WifiListActivity extends PreferenceActivity implements
         }
         return accessPoints;
     }
-
-    // private void updateAccessPoints() {
-    // List<AccessPoint> accessPoints = new ArrayList<AccessPoint>();
-    // List<WifiConfiguration> configs = mWifiManager.getConfiguredNetworks();
-    //
-    // if (!mFilterNetwork && configs != null) {
-    // mLastPriority = 0;
-    // for (WifiConfiguration config : configs) {
-    // if (config.priority > mLastPriority) {
-    // mLastPriority = config.priority;
-    // }
-    //
-    // // Shift the status to make enableNetworks() more efficient.
-    // if (config.status == Status.CURRENT) {
-    // config.status = Status.ENABLED;
-    // } else if (mResetNetworks && config.status == Status.DISABLED) {
-    // config.status = Status.CURRENT;
-    // }
-    //
-    // AccessPoint accessPoint = new AccessPoint(this, config);
-    // accessPoint.update(mLastInfo, mLastState);
-    // if (accessPoint.getLevel() != -1) {
-    // accessPoints.add(accessPoint);
-    // }
-    // }
-    // }
-    //
-    // List<ScanResult> results = mWifiManager.getScanResults();
-    // if (results != null) {
-    // for (ScanResult result : results) {
-    // // Ignore hidden and ad-hoc networks.
-    // if (result.SSID == null || result.SSID.length() == 0
-    // || result.capabilities.contains("[IBSS]")) {
-    // continue;
-    // }
-    //
-    // if (mFilterNetwork
-    // && (AccessPoint.getSecurity(result) != AccessPoint.SECURITY_NONE ||
-    // result.frequency == 0)) {
-    // continue;
-    // }
-    //
-    // boolean found = false;
-    // for (AccessPoint accessPoint : accessPoints) {
-    // if (accessPoint.update(result)) {
-    // found = true;
-    // }
-    // }
-    //
-    // if (!found) {
-    // accessPoints.add(new AccessPoint(this, result));
-    // }
-    // }
-    // }
-    //
-    // mAccessPoints.removeAll();
-    // for (AccessPoint accessPoint : accessPoints) {
-    // mAccessPoints.addPreference(accessPoint);
-    // }
-    // }
 
     private void updateConnectionState(DetailedState state) {
         /* sticky broadcasts can call this when wifi is disabled */
@@ -784,8 +655,6 @@ public class WifiListActivity extends PreferenceActivity implements
                 if (mSelectedAccessPoint != null
                         && !requireKeyStore(mSelectedAccessPoint.getConfig())) {
                     connect(mSelectedAccessPoint.networkId);
-                    mLastHubUser = mSelectedAccessPoint.mHubUser;
-                    mLastHubPwd = mSelectedAccessPoint.mHubPassword;
                 }
             } else if (config.networkId != INVALID_NETWORK_ID) {
                 if (mSelectedAccessPoint != null) {
@@ -801,14 +670,13 @@ public class WifiListActivity extends PreferenceActivity implements
                         saveNetworks();
                     } else {
                         connect(networkId);
-                        mLastHubUser = mSelectedAccessPoint.mHubUser;
-                        mLastHubPwd = mSelectedAccessPoint.mHubPassword;
                     }
                 }
             }
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private class Scanner extends Handler {
         private int mRetry = 0;
 
@@ -931,13 +799,12 @@ public class WifiListActivity extends PreferenceActivity implements
                 updateView();
             } else if (mFirstCheckStatus == Constants.CONNECTED) {
                 WifiSecondCheckStatus secondCheck = null;
-//                secondCheck = new WifiSecondCheckStatus(mContext);
-//                if (Build.VERSION.SDK_INT >= 11) {
-//                    secondCheck.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//                } else {
-//                    secondCheck.execute();
-//                }
-                mUIHandler.sendEmptyMessage(0);
+                secondCheck = new WifiSecondCheckStatus(mContext);
+                if (Build.VERSION.SDK_INT >= 11) {
+                    secondCheck.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    secondCheck.execute();
+                }
             } else if (mFirstCheckStatus == Constants.HAVE_LOGOUT) {
                 Logger.debug(TAG, "WifiFirstCheckStatus: " + "Can Login now");
                 Utils.setLoginStatus(mContext, mFirstCheckStatus);

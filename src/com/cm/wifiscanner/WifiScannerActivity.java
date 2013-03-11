@@ -1,6 +1,5 @@
 package com.cm.wifiscanner;
 
-import com.cm.wifiscanner.jabber.JabberActivity;
 import com.cm.wifiscanner.wifi.FavouriteActivity;
 import com.cm.wifiscanner.wifi.WifiListActivity;
 
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+@SuppressWarnings("deprecation")
 public class WifiScannerActivity extends TabActivity {
 
 	private static final String WIFI_LIST_TAG = "tab-wifi-list";
@@ -23,7 +23,7 @@ public class WifiScannerActivity extends TabActivity {
 	public WifiScannerActivity() {
 	}
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 

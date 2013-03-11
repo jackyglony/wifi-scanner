@@ -6,38 +6,5 @@
         android:persistent="false"
         android:summary="@string/wifi_add_account"
         android:title="@string/wifi_account_settings" />
-   <!--  
-    <Preference
-        android:key="gateway_configure"
-        android:persistent="false"
-        android:title="@string/wifi_configure_gateway" />
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="enable_auto_login"
-        android:persistent="true"
-        android:summary="@string/wifi_auto_login_summary"
-        android:title="@string/wifi_auto_login_title" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:dependency="enable_auto_login"
-        android:key="enable_notify"
-        android:persistent="true"
-        android:summary="@string/wifi_enable_notification_summary"
-        android:title="@string/wifi_enable_notification_title" />
-
-    <Preference
-        android:key="check_update"
-        android:persistent="false"
-        android:title="@string/wifi_check_update" />
-    <Preference
-        android:key="contact_us"
-        android:persistent="false"
-        android:title="@string/wifi_partership" />
-    <Preference
-        android:key="about_application"
-        android:persistent="false"
-        android:summary="@string/wifi_constom_hotline"
-        android:title="@string/wifi_about_applition" />
--->
 </PreferenceScreen>

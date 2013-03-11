@@ -13,7 +13,6 @@ import android.net.wifi.WifiInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.Formatter;
 import android.view.View;
@@ -37,11 +36,6 @@ public class WifiDialog extends AlertDialog implements View.OnClickListener,
     private TextView mSsid;
     private int mSecurity;
     private TextView mPassword;
-
-    private TextView mHubUser;
-    private TextView mHubPassword;
-    private CheckBox mHubShowPassword;
-
     private Spinner mEapMethod;
 //    private Spinner mEapCaCert;
 //    private Spinner mPhase2;
@@ -87,14 +81,9 @@ public class WifiDialog extends AlertDialog implements View.OnClickListener,
         }
 
         switch (mSecurity) {
-        case AccessPoint.SECURITY_NONE:
-            config.allowedKeyManagement.set(KeyMgmt.NONE);
-            // FIXME save hub user & pwd
-            if (mAccessPoint != null) {
-                mAccessPoint.mHubUser = mHubUser.getText().toString();
-                mAccessPoint.mHubPassword = mHubPassword.getText().toString();
-            }
-            return config;
+            case AccessPoint.SECURITY_NONE:
+                config.allowedKeyManagement.set(KeyMgmt.NONE);
+                return config;
 
             case AccessPoint.SECURITY_WEP:
                 config.allowedKeyManagement.set(KeyMgmt.NONE);
@@ -104,8 +93,8 @@ public class WifiDialog extends AlertDialog implements View.OnClickListener,
                     int length = mPassword.length();
                     String password = mPassword.getText().toString();
                     // WEP-40, WEP-104, and 256-bit WEP (WEP-232?)
-                    if ((length == 10 || length == 26 || length == 58) &&
-                            password.matches("[0-9A-Fa-f]*")) {
+                    if ((length == 10 || length == 26 || length == 58)
+                            && password.matches("[0-9A-Fa-f]*")) {
                         config.wepKeys[0] = password;
                     } else {
                         config.wepKeys[0] = '"' + password + '"';
@@ -131,6 +120,7 @@ public class WifiDialog extends AlertDialog implements View.OnClickListener,
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mView = getLayoutInflater().inflate(R.layout.wifi_dialog, null);
@@ -230,73 +220,47 @@ public class WifiDialog extends AlertDialog implements View.OnClickListener,
                         InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
                         InputType.TYPE_TEXT_VARIATION_PASSWORD));
                 break;
-
-            case R.id.hub_show_password:
-                mHubPassword.setInputType(
-                        InputType.TYPE_CLASS_TEXT | (((CheckBox) view).isChecked() ?
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
-                        InputType.TYPE_TEXT_VARIATION_PASSWORD));
-                break;
-
-            case R.id.hub_login_anonymous:
-                int visibility = ((CheckBox) view).isChecked() ? View.GONE : View.VISIBLE;
-                mHubUser.setVisibility(visibility);
-                mHubPassword.setVisibility(visibility);
-                mHubShowPassword.setVisibility(visibility);
-
-                mView.findViewById(R.id.hub_name_label).setVisibility(visibility);
-                mView.findViewById(R.id.hub_pwd_label).setVisibility(visibility);
-
-                if (visibility == View.VISIBLE) {
-                    mHubUser.requestFocus();
-                }
-                break;
-
             default:
                 break;
         }
     }
 
+    @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
 
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
+    @Override
     public void afterTextChanged(Editable editable) {
         validate();
     }
 
-    public void onItemSelected(AdapterView parent, View view, int position, long id) {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+            long id) {
         mSecurity = position;
         showSecurityFields();
         validate();
     }
 
-    public void onNothingSelected(AdapterView parent) {
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     private void showSecurityFields() {
         if (mSecurity == AccessPoint.SECURITY_NONE) {
             mView.findViewById(R.id.fields).setVisibility(View.GONE);
-            mView.findViewById(R.id.hub_fields).setVisibility(View.VISIBLE);
 
-            if (mHubUser == null || mHubPassword == null) {
-                mHubUser = (TextView) mView.findViewById(R.id.hub_user);
-                mHubPassword = (TextView) mView.findViewById(R.id.hub_password);
-                mHubShowPassword = (CheckBox) mView.findViewById(R.id.hub_show_password);
-
-                ((CheckBox) mView.findViewById(R.id.hub_show_password)).setOnClickListener(this);
-                ((CheckBox) mView.findViewById(R.id.hub_login_anonymous)).setOnClickListener(this);
-            }
         } else {
             mView.findViewById(R.id.fields).setVisibility(View.VISIBLE);
-            mView.findViewById(R.id.hub_fields).setVisibility(View.GONE);
-
             if (mPassword == null) {
                 mPassword = (TextView) mView.findViewById(R.id.password);
                 mPassword.addTextChangedListener(this);
-                ((CheckBox)mView.findViewById(R.id.show_password)).setOnClickListener(this);
+                ((CheckBox) mView.findViewById(R.id.show_password))
+                        .setOnClickListener(this);
 
                 if (mAccessPoint != null && mAccessPoint.networkId != -1) {
                     mPassword.setHint(R.string.wifi_unchanged);

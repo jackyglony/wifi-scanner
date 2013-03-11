@@ -14,7 +14,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.Preference;
 import android.preference.CheckBoxPreference;
-import android.widget.Toast;
 
 public class WifiEnabler implements Preference.OnPreferenceChangeListener {
     private final Context mContext;

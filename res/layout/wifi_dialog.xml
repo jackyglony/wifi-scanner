@@ -3,7 +3,7 @@
          android:layout_width="300sp"
          android:layout_height="wrap_content">
 
-    <LinearLayout
+     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dip"
@@ -45,64 +45,6 @@
                 android:layout_height="wrap_content"
                 android:prompt="@string/wifi_security"
                 android:entries="@array/wifi_security" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/hub_fields"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <CheckBox
-                android:id="@+id/hub_login_anonymous"
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/hub_login_anonymous" />
-
-            <TextView
-                android:id="@+id/hub_name_label"
-                android:text="@string/wifi_user_name"
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:visibility="gone" />
-
-            <EditText
-                android:id="@+id/hub_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="text"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/hub_pwd_label"
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:text="@string/wifi_password"
-                android:visibility="gone" />
-
-            <EditText
-                android:id="@+id/hub_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="textPassword"
-                android:visibility="gone" />
-
-            <CheckBox
-                android:id="@+id/hub_show_password"
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/wifi_show_password"
-                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout android:id="@+id/fields"

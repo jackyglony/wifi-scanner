@@ -2,7 +2,6 @@ package com.cm.wifiscanner.wifi;
 
 import com.cm.wifiscanner.R;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Window;

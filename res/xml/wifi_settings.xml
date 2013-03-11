@@ -7,11 +7,6 @@
         android:persistent="false"
         android:summary="@string/wifi_quick_toggle_summary"
         android:title="@string/wifi_quick_toggle_title" />
-<!--     <CheckBoxPreference -->
-<!--         android:key="filter_open_wifi" -->
-<!--         android:persistent="true" -->
-<!--         android:summary="@string/wifi_filter_only_open_summary" -->
-<!--         android:title="@string/wifi_filter" /> -->
 
     <ListPreference
         android:defaultValue="0"
@@ -31,11 +26,5 @@
         android:key="access_points"
         android:persistent="false"
         android:title="@string/wifi_access_points" />
-    <!--
-    <Preference
-        android:key="add_network"
-        android:persistent="false"
-        android:title="@string/wifi_add_network" /> 
-    -->
 
 </PreferenceScreen>

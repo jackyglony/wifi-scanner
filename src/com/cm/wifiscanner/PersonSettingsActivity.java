@@ -13,7 +13,7 @@ import android.text.TextUtils;
 
 public class PersonSettingsActivity extends PreferenceActivity implements OnDismissListener {
 
-    private static final String TAG = "SettingActivity";
+//    private static final String TAG = "SettingActivity";
     private Preference mAccountSettingsPrefs;
 
     @SuppressWarnings("deprecation")
@@ -22,16 +22,6 @@ public class PersonSettingsActivity extends PreferenceActivity implements OnDism
         super.onCreate(savedInstanceState);
         this.addPreferencesFromResource(R.xml.person_settings);
         mAccountSettingsPrefs = this.findPreference(Constants.ACCOUNT_SETTINGS_KEY);
-//        mGatewayPrefs= this.findPreference(Constants.GATE_CONFIGURE_KEY);
-//        String version_number;
-//        try {
-//            version_number = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-//            String version = String.format(getString(R.string.wifi_current_version), version_number);
-//            mCheckUpdatePrefs.setSummary(version);
-//        } catch (NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        this.getListView().setBackgroundResource(R.drawable.bg);
     }
 
     @Override
@@ -45,7 +35,6 @@ public class PersonSettingsActivity extends PreferenceActivity implements OnDism
             Preference preference) {
         String key = preference.getKey();
         if (TextUtils.equals(key, Constants.ACCOUNT_SETTINGS_KEY)) {
-//            Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
             AccountSettingsDialog dialog = new AccountSettingsDialog(this, this);
             dialog.show();
         } 

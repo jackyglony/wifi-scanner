@@ -1,8 +1,6 @@
 package com.cm.wifiscanner;
 
 import com.cm.wifiscanner.util.Constants;
-import com.cm.wifiscanner.util.Logger;
-import com.cm.wifiscanner.util.Utils;
 
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -17,7 +15,7 @@ import android.text.TextUtils;
 public class SettingActivity extends PreferenceActivity implements
         CheckUpdateAsyncTask.CheckCompletedListener {
 
-    private static final String TAG = "SettingActivity";
+//    private static final String TAG = "SettingActivity";
     private Preference mCheckUpdatePrefs;
 
     @SuppressWarnings("deprecation")

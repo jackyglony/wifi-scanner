@@ -53,9 +53,6 @@ public class AccessPoint extends Preference {
     private int mLevel;
     private WifiInfo mInfo;
     private DetailedState mState;
-    
-    public String mHubUser;
-    public String mHubPassword;
 
     public static int getSecurity(WifiConfiguration config) {
         if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK)) {

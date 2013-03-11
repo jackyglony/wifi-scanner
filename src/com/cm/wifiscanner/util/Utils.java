@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.TimerTask;
 
 import com.cm.wifiscanner.R;
 
@@ -15,8 +14,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -104,7 +101,6 @@ public class Utils {
         Logger.debug(TAG, "Check591 Server");
         HttpURLConnection urlc = null;
         boolean result = false;
-        InputStream in = null;
 
         try {
             URL url = new URL("http://" + Utils.getGateway(context));
@@ -120,8 +116,6 @@ public class Utils {
             if (responeCode == HttpURLConnection.HTTP_OK ||
                     responeCode == HttpURLConnection.HTTP_MOVED_TEMP) {
                 Log.d(TAG, "Find 591WiFi Server!!");
-                in = urlc.getInputStream();
-                String s = inputStream2String(in);
                 result = true;
             }
         } catch (MalformedURLException e) {
@@ -129,13 +123,6 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
             if (urlc != null) {
                 urlc.disconnect();
             }
