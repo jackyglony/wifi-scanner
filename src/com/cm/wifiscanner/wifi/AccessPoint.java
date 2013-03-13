@@ -329,38 +329,38 @@ public class AccessPoint extends Preference {
     private void refresh() {
         setTitle(ssid);
 
-        Context context = getContext();
-        if (mState != null) { // This is the active connection
-            setSummary(Summary.get(context, mState));
-        } else if (mLevel == Integer.MAX_VALUE) { // Wifi out of range
-            setSummary(context.getString(R.string.wifi_not_in_range));
-        } else if (mConfig != null && mConfig.status == WifiConfiguration.Status.DISABLED) {
-            setSummary(context.getString(R.string.wifi_disabled_generic));
-        } else { // In range, not disabled.
-            StringBuilder summary = new StringBuilder();
-            if (mConfig != null) { // Is saved network
-                summary.append(context.getString(R.string.wifi_remembered));
-            }
-
-            if (security != SECURITY_NONE) {
-                String securityStrFormat;
-                if (summary.length() == 0) {
-                    securityStrFormat = context.getString(R.string.wifi_secured_first_item);
-                } else {
-                    securityStrFormat = context.getString(R.string.wifi_secured_second_item);
-                }
-                summary.append(String.format(securityStrFormat, getSecurityString(true)));
-            }
-
-            if (mConfig == null && wpsAvailable) { // Only list WPS available for unsaved networks
-                if (summary.length() == 0) {
-                    summary.append(context.getString(R.string.wifi_wps_available_first_item));
-                } else {
-                    summary.append(context.getString(R.string.wifi_wps_available_second_item));
-                }
-            }
-            setSummary(summary.toString());
-        }
+//        Context context = getContext();
+//        if (mState != null) { // This is the active connection
+//            setSummary(Summary.get(context, mState));
+//        } else if (mLevel == Integer.MAX_VALUE) { // Wifi out of range
+//            setSummary(context.getString(R.string.wifi_not_in_range));
+//        } else if (mConfig != null && mConfig.status == WifiConfiguration.Status.DISABLED) {
+//            setSummary(context.getString(R.string.wifi_disabled_generic));
+//        } else { // In range, not disabled.
+//            StringBuilder summary = new StringBuilder();
+//            if (mConfig != null) { // Is saved network
+//                summary.append(context.getString(R.string.wifi_remembered));
+//            }
+//
+//            if (security != SECURITY_NONE) {
+//                String securityStrFormat;
+//                if (summary.length() == 0) {
+//                    securityStrFormat = context.getString(R.string.wifi_secured_first_item);
+//                } else {
+//                    securityStrFormat = context.getString(R.string.wifi_secured_second_item);
+//                }
+//                summary.append(String.format(securityStrFormat, getSecurityString(true)));
+//            }
+//
+//            if (mConfig == null && wpsAvailable) { // Only list WPS available for unsaved networks
+//                if (summary.length() == 0) {
+//                    summary.append(context.getString(R.string.wifi_wps_available_first_item));
+//                } else {
+//                    summary.append(context.getString(R.string.wifi_wps_available_second_item));
+//                }
+//            }
+//            setSummary(summary.toString());
+//        }
     }
 
     /**

@@ -345,8 +345,6 @@ public class LoginUtils {
 	public void logoutHub() {
 	    Logger.debug(TAG, "LogoutHub");
 		String content = String.format(LOGOUT_FMT, mServer);
-		String server = PrefsHelper.getInstance(mContext).getServer(mServer);
-		int port = PrefsHelper.getInstance(mContext).getPort(mPort);
 		String gateway = Utils.getGateway(mContext);
 		String [] res = gateway.split(":");
 		if (res.length != 2)

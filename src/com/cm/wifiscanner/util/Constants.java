@@ -11,6 +11,7 @@ public class Constants {
 
     public final static String AUTO_LOGIN_KEY = "enable_auto_login";
     public final static String ENABLE_NOTIFICATION_KEY = "enable_notify";
+    public final static String DATA_TRAFFIC = "data_traffic";
 
     public final static int CANNOT_CONNECT = -1;
     public final static int HAVE_LOGIN = 0;

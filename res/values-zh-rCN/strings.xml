@@ -190,7 +190,7 @@
     <string name="wifi_enable_notification_title">启用状态栏通知</string>
     <string name="wifi_enable_notification_summary">当登录成功时，在状态栏显示通知</string>
     <string name="wifi_settings_logout">时讯无线联盟热点</string>
-    <string name="wifi_login_successfully_status">登录成功，点击可下线</string>
+    <string name="wifi_login_successfully_status">登录成功，点击查看详情</string>
     <string name="wifi_logout_successfully_status">发现时讯无线热点，但尚未登录，点击登录</string>
     <string name="wifi_cannot_login_status">没有发现时讯无线热点</string>
     <string name="wifi_not_need_login_status">已经连接互联网(未通过时讯无线热点登录)</string>
@@ -227,4 +227,15 @@
     <string name="update_background_update">后台更新</string>
     <string name="update_find_new_version_msg">发现新版本！是否要进行更新？</string>
     <string name="update_find_new_version_title">更新确认</string>
+
+    <!-- connection dialog string resource -->
+    <string name="connection_info_logout">下线</string>
+    <string name="connection_login_start_time">本次登录时间</string>
+    <string name="connection_login_time">已登录</string>
+    <string name="connection_data_traffic_info">数据传输</string>
+    <string name="connection_info_dialog_title">登录信息</string>
+    <string name="connection_time_day_info">天</string>
+    <string name="connection_time_hour_info">小时</string>
+    <string name="connection_minuts_info">分钟</string>
+    <string name="connection_less_minuts_info">不到一分钟</string>
 </resources>

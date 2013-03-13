@@ -186,7 +186,7 @@
     <string name="wifi_enable_notification_title">Enable Notification</string>
     <string name="wifi_enable_notification_summary">Show notification in status bar when login successfully</string>
     <string name="wifi_settings_logout">Login Status</string>
-    <string name="wifi_login_successfully_status">Have Logined ShiXun Network. Click to logout</string>
+    <string name="wifi_login_successfully_status">Have Logined ShiXun Network. Click to check detail</string>
     <string name="wifi_logout_successfully_status">Have Logouted ShiXun Network, Click to login</string>
     <string name="wifi_cannot_login_status">Cannot find ShiXun Network</string>
     <string name="wifi_not_need_login_status">Have Connected Internet(not via Shixun Server).</string>
@@ -223,4 +223,14 @@
     <string name="update_background_update">Update in Backgroud</string>
     <string name="update_find_new_version_msg">Have found a new version. Could you want to update?</string>
     <string name="update_find_new_version_title">Update confirm</string>
+
+    <string name="connection_info_logout">Logout</string>
+    <string name="connection_login_start_time">Start From</string>
+    <string name="connection_login_time">Login Time</string>
+    <string name="connection_info_dialog_title">Connection Info</string>
+    <string name="connection_data_traffic_info">Data Tarffic</string>
+    <string name="connection_time_day_info">day(s)</string>
+    <string name="connection_time_hour_info">hour(s)</string>
+    <string name="connection_minuts_info">minute(s)</string>
+    <string name="connection_less_minuts_info">less one minute</string>
 </resources>

@@ -263,7 +263,21 @@ public class Utils {
         editor.putLong(Constants.LAST_LOGIN_TIME, time);
         editor.commit();
     }
+
+    public static long getDataTarfficOfLogin(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getLong(Constants.DATA_TRAFFIC, -1);
+    }
     
+    public static void setDataTrafficWhenLogin(Context context, long data) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Editor editor = sPref.edit();
+        editor.putLong(Constants.DATA_TRAFFIC, data);
+        editor.commit();
+    }
+
     public static String getGateway(Context context) {
         SharedPreferences sPref = PreferenceManager
                 .getDefaultSharedPreferences(context);

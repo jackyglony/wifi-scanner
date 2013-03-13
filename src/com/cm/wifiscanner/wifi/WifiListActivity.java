@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class WifiListActivity extends PreferenceActivity implements
-        DialogInterface.OnClickListener, OnDismissListener {
+        DialogInterface.OnClickListener, OnDismissListener, ConnectionInfoDialog.LogoutListener {
 
     private static final String TAG = "WifiScannerActivity";
 
@@ -224,12 +224,8 @@ public class WifiListActivity extends PreferenceActivity implements
                 Constants.LOGIN_STATUS_KEY)) {
             int status = Utils.getLoginStatus(this);
             if (status == Constants.HAVE_LOGIN) {
-                LogoutTask task = new LogoutTask();
-                if (Build.VERSION.SDK_INT >= 11) {
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                } else {
-                    task.execute();
-                }   
+                ConnectionInfoDialog connectionInfoDlg = new ConnectionInfoDialog(this, this);
+                connectionInfoDlg.show();
             }
             if (status == Constants.HAVE_LOGOUT
                     || status == Constants.LOGIN_FALLURE) {
@@ -317,6 +313,7 @@ public class WifiListActivity extends PreferenceActivity implements
             updateWifiState(intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                     WifiManager.WIFI_STATE_UNKNOWN));
         } else if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+            Logger.debug(TAG, "status: SCAN_RESULTS_AVAILABLE_ACTION");
             updateAccessPoints();
         } else if (WifiManager.NETWORK_IDS_CHANGED_ACTION.equals(action)) {
             if (mSelectedAccessPoint != null
@@ -325,7 +322,6 @@ public class WifiListActivity extends PreferenceActivity implements
             }
             updateAccessPoints();
         } else if (WifiManager.SUPPLICANT_STATE_CHANGED_ACTION.equals(action)) {
-
             if (!mConnected.get()) {
                 updateConnectionState(WifiInfo
                         .getDetailedStateOf((SupplicantState) intent
@@ -379,6 +375,7 @@ public class WifiListActivity extends PreferenceActivity implements
     }
 
     private void updateAccessPoints(String valueOfFilter) {
+        Logger.debug(TAG, "updateAccessPoints");
         mAccessPoints.removeAll();
         int valueInInt = parseIntFromString(valueOfFilter);
         switch (valueInInt) {
@@ -645,6 +642,16 @@ public class WifiListActivity extends PreferenceActivity implements
     }
 
     @Override
+    public void logout() {
+        LogoutTask task = new LogoutTask();
+        if (Build.VERSION.SDK_INT >= 11) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            task.execute();
+        }
+    }
+
+    @Override
     public void onClick(DialogInterface dialog, int which) {
         if (which == WifiDialog.BUTTON_FORGET && mSelectedAccessPoint != null) {
             forget(mSelectedAccessPoint.networkId);
@@ -741,25 +748,19 @@ public class WifiListActivity extends PreferenceActivity implements
         public void onPostExecute(String result) {
             Logger.debug(TAG, "=========Connect Status: " + result
                     + " ==========");
+            super.onPostExecute(result);
             if (result == null) {
                 // DoubleCheck task = new DoubleCheck();
                 // task.execute();
-
                 Logger.debug(TAG, "DoubleCheck: " + result);
-
-                int status = Constants.HAVE_LOGIN;
                 Toast.makeText(WifiListActivity.this,
                         R.string.wifi_notification_login_successful,
                         Toast.LENGTH_SHORT).show();
 
                 mLoginStatusPrefs.setEnabled(true);
-                Utils.setLoginStatus(mContext, status);
                 Utils.setIsServiceUpdate(WifiListActivity.this, false);
-                updateView();
-            } else {
-                super.onPostExecute(result);
-                updateView();
             }
+            updateView();
         }
 
         @Override

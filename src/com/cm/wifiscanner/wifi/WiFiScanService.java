@@ -113,6 +113,7 @@ public class WiFiScanService extends Service {
         public void onPostExecute(String result) {
             Logger.debug(TAG, "=========Connect Status: " + result
                     + " ==========");
+            super.onPostExecute(result);
             if (result == null) {
                 DoubleCheck task = new DoubleCheck();
                 if( Build.VERSION.SDK_INT >= 11) {
@@ -121,7 +122,6 @@ public class WiFiScanService extends Service {
                     task.execute();
                 }
             } else {
-                super.onPostExecute(result);
                 Utils.setIsServiceUpdate(WiFiScanService.this, true);
             }
         }

@@ -1,6 +1,7 @@
 package com.cm.wifiscanner.wifi;
 
 import android.content.Context;
+import android.net.TrafficStats;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -33,7 +34,12 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
         if (result == null) {
             Utils.setLoginStatus(mContext, Constants.HAVE_LOGIN);
             long time = System.currentTimeMillis();
+            Logger.debug(TAG, "currentTime: " + time);
             Utils.setLastLoginTime(mContext, time);
+
+            long dataCurrentTaffic = TrafficStats.getTotalRxBytes();
+            Logger.debug(TAG, "dataCurrentTaffic: " + dataCurrentTaffic);
+            Utils.setDataTrafficWhenLogin(mContext, dataCurrentTaffic);
         } else if (!TextUtils.isEmpty(result)) {
             Utils.setLoginStatus(mContext, Constants.LOGIN_FALLURE);
             Utils.setErrorMessage(mContext, result);
