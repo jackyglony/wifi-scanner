@@ -12,8 +12,6 @@ public class LoadingActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.loading);
         Handler handler = new Handler();
         handler.postDelayed(new splashhandler(), 2000);
@@ -23,7 +21,7 @@ public class LoadingActivity extends Activity {
     class splashhandler implements Runnable {
         public void run() {
             startActivity(new Intent(getApplication(),
-                    WifiScannerActivity.class));
+                    WifiScannerMainTabActivity.class));
             LoadingActivity.this.finish();
         }
     }

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/person_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/person_info_marge"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/person_image"
+                    android:layout_width="@dimen/general_item_image_width"
+                    android:layout_height="@dimen/general_item_image_width"
+                    android:layout_marginLeft="@dimen/person_info_marge"
+                    android:contentDescription="@null"
+                    android:src="@drawable/male_user" >
+                </ImageView>
+
+                <LinearLayout
+                    android:id="@+id/person_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/person_info_marge"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/person_account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:id="@+id/person_account_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textIsSelectable="false" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/person_no_account_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/person_info_marge"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/person_register_btn"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="start"
+                    android:text="@string/person_centre_register" />
+
+                <Button
+                    android:id="@+id/person_settings_btn"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="end"
+                    android:text="@string/person_centre_account_settings" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/person_have_account_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/person_info_marge"
+                android:orientation="horizontal" 
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/person_forget_account_btn"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="start"
+                    android:text="@string/person_forget_account" />
+
+                <Button
+                    android:id="@+id/person_change_account_btn"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="end"
+                    android:text="@string/person_centre_change_account" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/jabber_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

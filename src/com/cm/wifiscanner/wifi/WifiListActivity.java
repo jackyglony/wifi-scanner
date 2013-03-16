@@ -176,7 +176,6 @@ public class WifiListActivity extends PreferenceActivity implements
             }
         }
         mConnected.set(Utils.isHasWifiConnection(this));
-        updateView();
         mIsResumed = true;
     }
 
@@ -592,9 +591,13 @@ public class WifiListActivity extends PreferenceActivity implements
     }
 
     private void updateView() {
+        Logger.debug(TAG, "updateView");
         int resId = R.string.wifi_login_unknow_status;
         int status = Utils.getLoginStatus(this);
         switch (status) {
+            case Constants.CANNOT_CONNECT:
+                resId = R.string.wifi_no_connection_satus;
+                break;
             case Constants.HAVE_LOGIN:
                 resId = R.string.wifi_login_successfully_status;
                 break;
@@ -619,9 +622,7 @@ public class WifiListActivity extends PreferenceActivity implements
             default:
                 break;
         }
-        if (resId == -1) {
-            return;
-        }
+
         if (status == Constants.LOGIN_FALLURE) {
             mLoginStatusPrefs.setSummary(Utils.getShowErrorMessage(this));
         } else {
@@ -785,6 +786,7 @@ public class WifiListActivity extends PreferenceActivity implements
 
         @Override
         protected void onPreExecute() {
+            Logger.debug(TAG, "start to check baidu");
             mLoginStatusPrefs.setSummary(R.string.wifi_checking_status);
             mLoginStatusPrefs.setEnabled(false);
         }

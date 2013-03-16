@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="wifi_status">
+
         <!-- Status message of Wi-Fi when it is idle. -->
         <item></item>
         <!-- Status message of Wi-Fi when it is scanning. -->
@@ -26,8 +28,8 @@
         <!-- Status message of Wi-Fi when connectiong is being verified. -->
         <item>Temporarily avoiding poor connection</item>
     </string-array>
-
     <string-array name="wifi_status_with_ssid">
+
         <!-- Status message of Wi-Fi when it is idle. -->
         <item></item>
         <!-- Status message of Wi-Fi when it is scanning. -->
@@ -54,9 +56,11 @@
         <item>Temporarily avoiding poor connection</item>
     </string-array>
 
-    <!-- Match this with the constants in AccessPoint. --> <skip />
+    <!-- Match this with the constants in AccessPoint. -->
+    <skip />
     <!-- Wi-Fi settings.  The type of security a Wi-Fi network has. -->
     <string-array name="wifi_security">
+
         <!-- The Wi-Fi network does not have any security. -->
         <item>Open</item>
         <!-- Do not translate. -->
@@ -67,17 +71,19 @@
         <item>802.1x EAP</item>
     </string-array>
 
-   <!-- Wi-Fi AP settings.  The type of security a Wi-Fi AP supports. -->
-   <!-- Note that adding/removing/moving the items will need wifi settings code change. -->
+    <!-- Wi-Fi AP settings.  The type of security a Wi-Fi AP supports. -->
+    <!-- Note that adding/removing/moving the items will need wifi settings code change. -->
     <string-array name="wifi_ap_security" translatable="false">
         <item>Open</item>
         <!-- Do not translate. -->
         <item>WPA2 PSK</item>
     </string-array>
 
-    <!-- Match this with the constants in WifiDialog. --> <skip />
+    <!-- Match this with the constants in WifiDialog. -->
+    <skip />
     <!-- Wi-Fi settings.  The type of EAP method a Wi-Fi network has. -->
     <string-array name="wifi_eap_method">
+
         <!-- Do not translate. -->
         <item>PEAP</item>
         <!-- Do not translate. -->
@@ -94,32 +100,29 @@
         <item>MSCHAPV2</item>
         <item>GTC</item>
     </string-array>
-
-     <string-array name="wifi_signal">
+    <string-array name="wifi_signal">
         <item>Poor</item>
         <item>Fair</item>
         <item>Good</item>
         <item>Excellent</item>
     </string-array>
-    
-    <string-array name="wifi_filter_mode_entries" >
+    <string-array name="wifi_filter_mode_entries">
         <item>Visible</item>
         <item>All</item>
         <item>Open</item>
         <item>Need Authorize</item>
     </string-array>
-
-    <string-array name="wifi_filter_mode_values">
+    <string-array name="wifi_filter_mode_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
-
-    <string-array name="wifi_filter_mode_summary_entries" >
+    <string-array name="wifi_filter_mode_summary_entries">
         <item>Only show visible WiFi</item>
         <item>Show all WiFi</item>
         <item>Only show open WiFi</item>
         <item>Only show Wifi which need authorization</item>
     </string-array>
+
 </resources>

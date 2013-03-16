@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.TrafficStats;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,13 @@ public class ConnectionInfoDialog extends AlertDialog implements
     private ViewGroup mInfoView;
     private Context mContext;
     private LogoutListener mLogoutListener;
+    private WifiManager mWifiManager;
 
     protected ConnectionInfoDialog(Context context, LogoutListener listener) {
         super(context);
         mContext = context;
         mLogoutListener = listener;
+        mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
     }
 
     @Override
@@ -55,9 +58,18 @@ public class ConnectionInfoDialog extends AlertDialog implements
         long loginTime = Utils.getLastLoginTime(mContext);
         Logger.debug("Test", "currentTime: " + loginTime);
 
+        addSSIDInfo();
         addLoginStartTimeInfo(loginTime);
         addLoginStayTimeInfo(loginTime);
         addDataTarfficTime();
+    }
+
+    private void addSSIDInfo() {
+        View titleView = addRow(mInfoView, R.string.connection_login_to_text,
+                mWifiManager.getConnectionInfo().getSSID());
+        TextView ssidView = (TextView) titleView.findViewById(R.id.value);
+        ssidView.setTextAppearance(mContext,
+                android.R.style.TextAppearance_Medium);
     }
 
     private void addLoginStartTimeInfo(long longTime) {
@@ -75,12 +87,13 @@ public class ConnectionInfoDialog extends AlertDialog implements
         addRow(mInfoView, R.string.connection_login_time, timeInFormat);
     }
 
-    private void addRow(ViewGroup group, int nameResId, String value) {
+    private View addRow(ViewGroup group, int nameResId, String value) {
         View row = getLayoutInflater().inflate(R.layout.wifi_dialog_row, group,
                 false);
         ((TextView) row.findViewById(R.id.name)).setText(nameResId);
         ((TextView) row.findViewById(R.id.value)).setText(value);
         group.addView(row);
+        return row;
     }
 
     private String getFormatTime(long lastTime) {

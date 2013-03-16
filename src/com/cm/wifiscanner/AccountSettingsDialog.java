@@ -47,7 +47,7 @@ public class AccountSettingsDialog extends AlertDialog implements
 
     private Context mContext;
 
-    private int mMode;
+    private int mMode = EDIT_MODE;
 
     public AccountSettingsDialog(Context context, OnDismissListener listener) {
         super(context);
@@ -77,7 +77,7 @@ public class AccountSettingsDialog extends AlertDialog implements
     }
 
     private void initiateView() {
-        if (TextUtils.isEmpty(Utils.getUserName(mContext.getApplicationContext()))) {
+        if (mMode == EDIT_MODE) {
             mAccountInfo.setVisibility(View.GONE);
             mAccountInputView.setVisibility(View.VISIBLE);
             mMode = EDIT_MODE;
@@ -88,7 +88,6 @@ public class AccountSettingsDialog extends AlertDialog implements
             mMode = VIEW_MODE;
         }
         setButtons(mMode);
-          
     }
 
     private void setButtons(int mode) {

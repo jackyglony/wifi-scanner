@@ -17,4 +17,5 @@
 
     <dimen name="general_item_image_width">48dip</dimen>
     <dimen name="general_item_image_height">48dip</dimen>
+    <dimen name="person_info_marge">12dip</dimen>
 </resources>

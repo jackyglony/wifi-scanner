@@ -2,7 +2,9 @@ package com.cm.wifiscanner;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 public class DownloadNotificationHandler {
@@ -11,11 +13,12 @@ public class DownloadNotificationHandler {
     private static final int DOWNLOAD_NOTIFICATION_ID = R.id.download_information;
     private static final int UPDATE_INTERVAL = 3000;
     private Context mContext;
-    private Notification mDownNotification;  
+    private Notification mDownNotification;
     private RemoteViews mContentView;
     private NotificationManager mNm;
 
     private long mLastUpdateTime = -1;
+
     DownloadNotificationHandler(Context context) {
         mContext = context;
         mNm = (NotificationManager) mContext
@@ -32,24 +35,21 @@ public class DownloadNotificationHandler {
     @SuppressWarnings("deprecation")
     private void initNotification() {
         String contextText = null;
-        mDownNotification = new Notification(
-                R.drawable.ic_launcher, contextText, System.currentTimeMillis());
+        mDownNotification = new Notification(R.drawable.download, contextText,
+                System.currentTimeMillis());
         mDownNotification.flags = Notification.FLAG_ONGOING_EVENT;
         initContentView();
-        // PendingIntent pt = PendingIntent.getActivity(this, 0, new
-        // Intent(mContext,
-        // WifiScannerActivity.class), 0);
-        // mDownNotification.setLatestEventInfo(this,
-        // mContext.getResources().getString(R.string.app_name), contextText,
-        // pt);
+        PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
+                new Intent(mContext, WifiScannerMainTabActivity.class), 0);
+
+        mDownNotification.contentIntent = contentIntent;
     }
 
     private void initContentView() {
         mContentView = new RemoteViews(mContext.getPackageName(),
                 R.layout.download_notification_view);
         mContentView.setProgressBar(R.id.download_progressbar, 100, 0, false);
-        mContentView
-                .setImageViewResource(R.id.app_icon, R.drawable.ic_launcher);
+        mContentView.setImageViewResource(R.id.app_icon, R.drawable.download);
         mContentView.setTextViewText(R.id.download_information,
                 mContext.getString(R.string.update_downloading_package));
         mContentView.setTextViewText(R.id.download_progress_text, "0%");

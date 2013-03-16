@@ -6,7 +6,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Window;
 
-public class FavouriteActivity extends ListActivity {
+public class PartershipActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

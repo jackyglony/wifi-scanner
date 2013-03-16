@@ -49,6 +49,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".WifiScannerMainTabActivity"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".wifi.WifiListActivity"
             android:clearTaskOnLaunch="true"
             android:configChanges="orientation"
@@ -62,11 +75,13 @@
             android:label=""
             android:launchMode="singleTask" >
         </activity>
-        <activity android:name=".wifi.FavouriteActivity" >
+        <activity android:name=".wifi.PartershipActivity" >
         </activity>
         <activity android:name=".jabber.JabberActivity" >
         </activity>
         <activity android:name=".SettingActivity" >
+        </activity>
+        <activity android:name=".PersonCentreActivity" >
         </activity>
 
         <receiver
@@ -81,7 +96,6 @@
             android:name="com.cm.wifiscanner.wifi.WiFiScanService"
             android:exported="false" >
         </service>
-        
         <service
             android:name="com.cm.wifiscanner.DownloadUpdateService"
             android:exported="false" >

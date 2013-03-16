@@ -3,10 +3,10 @@
     <string name="app_name">时讯无线</string>
     <string name="menu_settings">设置</string>
 
-    <string name="tab_wifi">WIFI</string>
-    <string name="tab_favourite">FAV</string>
-    <string name="tab_jabber">JAB</string>
-    <string name="tab_setting">SET</string>
+    <string name="tab_title_wifi_list">扫描WiFi</string>
+    <string name="tab_title_person_centre">个人中心</string>
+    <string name="tab_title_partership">商家报装</string>
+    <string name="tab_title_settings">设置</string>
 
     <string name="wifi_hub_user_name">名字</string>
     <string name="wifi_hub_user_password">密码</string>
@@ -163,11 +163,6 @@
     <string name="wifi_user_name">名字</string>
     <string name="hub_login_anonymous">匿名登录</string>
 
-    <string name="title_wifi_list">扫描WiFi</string>
-    <string name="title_tab2">Tab2</string>
-    <string name="title_tab3">个人中心</string>
-    <string name="title_settings">设置</string>
-
     <!-- settings String -->
     <string name="wifi_account_settings">帐号设置</string>
     <string name="wifi_add_account">点击添加一个新的帐号</string>
@@ -194,13 +189,13 @@
     <string name="wifi_logout_successfully_status">发现时讯无线热点，但尚未登录，点击登录</string>
     <string name="wifi_cannot_login_status">没有发现时讯无线热点</string>
     <string name="wifi_not_need_login_status">已经连接互联网(未通过时讯无线热点登录)</string>
-    <string name="wifi_no_wifi_status">没有连接网络</string>
+    <string name="wifi_no_wifi_status">没有WiFi连接</string>
     <string name="wifi_loging_status">正在登陆至时讯无线\u2026</string>
     <string name="wifi_logouting_status">正在下线\u2026</string>
     <string name="wifi_checking_status">正在检查当前网络状态\u2026</string>
     <string name="wifi_login_fail_status">登录失败，点击重试</string>
     <string name="wifi_login_unknow_status">状态未知，点击重新检查</string>
-    <string name="wifi_no_connection_satus">无法连接网络</string>
+    <string name="wifi_no_connection_satus">没有网络连接</string>
     <string name="wifi_second_checking_satus">已经连接网络, 正在检查是否为时讯网络\u2026</string>
     <string name="wifi_configure_gateway">配置网关</string>
     <string name="wifi_gateway_name">输入网关地址</string>
@@ -211,7 +206,6 @@
     <string name="wifi_login_failure_with_reason">登录失败，原因： </string>
     <string name="wifi_check_wifi_settings">进入设置</string>
     <string name="wifi_constom_hotline">客服热线：400&#8211;080&#8211;9500</string>
-    <string name="wifi_partership">商家报装</string>
 
     <string name="settings_wifi_filter_mode_title">选择过滤条件</string>
     <string name="settings_share_title">向朋友分享</string>
@@ -238,4 +232,13 @@
     <string name="connection_time_hour_info">小时</string>
     <string name="connection_minuts_info">分钟</string>
     <string name="connection_less_minuts_info">不到一分钟</string>
+    <string name="connection_login_to_text">已登陆至</string>
+
+    <!-- person centre string resource -->
+    <string name="person_centre_register">注册</string>
+    <string name="person_centre_change_account">更换帐号</string>
+    <string name="person_forget_account">删除帐号</string>
+    <string name="person_centre_account_settings">帐号设定</string>
+    <string name="person_centre_login_status">已登录</string>
+    <string name="person_centre_logout_status">未登录</string>
 </resources>
