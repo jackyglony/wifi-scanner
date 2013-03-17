@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Wi-Fi Scan</string>
     <string name="menu_settings">Settings</string>
-
     <string name="tab_title_wifi_list">WiFi Scan</string>
     <string name="tab_title_person_centre">Person Center</string>
     <string name="tab_title_partership">ParterShip</string>
     <string name="tab_title_settings">settings</string>
-
     <string name="wifi_hub_user_name">Name</string>
     <string name="wifi_hub_user_password">Password</string>
-
     <string name="progress_scanning">Scanning</string>
-
     <string name="wifi_secured_first_item">Secured with %1$s</string>
-    <!-- Substring of wifi status for wifi with authentication.  This version is for when the
-         string is not first in the list (lowercase in english) -->
+    <!--
+         Substring of wifi status for wifi with authentication.  This version is for when the
+         string is not first in the list (lowercase in english)
+    -->
     <string name="wifi_secured_second_item">, secured with %1$s</string>
 
     <!-- Do not translate.  Concise terminology for wifi with WEP security -->
@@ -35,14 +34,20 @@
     <string name="wifi_disabled_generic">Disabled</string>
     <!-- Status for networked disabled from a DNS or DHCP failure -->
     <string name="wifi_disabled_network_failure">Avoided poor Internet connection</string>
-    <!-- Status for networks disabled from authentication failure (wrong password
-         or certificate). -->
+    <!--
+         Status for networks disabled from authentication failure (wrong password
+         or certificate).
+    -->
     <string name="wifi_disabled_password_failure">Authentication problem</string>
-    <!-- Substring of status line when Wi-Fi Protected Setup (WPS) is available and
-         string is listed first [CHAR LIMIT=20]-->
+    <!--
+         Substring of status line when Wi-Fi Protected Setup (WPS) is available and
+         string is listed first [CHAR LIMIT=20]
+    -->
     <string name="wifi_wps_available_first_item">WPS available</string>
-    <!-- Substring of wifi status when Wi-Fi Protected Setup (WPS) is available and
-         string is listed after a wifi_secured_* string-->
+    <!--
+         Substring of wifi status when Wi-Fi Protected Setup (WPS) is available and
+         string is listed after a wifi_secured_* string
+    -->
     <string name="wifi_wps_available_second_item">\u0020(WPS available)</string>
 
     <!-- Used in Wi-Fi settings dialogs when Wi-Fi does not have any security. -->
@@ -86,7 +91,7 @@
     <string name="wifi_notify_open_networks_summary">Notify me when an open network is available</string>
     <!-- Action message to manually add a wifi network -->
     <string name="wifi_add_network">Add Wi-Fi network</string>
-    <!-- Header for the list of wifi networks-->
+    <!-- Header for the list of wifi networks -->
     <string name="wifi_access_points">Wi-Fi networks</string>
     <!-- Menu option to scan Wi-Fi networks -->
     <string name="wifi_menu_scan">Scan</string>
@@ -103,11 +108,11 @@
     <!-- Checkbox summary for option to filter out secured access points -->
     <string name="wifi_filter_only_open_summary">Only display open networks</string>
     <string name="wifi_filter_all_summary">Display all networks</string>
-    
     <string name="hub_login_success">Login Successfully</string>
     <string name="hub_login_failure">Login Failure</string>
 
-    <!-- Dialog for Access Points --> <skip />
+    <!-- Dialog for Access Points -->
+    <skip />
     <!-- Label for the SSID of the network -->
     <string name="wifi_ssid">Network SSID</string>
     <!-- Label for the security of the connection -->
@@ -158,7 +163,6 @@
     <string name="wifi_save">Save</string>
     <!-- Button label to dismiss the dialog -->
     <string name="wifi_cancel">Cancel</string>
-
     <string name="wifi_user_name">Name</string>
     <string name="hub_login_anonymous">Anonymous Login</string>
 
@@ -171,7 +175,6 @@
     <string name="wifi_about_applition">About US</string>
     <string name="wifi_current_account_txt">Current Account</string>
     <string name="wifi_phone_number">Phone Number</string>
-    
     <string name="wifi_account_dialog_edit">Edit</string>
     <string name="wifi_account_dialog_save">Save</string>
     <string name="wifi_account_dialog_delete">Delete</string>
@@ -204,7 +207,6 @@
     <string name="wifi_login_failure_with_reason">Login Failure, reson:</string>
     <string name="wifi_check_wifi_settings">Enter settings</string>
     <string name="wifi_constom_hotline">Custom Hotline:400&#8211;080&#8211;9500</string>
-    
     <string name="settings_wifi_filter_mode_title">Choose the filter mode</string>
     <string name="settings_share_title">Share me to friends</string>
     <string name="share_information">I am visiting internet with ShiXun Wifi for free, you also can do this like me! See detail information in:http://www.591wifi.com</string>
@@ -219,7 +221,6 @@
     <string name="update_background_update">Update in Backgroud</string>
     <string name="update_find_new_version_msg">Have found a new version. Could you want to update?</string>
     <string name="update_find_new_version_title">Update confirm</string>
-
     <string name="connection_info_logout">Logout</string>
     <string name="connection_login_start_time">Start From</string>
     <string name="connection_login_time">Login Time</string>
@@ -238,4 +239,7 @@
     <string name="person_forget_account">Delete Account</string>
     <string name="person_centre_login_status">Have Loginned</string>
     <string name="person_centre_logout_status">Not Loginned</string>
+    <string name="about_us">北京时讯遨游网络科技有限公司创立于2010年12月，致力于无线WiFi网络设备研发、无线WiFi网络组网方案提供、无线WiFi媒体运营的新技术企业。
+公司由一批在宽带网业界从事多年的人士发起创建，凭借团队多年来服务于IT行业的技术实力和丰富的行业资源，为客户提供一流的产品、技术和服务。</string>
+
 </resources>

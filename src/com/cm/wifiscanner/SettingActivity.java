@@ -11,6 +11,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 public class SettingActivity extends PreferenceActivity implements
         CheckUpdateAsyncTask.CheckCompletedListener {
@@ -33,6 +34,9 @@ public class SettingActivity extends PreferenceActivity implements
             e.printStackTrace();
         }
 //        this.getListView().setBackgroundResource(R.drawable.bg);
+        ImageView qrView = new ImageView(this);
+        qrView.setImageResource(R.drawable.qrcode);
+        this.getListView().addFooterView(qrView);
     }
 
     @Override

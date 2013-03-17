@@ -24,7 +24,7 @@
         <!-- Status message of Wi-Fi when it is blocked. -->
         <item>已被阻止</item>
         <!-- Status message of Wi-Fi when connectiong is being verified. -->
-        <item>Temporarily avoiding poor connection</item>
+        <item>临时禁用无线信号差的网络</item>
     </string-array>
 
     <string-array name="wifi_status_with_ssid">
