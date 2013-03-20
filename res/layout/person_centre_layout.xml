@@ -64,16 +64,18 @@
                     android:id="@+id/person_register_btn"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_button"
                     android:text="@string/person_centre_register" />
 
                 <Button
                     android:id="@+id/person_settings_btn"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_button"
                     android:text="@string/person_centre_account_settings" />
             </LinearLayout>
 
@@ -82,23 +84,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/person_info_marge"
-                android:orientation="horizontal" 
-                android:visibility="gone">
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/person_forget_account_btn"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_button"
                     android:text="@string/person_forget_account" />
 
                 <Button
                     android:id="@+id/person_change_account_btn"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_button"
                     android:text="@string/person_centre_change_account" />
             </LinearLayout>
         </LinearLayout>

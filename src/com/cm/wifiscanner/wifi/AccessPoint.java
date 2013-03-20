@@ -2,6 +2,7 @@ package com.cm.wifiscanner.wifi;
 
 import com.cm.wifiscanner.R;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.NetworkInfo.DetailedState;
 import android.net.wifi.ScanResult;
@@ -9,11 +10,13 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 public class AccessPoint extends Preference {
@@ -53,6 +56,10 @@ public class AccessPoint extends Preference {
     private int mLevel;
     private WifiInfo mInfo;
     private DetailedState mState;
+
+    private ImageView mSignalView;
+    private ImageView mWifiSecurity;
+    private TextView mSsidNameView;
 
     public static int getSecurity(WifiConfiguration config) {
         if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK)) {
@@ -124,22 +131,25 @@ public class AccessPoint extends Preference {
 
     public AccessPoint(Context context, WifiConfiguration config) {
         super(context);
-        setWidgetLayoutResource(R.layout.preference_widget_signal);
+//        setWidgetLayoutResource(R.layout.preference_widget_signal);
+//        this.setLayoutResource(R.layout.access_point_layout);
+        onCreateView();
         loadConfig(config);
         refresh();
     }
 
     public AccessPoint(Context context, ScanResult result) {
         super(context);
-        setWidgetLayoutResource(R.layout.preference_widget_signal);
+//        setWidgetLayoutResource(R.layout.preference_widget_signal);
+        onCreateView();
         loadResult(result);
         refresh();
     }
 
     public AccessPoint(Context context, Bundle savedState) {
         super(context);
-        setWidgetLayoutResource(R.layout.preference_widget_signal);
-
+//        setWidgetLayoutResource(R.layout.preference_widget_signal);
+        onCreateView();
         mConfig = savedState.getParcelable(KEY_CONFIG);
         if (mConfig != null) {
             loadConfig(mConfig);
@@ -153,6 +163,10 @@ public class AccessPoint extends Preference {
             mState = DetailedState.valueOf(savedState.getString(KEY_DETAILEDSTATE));
         }
         update(mInfo, mState);
+    }
+
+    private void onCreateView() {
+        this.setLayoutResource(R.layout.access_point_layout);
     }
 
     public void saveWifiState(Bundle savedState) {
@@ -187,36 +201,44 @@ public class AccessPoint extends Preference {
 
     @Override
     protected void onBindView(View view) {
-        ImageView signal = (ImageView) view.findViewById(R.id.signal);
+//        setIcon(R.drawable.ic_wifi_lock_signal_4);
+        ImageView signal = (ImageView) view.findViewById(R.id.access_point_singal);
+        mSsidNameView = (TextView)view.findViewById(R.id.access_point_ssid);
+        mWifiSecurity = (ImageView)view.findViewById(R.id.access_point_security);
         if (mLevel == Integer.MAX_VALUE) {
             signal.setImageDrawable(null);
         } else {
             final int level = getLevel();
-            final boolean lock = security == SECURITY_NONE;
+            final boolean isOpen = security == SECURITY_NONE;
+            if (isOpen) {
+                mWifiSecurity.setImageResource(R.drawable.access_point_open);
+            } else {
+                mWifiSecurity.setImageResource(R.drawable.access_point_lock);
+            }
             switch (level) {
                 case 0:
-                    if (lock)
+//                    if (lock)
                         signal.setImageResource(R.drawable.ic_wifi_signal_1);
-                    else
-                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_1);
+//                    else
+//                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_1);
                     break;
                 case 1:
-                    if (lock)
+//                    if (lock)
                         signal.setImageResource(R.drawable.ic_wifi_signal_2);
-                    else
-                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_2);
+//                    else
+//                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_2);
                     break;
                 case 2:
-                    if (lock)
+//                    if (lock)
                         signal.setImageResource(R.drawable.ic_wifi_signal_3);
-                    else
-                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_3);
+//                    else
+//                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_3);
                     break;
                 case 3:
-                    if (lock)
+//                    if (lock)
                         signal.setImageResource(R.drawable.ic_wifi_signal_4);
-                    else
-                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_4);
+//                    else
+//                        signal.setImageResource(R.drawable.ic_wifi_lock_signal_4);
                     break;
                 default:
                     break;
@@ -376,6 +398,13 @@ public class AccessPoint extends Preference {
         mConfig = new WifiConfiguration();
         mConfig.SSID = AccessPoint.convertToQuotedString(ssid);
         mConfig.allowedKeyManagement.set(KeyMgmt.NONE);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (mSsidNameView != null) {
+            mSsidNameView.setText(title);
+        }
     }
 }
 

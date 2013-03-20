@@ -4,8 +4,8 @@ import com.cm.wifiscanner.R;
 import android.content.Context;
 import android.net.NetworkInfo.DetailedState;
 
-class Summary {
-    static String get(Context context, String ssid, DetailedState state) {
+public class Summary {
+    public static String get(Context context, String ssid, DetailedState state) {
         String[] formats = context.getResources().getStringArray((ssid == null)
                 ? R.array.wifi_status : R.array.wifi_status_with_ssid);
         int index = state.ordinal();

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabhost"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainview_backgroud_color" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
+
+        <include
+            android:id="@+id/wifi_switch_view"
+            layout="@layout/wifi_switch_layout" />
 
         <FrameLayout
             android:id="@android:id/tabcontent"
@@ -17,7 +22,7 @@
 
         <TabWidget
             android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="0.0"
             android:visibility="gone" />
@@ -26,7 +31,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@drawable/maintab_toolbar_bg"
+            android:background="@drawable/tab_button_bg"
             android:gravity="center"
             android:orientation="horizontal" >
 
@@ -42,6 +47,7 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:text="@string/tab_title_wifi_list"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
             <RadioButton
@@ -55,6 +61,7 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:text="@string/tab_title_person_centre"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
             <RadioButton
@@ -68,6 +75,7 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:text="@string/tab_title_partership"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
             <RadioButton
@@ -81,6 +89,7 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:text="@string/tab_title_settings"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </RadioGroup>
     </LinearLayout>

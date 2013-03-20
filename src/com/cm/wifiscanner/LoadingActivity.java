@@ -14,7 +14,7 @@ public class LoadingActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.loading);
         Handler handler = new Handler();
-        handler.postDelayed(new splashhandler(), 2000);
+        handler.postDelayed(new splashhandler(), 3000);
 
     }
 

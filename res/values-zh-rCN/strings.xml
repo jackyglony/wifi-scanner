@@ -105,7 +105,7 @@
     <string name="progress_scanning">扫描中</string>
 
     <!-- Checkbox title for option to filter out secured access points -->
-    <string name="wifi_filter">WiFi过滤</string>
+    <string name="wifi_filter">WiFi热点过滤</string>
     <!-- Checkbox summary for option to filter out secured access points -->
     <string name="wifi_filter_only_open_summary">只显示可用网络</string>
     <string name="wifi_filter_all_summary">显示所有网络</string>
@@ -242,6 +242,7 @@
     <string name="person_centre_account_settings">帐号设定</string>
     <string name="person_centre_login_status">已登录</string>
     <string name="person_centre_logout_status">未登录</string>
+    <string name="wifi_download_applition">下载本客户端</string>
     <string name="about_us">北京时讯遨游网络科技有限公司创立于2010年12月，致力于无线WiFi网络设备研发、无线WiFi网络组网方案提供、无线WiFi媒体运营的新技术企业。
 公司由一批在宽带网业界从事多年的人士发起创建，凭借团队多年来服务于IT行业的技术实力和丰富的行业资源，为客户提供一流的产品、技术和服务。</string>
 

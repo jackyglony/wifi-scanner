@@ -6,10 +6,13 @@ import com.cm.wifiscanner.wifi.WifiListActivity;
 import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TabHost;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 @SuppressWarnings("deprecation")
 public class WifiScannerMainTabActivity extends ActivityGroup implements
@@ -24,6 +27,7 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
     private RadioButton mPartershipRadio;
     private RadioButton mSettingsRadio;
 
+    private WifiSwitchLinearLayout mWifiSwitchLayout;
     private TabHost mHost;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,27 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
         updateFirstEnter();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mWifiSwitchLayout != null) {
+            mWifiSwitchLayout.resume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+
+        if (mWifiSwitchLayout != null) {
+            mWifiSwitchLayout.pause();
+        }
+        super.onPause();
+    }
+
     private void initTabs() {
+        mWifiSwitchLayout = (WifiSwitchLinearLayout) findViewById(R.id.wifi_switch_view);
+        // mWifiEnabler = new WifiSwitchLinearLayout(this, mWifiCheckBox,
+        // mInfoTextView);
         mHost = (TabHost) findViewById(R.id.tabhost);
         mHost.setup(this.getLocalActivityManager());
 
@@ -48,7 +72,7 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
     private TabHost.TabSpec getWifiTab() {
         Intent intent = new Intent(this, WifiListActivity.class);
         return buildTabSpec(TAB_WIFI_TAB, R.string.tab_title_wifi_list,
-                R.drawable.icon_wifi, intent);
+                R.drawable.icon_wifi_normal, intent);
     }
 
     private TabHost.TabSpec getPersonCentreTab() {
@@ -99,8 +123,10 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        int id = buttonView.getId();
         if (isChecked) {
-            switch (buttonView.getId()) {
+            updateWifiSwitchView(id);
+            switch (id) {
                 case R.id.tab_wifi_scan:
                     this.mHost.setCurrentTabByTag(TAB_WIFI_TAB);
                     break;
@@ -113,9 +139,23 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
                 case R.id.tab_settings:
                     this.mHost.setCurrentTabByTag(TAB_SETTINGS);
                     break;
+                case R.id.wifi_switch_checkbox:
+                    break;
                 default:
                     break;
             }
+        } else {
+            if (id == R.id.wifi_switch_checkbox) {
+
+            }
+        }
+    }
+
+    private void updateWifiSwitchView(int id) {
+        if (id == R.id.tab_wifi_scan) {
+            mWifiSwitchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mWifiSwitchLayout.setVisibility(View.GONE);
         }
     }
 }

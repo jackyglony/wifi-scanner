@@ -46,4 +46,8 @@
         android:summary="@string/wifi_constom_hotline"
         android:title="@string/wifi_about_applition" />
 
+   <Preference
+        android:key="download_application"
+        android:persistent="false"
+        android:title="@string/wifi_download_applition" />
 </PreferenceScreen>

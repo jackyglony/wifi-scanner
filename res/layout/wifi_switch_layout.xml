@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cm.wifiscanner.WifiSwitchLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#C6F36B"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:layout_width="@dimen/general_item_image_width"
+        android:layout_height="@dimen/general_item_image_width"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginLeft="@dimen/general_item_margin"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_wifi_scan" />
+
+    <TextView
+        android:id="@+id/wifi_info_textview"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/general_item_margin"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:text="@string/wifi_no_wifi_status"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <CheckBox
+        android:id="@+id/wifi_switch_checkbox"
+        style="@style/wifiCheckBox"
+        android:layout_width="81dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginRight="@dimen/general_item_margin"
+        android:gravity="end" />
+
+</com.cm.wifiscanner.WifiSwitchLinearLayout>
