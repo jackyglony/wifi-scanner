@@ -89,7 +89,7 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
     }
 
     private TabHost.TabSpec getSettingsTab() {
-        Intent intent = new Intent(this, SettingActivity.class);
+        Intent intent = new Intent(this, MoreActivity.class);
         return buildTabSpec(TAB_SETTINGS, R.string.tab_title_settings,
                 R.drawable.icon_settings, intent);
     }

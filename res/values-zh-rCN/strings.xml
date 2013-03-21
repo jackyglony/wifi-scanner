@@ -172,8 +172,6 @@
     <string name="wifi_add_account">点击添加一个新的帐号</string>
     <string name="wifi_edit_account">当前帐号： %1$s</string>
     <string name="wifi_current_version">当前版本号: %1$s</string>
-    <string name="wifi_check_update">检查更新</string>
-    <string name="wifi_about_applition">关于我们</string>
     <string name="wifi_current_account_txt">当前帐号</string>
     <string name="wifi_phone_number">手机号</string>
     <string name="wifi_account_dialog_edit">修改</string>
@@ -209,7 +207,6 @@
     <string name="wifi_check_wifi_settings">进入设置</string>
     <string name="wifi_constom_hotline">客服热线：400&#8211;080&#8211;9500</string>
     <string name="settings_wifi_filter_mode_title">选择过滤条件</string>
-    <string name="settings_share_title">向朋友分享</string>
     <string name="share_information">我正在使用时讯无线的无线免费上网，你也免费使用！详细地址可见：http://www.591wifi.com</string>
 
     <!-- Download Message -->
@@ -246,4 +243,11 @@
     <string name="about_us">北京时讯遨游网络科技有限公司创立于2010年12月，致力于无线WiFi网络设备研发、无线WiFi网络组网方案提供、无线WiFi媒体运营的新技术企业。
 公司由一批在宽带网业界从事多年的人士发起创建，凭借团队多年来服务于IT行业的技术实力和丰富的行业资源，为客户提供一流的产品、技术和服务。</string>
 
+    <!-- more settings string resource-->
+    <string name="more_nofitication_title">通知设置</string>
+    <string name="more_check_update_title">更新检测</string>
+    <string name="more_feeback_title">意见反馈</string>
+    <string name="more_share_title">告诉朋友</string>
+    <string name="more_about_us_title">关于我们</string>
+    <string name="more_exit_title">退出应用</string>
 </resources>

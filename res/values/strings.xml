@@ -171,8 +171,6 @@
     <string name="wifi_add_account">Click to add an account</string>
     <string name="wifi_edit_account">Current Account： %1$s</string>
     <string name="wifi_current_version">Current Version： %1$s</string>
-    <string name="wifi_check_update">Check update</string>
-    <string name="wifi_about_applition">About US</string>
     <string name="wifi_current_account_txt">Current Account</string>
     <string name="wifi_phone_number">Phone Number</string>
     <string name="wifi_account_dialog_edit">Edit</string>
@@ -208,7 +206,6 @@
     <string name="wifi_check_wifi_settings">Enter settings</string>
     <string name="wifi_constom_hotline">Custom Hotline:400&#8211;080&#8211;9500</string>
     <string name="settings_wifi_filter_mode_title">Choose the filter mode</string>
-    <string name="settings_share_title">Share me to friends</string>
     <string name="share_information">I am visiting internet with ShiXun Wifi for free, you also can do this like me! See detail information in:http://www.591wifi.com</string>
 
     <!-- Update Message -->
@@ -242,5 +239,13 @@
     <string name="wifi_download_applition">Download Application</string>
     <string name="about_us">北京时讯遨游网络科技有限公司创立于2010年12月，致力于无线WiFi网络设备研发、无线WiFi网络组网方案提供、无线WiFi媒体运营的新技术企业。
 公司由一批在宽带网业界从事多年的人士发起创建，凭借团队多年来服务于IT行业的技术实力和丰富的行业资源，为客户提供一流的产品、技术和服务。</string>
+
+    <!-- more settings resouces -->
+    <string name="more_nofitication_title">notification settings</string>
+    <string name="more_check_update_title">Check update</string>
+    <string name="more_feeback_title">Feedback</string>
+    <string name="more_share_title">Share me to friends</string>
+    <string name="more_about_us_title">About US</string>
+    <string name="more_exit_title">Exit</string>
 
 </resources>

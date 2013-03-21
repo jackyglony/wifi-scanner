@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="@dimen/general_list_item_minHeight"
     android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/access_point_singal"
-        android:layout_width="@dimen/general_item_image_width"
-        android:layout_height="@dimen/general_item_image_height"
+        android:layout_width="@dimen/general_item_small_image_width"
+        android:layout_height="@dimen/general_item_small_image_height"
         android:layout_gravity="start|center_vertical"
         android:contentDescription="@null" />
 
@@ -23,8 +24,8 @@
 
     <ImageView
         android:id="@+id/access_point_security"
-        android:layout_width="@dimen/general_item_image_width"
-        android:layout_height="@dimen/general_item_image_height"
+        android:layout_width="@dimen/general_item_small_image_width"
+        android:layout_height="@dimen/general_item_small_image_height"
         android:layout_gravity="start|center_vertical"
         android:contentDescription="@null" />
 

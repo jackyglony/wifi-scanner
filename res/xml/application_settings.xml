@@ -29,12 +29,12 @@
     <Preference
         android:key="share_information"
         android:persistent="false"
-        android:title="@string/settings_share_title"
+        android:title="@string/more_share_title"
         />
     <Preference
         android:key="check_update"
         android:persistent="false"
-        android:title="@string/wifi_check_update" />
+        android:title="@string/more_check_update_title" />
     <!--   <Preference
         android:key="contact_us"
         android:persistent="false"
@@ -44,7 +44,7 @@
         android:key="about_application"
         android:persistent="false"
         android:summary="@string/wifi_constom_hotline"
-        android:title="@string/wifi_about_applition" />
+        android:title="@string/more_about_us_title" />
 
    <Preference
         android:key="download_application"

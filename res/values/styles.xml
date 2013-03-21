@@ -8,7 +8,7 @@
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -21,5 +21,4 @@
         <item name="android:button">@null</item>
         <item name="android:drawableRight">@drawable/wifi_switch</item>
     </style>
-
 </resources>
