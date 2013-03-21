@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="0dip"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/more_containter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="0dip"
         android:orientation="vertical"
-        android:background="@drawable/more_item_layout_background"/>
+        android:padding="0dip" >
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/more_containter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dip"
+            android:background="@drawable/more_item_layout_background"
+            android:orientation="vertical" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/general_item_margin"
+            android:gravity="center"
+            android:text="@string/more_download_with_qr"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="@dimen/qrcode_size"
+            android:layout_height="@dimen/qrcode_size"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/person_info_marge"
+            android:contentDescription="@null"
+            android:gravity="center"
+            android:src="@drawable/qrcode" />
+    </LinearLayout>
+
+</ScrollView>

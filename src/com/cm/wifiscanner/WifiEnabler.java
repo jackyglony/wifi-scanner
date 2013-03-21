@@ -1,8 +1,9 @@
-package com.cm.wifiscanner.wifi;
+package com.cm.wifiscanner;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.cm.wifiscanner.R;
+import com.cm.wifiscanner.wifi.Summary;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -247,5 +247,5 @@
     <string name="more_share_title">Share me to friends</string>
     <string name="more_about_us_title">About US</string>
     <string name="more_exit_title">Exit</string>
-
+    <string name="more_download_with_qr">Download App with QRCode</string>
 </resources>

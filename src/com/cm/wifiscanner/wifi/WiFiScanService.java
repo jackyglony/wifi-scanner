@@ -3,7 +3,7 @@ package com.cm.wifiscanner.wifi;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.cm.wifiscanner.R;
-import com.cm.wifiscanner.WifiScannerActivity;
+import com.cm.wifiscanner.WifiScannerMainTabActivity;
 import com.cm.wifiscanner.util.Constants;
 import com.cm.wifiscanner.util.Logger;
 import com.cm.wifiscanner.util.Utils;
@@ -134,7 +134,7 @@ public class WiFiScanService extends Service {
         /* clear earlier notification */
         notificationManager.cancel(NOTIFICATION_TAG, NOTIFICATION_ID);
 
-        Intent intent = new Intent(this, WifiScannerActivity.class);
+        Intent intent = new Intent(this, WifiScannerMainTabActivity.class);
         PendingIntent mPendingIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= 11) {
@@ -200,7 +200,7 @@ public class WiFiScanService extends Service {
                 contextText, System.currentTimeMillis());
         notification.defaults = Notification.DEFAULT_ALL;
         PendingIntent pt = PendingIntent.getActivity(this, 0, new Intent(this,
-                WifiScannerActivity.class), 0);
+                WifiScannerMainTabActivity.class), 0);
         notification.setLatestEventInfo(this,
                 this.getResources().getString(R.string.app_name), contextText,
                 pt);

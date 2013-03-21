@@ -27,7 +27,7 @@ public class LoginUtils {
 	private static final String CHALLENGE = "GET / HTTP/1.0\nUser-Agent: Wget/1.12(cygwin)\r\nAccept: */*\r\nHost: 1.1.1.1\r\nConnection: Close\r\n\r\n";
 	private static final String LOGIN_FMT = "GET http://%s:%d/logon?username=%s&response=%s&userurl=%s HTTP/1.0\r\nUser-Agent: Wget/1.12(cygwin)\r\nAccept: */*\r\nHost: %s:%d\r\nConnection: Close\r\n\r\n";
 	private static final String LOGOUT_FMT = "GET /logoff HTTP/1.0\nUser-Agent: Wget/1.12(cygwin)\r\nAccept: */*\r\nHost: %s\r\nConnection: Close\r\n\r\n";
-	private static final String PRELOGIN = "GET /prelogin HTTP/1.0";
+//	private static final String PRELOGIN = "GET /prelogin HTTP/1.0";
 
 	private static final int CACHE_LEN = 4096;
 	private byte[] CACHE = new byte[CACHE_LEN];

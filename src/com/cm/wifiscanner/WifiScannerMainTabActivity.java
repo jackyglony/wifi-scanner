@@ -7,12 +7,10 @@ import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TabHost;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
 
 @SuppressWarnings("deprecation")
 public class WifiScannerMainTabActivity extends ActivityGroup implements

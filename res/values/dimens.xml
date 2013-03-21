@@ -23,5 +23,6 @@
     <dimen name="general_item_small_image_height">36dip</dimen>
 
     <dimen name="general_list_item_minHeight">56dip</dimen>
+    <dimen name="qrcode_size">96dip</dimen>
     <dimen name="person_info_marge">12dip</dimen>
 </resources>

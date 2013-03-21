@@ -2,12 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/wifi_settings_category" >
 
-    <CheckBoxPreference
-        android:key="enable_wifi"
-        android:persistent="false"
-        android:summary="@string/wifi_quick_toggle_summary"
-        android:title="@string/wifi_quick_toggle_title" />
-
     <ListPreference
         android:defaultValue="0"
         android:dialogTitle="@string/settings_wifi_filter_mode_title"
@@ -22,7 +16,6 @@
         android:title="@string/wifi_settings_logout" />
 
     <com.cm.wifiscanner.wifi.ProgressCategory
-        android:dependency="enable_wifi"
         android:key="access_points"
         android:persistent="false"
         android:title="@string/wifi_access_points" />

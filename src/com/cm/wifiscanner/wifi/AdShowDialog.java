@@ -1,7 +1,7 @@
 package com.cm.wifiscanner.wifi;
 
 import com.cm.wifiscanner.R;
-import com.cm.wifiscanner.WifiScannerActivity;
+import com.cm.wifiscanner.WifiScannerMainTabActivity;
 import com.cm.wifiscanner.util.Logger;
 
 import android.app.AlertDialog;
@@ -56,7 +56,7 @@ public class AdShowDialog extends AlertDialog implements
     public void onClick(DialogInterface dialog, int which) {
         if(which == DialogInterface.BUTTON_POSITIVE) {
             Intent intent = new Intent();
-            intent.setClass(mContext, WifiScannerActivity.class);
+            intent.setClass(mContext, WifiScannerMainTabActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         }

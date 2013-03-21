@@ -3,15 +3,17 @@ package com.cm.wifiscanner;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-public class MoreActivity extends Activity implements View.OnClickListener {
+public class MoreActivity extends Activity implements View.OnClickListener,
+        CheckUpdateAsyncTask.CheckCompletedListener {
 
     private LinearLayout mContainterView;
     private LayoutInflater mFlater;
@@ -30,7 +32,8 @@ public class MoreActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void action(Context context) {
-
+                Intent intent = new Intent(context, SettingActivity.class);
+                context.startActivity(intent);
             }
         },
         Update {
@@ -46,7 +49,13 @@ public class MoreActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void action(Context context) {
-
+                CheckUpdateAsyncTask task = new CheckUpdateAsyncTask(context,
+                        (MoreActivity) context);
+                if (Build.VERSION.SDK_INT >= 11) {
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    task.execute();
+                }
             }
         },
         Feedback {
@@ -114,7 +123,7 @@ public class MoreActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void action(Context context) {
-
+                android.os.Process.killProcess(android.os.Process.myPid());
             }
 
         };
@@ -156,13 +165,14 @@ public class MoreActivity extends Activity implements View.OnClickListener {
         return view;
     }
 
-    // private ListView getListView() {
-    // return mContainterListView;
-    // }
-
     @Override
     public void onClick(View v) {
         MoreItemEnum items = (MoreItemEnum) v.getTag();
         items.action(this);
+    }
+
+    @Override
+    public void onCheckCompleted(boolean isHaveNewVersion) {
+
     }
 }

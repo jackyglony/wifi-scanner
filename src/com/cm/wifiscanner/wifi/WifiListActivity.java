@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -73,8 +72,6 @@ public class WifiListActivity extends PreferenceActivity implements
     private AtomicBoolean mConnected = new AtomicBoolean(false);
 
     private WifiDialog mDialog;
-    private WifiEnabler mWifiEnabler;
-    // private CheckBoxPreference mWifiFilter;
 
     private ListPreference mWifiFilterListPref;
 
@@ -121,8 +118,6 @@ public class WifiListActivity extends PreferenceActivity implements
             addPreferencesFromResource(R.xml.wifi_access_points);
         } else {
             addPreferencesFromResource(R.xml.wifi_settings);
-            mWifiEnabler = new WifiEnabler(this,
-                    (CheckBoxPreference) findPreference("enable_wifi"));
         }
         mLoginStatusPrefs = this.findPreference(Constants.LOGIN_STATUS_KEY);
 
@@ -148,10 +143,6 @@ public class WifiListActivity extends PreferenceActivity implements
         if (mKeyStoreNetworkId != INVALID_NETWORK_ID
                 && KeyStore.getInstance().test() == KeyStore.NO_ERROR) {
             connect(mKeyStoreNetworkId);
-        }
-
-        if (mWifiEnabler != null) {
-            mWifiEnabler.resume();
         }
 
         mKeyStoreNetworkId = INVALID_NETWORK_ID;
@@ -185,10 +176,6 @@ public class WifiListActivity extends PreferenceActivity implements
 
         unregisterReceiver(mReceiver);
         mScanner.pause();
-
-        if (mWifiEnabler != null) {
-            mWifiEnabler.pause();
-        }
 
         if (mDialog != null) {
             mDialog.dismiss();
