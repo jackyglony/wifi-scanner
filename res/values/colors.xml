@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="mainview_backgroud_color">#FFFFFF</color>
     <color name="more_item_pressed_color">#6B6262</color>
+    <color name="mainview_titlebar_color">#669900</color>
+    <color name="general_text_color">#FFFFFF</color>
+
 </resources>

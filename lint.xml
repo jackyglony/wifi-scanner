@@ -6,5 +6,10 @@
         <ignore path="src/com/cm/wifiscanner/SettingActivity.java" />
         <ignore path="src/com/cm/wifiscanner/util/Utils.java" />
         <ignore path="src/com/cm/wifiscanner/wifi/WiFiScanService.java" />
+        <ignore path="src/com/cm/wifiscanner/wifi/WifiListActivity.java" />
+        <ignore path="src/com/shixunaoyou/wifiscanner/DownloadUpdateService.java" />
+        <ignore path="src/com/shixunaoyou/wifiscanner/MoreActivity.java" />
+        <ignore path="src/com/shixunaoyou/wifiscanner/wifi/WiFiScanService.java" />
+        <ignore path="src/com/shixunaoyou/wifiscanner/wifi/WifiListActivity.java" />
     </issue>
 </lint>

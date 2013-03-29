@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="toggle_btn_margin_top">5dip</dimen>
     <dimen name="toggle_btn_margin_left">5dip</dimen>
     <dimen name="general_item_margin">8dip</dimen>
     <dimen name="list_margin_top">2dip</dimen>
     <dimen name="list_margin_left">8dip</dimen>
     <dimen name="list_margin_right">8dip</dimen>
-
     <dimen name="list_item_min_height">20dip</dimen>
     <dimen name="list_item_padding">2dip</dimen>
-
     <dimen name="footer_margin_top">4dip</dimen>
     <dimen name="footer_margin_left">8dip</dimen>
     <dimen name="footer_margin_right">8dip</dimen>
     <dimen name="footer_margin_bottom">2dip</dimen>
     <dimen name="access_point_text_marge">16dip</dimen>
-
     <dimen name="general_item_image_width">48dip</dimen>
     <dimen name="general_item_image_height">48dip</dimen>
-
     <dimen name="general_item_small_image_width">36dip</dimen>
     <dimen name="general_item_small_image_height">36dip</dimen>
-
     <dimen name="general_list_item_minHeight">56dip</dimen>
     <dimen name="qrcode_size">96dip</dimen>
     <dimen name="person_info_marge">12dip</dimen>
+    <dimen name="title_bar_size">72dip</dimen>
+
+    <dimen name="account_register_padding_leftright">48dip</dimen>
+    <dimen name="account_register_button_minheight">36dip</dimen>
+    <dimen name="account_register_large_margin">18dip</dimen>
 </resources>

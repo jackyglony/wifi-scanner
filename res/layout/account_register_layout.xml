@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainview_backgroud_color"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/account_register_padding_leftright"
+    android:paddingRight="@dimen/account_register_padding_leftright" >
+
+    <TextView
+        style="@style/WifiTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/account_register_large_margin"
+        android:layout_marginTop="@dimen/account_register_large_margin"
+        android:text="@string/wifi_register_welcome_info" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/general_item_margin"
+        android:layout_marginTop="@dimen/general_item_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/WifiTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_register_phone_number" />
+
+        <EditText
+            android:id="@+id/wifi_register_phone"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/password_input_background"
+            android:hint="@string/wifi_register_phone_tip"
+            android:inputType="phone" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/wifi_register_gettoken_btn"
+        style="@style/WifiRegisterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/account_register_large_margin"
+        android:text="@string/wifi_register_get_token" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/WifiTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_register_token_info" />
+
+        <EditText
+            android:id="@+id/wifi_register_token"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/password_input_background"
+            android:hint="@string/wifi_register_token_tip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/general_item_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/WifiTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_register_username" />
+
+        <EditText
+            android:id="@+id/wifi_register_username"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/password_input_background"
+            android:hint="@string/wifi_register_username_tip"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/general_item_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/WifiTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi_register_password" />
+
+        <EditText
+            android:id="@+id/wifi_register_password"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/password_input_background"
+            android:hint="@string/wifi_register_password_tip"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/wifi_register_submit_btn"
+        style="@style/WifiRegisterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/account_register_large_margin"
+        android:text="@string/wifi_register_submit" />
+
+</LinearLayout>

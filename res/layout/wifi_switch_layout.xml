@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cm.wifiscanner.WifiSwitchLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.shixunaoyou.wifiscanner.WifiSwitchLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#C6F36B"
@@ -33,4 +33,4 @@
         android:layout_marginRight="@dimen/general_item_margin"
         android:gravity="end" />
 
-</com.cm.wifiscanner.WifiSwitchLinearLayout>
+</com.shixunaoyou.wifiscanner.WifiSwitchLinearLayout>

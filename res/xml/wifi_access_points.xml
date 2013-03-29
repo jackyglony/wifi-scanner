@@ -3,7 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
         android:title="@string/wifi_settings_category">
 
-    <com.cm.wifiscanner.wifi.ProgressCategory
+    <com.shixunaoyou.wifiscanner.wifi.ProgressCategory
             android:key="access_points"
             android:title="@string/wifi_access_points"
             android:persistent="false" />

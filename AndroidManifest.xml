@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cm.wifiscanner"
+    package="com.shixunaoyou.wifiscanner"
     android:versionCode="2"
     android:versionName="1.2" >
 
@@ -13,12 +13,11 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -26,10 +25,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoadingActivity"
+            android:name="com.shixunaoyou.wifiscanner.LoadingActivity"
             android:clearTaskOnLaunch="true"
             android:configChanges="orientation"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,12 +37,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WifiScannerMainTabActivity"
+            android:name="com.shixunaoyou.wifiscanner.WifiScannerMainTabActivity"
             android:clearTaskOnLaunch="true"
             android:configChanges="orientation"
             android:exported="false"
             android:label="@string/app_name"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.net.wifi.PICK_WIFI_NETWORK" />
@@ -50,14 +51,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".wifi.WifiListActivity"
-            android:clearTaskOnLaunch="true"
-            android:configChanges="orientation"
-            android:label=""
-            android:launchMode="singleTask" >
+        <activity android:name="com.shixunaoyou.wifiscanner.wifi.WifiListActivity" >
         </activity>
-        <activity android:name=".MoreActivity" >
+        <activity android:name="com.shixunaoyou.wifiscanner.MoreActivity" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
@@ -67,31 +63,43 @@
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name=".SettingActivity" >
+        <activity android:name="com.shixunaoyou.wifiscanner.SettingActivity" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name=".PersonCentreActivity" >
+        <activity android:name="com.shixunaoyou.wifiscanner.PersonCentreActivity" >
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.wifi.WifiConnectActivity"
+            android:configChanges="orientation" >
+            <action android:name="android.intent.action.VIEW" />
+        </activity>
+        <activity android:name=".RegisterActivity" >
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity android:name=".AboutUSActivity" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
 
         <receiver
-            android:name="com.cm.wifiscanner.wifi.BootCompletedReceiver"
+            android:name="com.shixunaoyou.wifiscanner.wifi.BootCompletedReceiver"
             android:exported="false" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.shixunaoyou.wifiscanner.wifi.WiFiScanService" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.cm.wifiscanner.wifi.WiFiScanService"
+            android:name="com.shixunaoyou.wifiscanner.wifi.WiFiScanService"
             android:exported="false" >
         </service>
         <service
-            android:name="com.cm.wifiscanner.DownloadUpdateService"
+            android:name="com.shixunaoyou.wifiscanner.DownloadUpdateService"
             android:exported="false" >
         </service>
     </application>

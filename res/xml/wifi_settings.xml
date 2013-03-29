@@ -15,7 +15,7 @@
         android:persistent="false"
         android:title="@string/wifi_settings_logout" />
 
-    <com.cm.wifiscanner.wifi.ProgressCategory
+    <com.shixunaoyou.wifiscanner.wifi.ProgressCategory
         android:key="access_points"
         android:persistent="false"
         android:title="@string/wifi_access_points" />

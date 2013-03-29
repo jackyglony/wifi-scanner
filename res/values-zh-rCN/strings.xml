@@ -139,7 +139,7 @@
     <!-- Label for the EAP anonymous identity of the network -->
     <string name="wifi_eap_anonymous">匿名</string>
     <!-- Label for the password of the secured network -->
-    <string name="wifi_password">密码</string>
+    <string name="wifi_password">密码:</string>
     <!-- Label for the check box to show password -->
     <string name="wifi_show_password">显示密码.</string>
     <!-- Hint for unchanged fields -->
@@ -205,7 +205,8 @@
     <string name="wifi_login_failure_unkown_reason">登陆失败，点击重新尝试</string>
     <string name="wifi_login_failure_with_reason">登录失败，原因： </string>
     <string name="wifi_check_wifi_settings">进入设置</string>
-    <string name="wifi_constom_hotline">客服热线：400&#8211;080&#8211;9500</string>
+    <string name="wifi_constom_call">电话：</string>
+    <string name="wifi_constom_hotline">400&#8211;080&#8211;9500</string>
     <string name="settings_wifi_filter_mode_title">选择过滤条件</string>
     <string name="share_information">我正在使用时讯无线的无线免费上网，你也免费使用！详细地址可见：http://www.591wifi.com</string>
 
@@ -216,6 +217,9 @@
     <string name="update_start_download_toast">开始下载更新包</string>
     <string name="update_unknown_error_toast">出现未知错误</string>
     <string name="update_downloading_package">正在下载更新程序\u2026</string>
+    <string name="update_update_url_wrong">更新包地址格式不正确</string>
+    <string name="update_not_need_update">您的程序已经是最新版本，无需更新</string>
+    <string name="update_content_message">本次更新内容：</string>
     <string name="update_background_update">后台更新</string>
     <string name="update_find_new_version_msg">发现新版本！是否要进行更新？</string>
     <string name="update_find_new_version_title">更新确认</string>
@@ -240,10 +244,9 @@
     <string name="person_centre_login_status">已登录</string>
     <string name="person_centre_logout_status">未登录</string>
     <string name="wifi_download_applition">下载本客户端</string>
-    <string name="about_us">北京时讯遨游网络科技有限公司创立于2010年12月，致力于无线WiFi网络设备研发、无线WiFi网络组网方案提供、无线WiFi媒体运营的新技术企业。
-公司由一批在宽带网业界从事多年的人士发起创建，凭借团队多年来服务于IT行业的技术实力和丰富的行业资源，为客户提供一流的产品、技术和服务。</string>
+    <string name="about_us">  北京时讯遨游网络科技有限公司专注于WiFi无线网络开发、WiFi网络方案提供、WiFi网络媒体运营的新技术公司。以“无线路由器和上网行为管理设备”为核心产品，形成了针对于政府、企业、媒体等不同行业、不同规模、不同应用的系列产品和针对性方案，是国内最有影响力的的WiFi无线网络设备技术提供商及其WiFi无线网络媒体运行商。</string>
 
-    <!-- more settings string resource-->
+    <!-- more settings string resource -->
     <string name="more_nofitication_title">通知设置</string>
     <string name="more_check_update_title">更新检测</string>
     <string name="more_feeback_title">意见反馈</string>
@@ -251,4 +254,34 @@
     <string name="more_about_us_title">关于我们</string>
     <string name="more_exit_title">退出应用</string>
     <string name="more_download_with_qr">下载客户端</string>
+
+    <!-- Wifi connection Resources -->
+    <string name="wifi_connect_title">连接WiFi</string>
+    <string name="wifi_connect_open_info">无密码，可直接连接</string>
+    <string name="wifi_connect_remember_info">密码已保存，可直接连接</string>
+    <string name="wifi_connect_null_password">密码不能为空</string>
+    <string name="wifi_connect_invalid_network">无效网络</string>
+    <string name="wifi_connect_network">连接</string>
+    <string name="wifi_connect_internet">已经连接，开始上网</string>
+
+    <!-- Wifi Register Resrouces -->
+    <string name="wifi_register_title">注册</string>
+    <string name="wifi_register_welcome_info">欢迎注册时讯无线网络!</string>
+    <string name="wifi_register_phone_number">手机号：</string>
+    <string name="wifi_register_phone_tip">11位有效手机号码</string>
+    <string name="wifi_register_get_token">免费获取验证码</string>
+    <string name="wifi_register_token_info">验证码：</string>
+    <string name="wifi_register_token_tip">请输入短信验证码</string>
+    <string name="wifi_register_password">密""&#160;&#160;"&#160;"&#160;码：</string>
+    <string name="wifi_register_username">姓""&#160;&#160;"&#160;"&#160;名：</string>
+    <string name="wifi_register_username_tip">请输入您的姓名</string>
+    <string name="wifi_register_password_tip">设置您的密码</string>
+    <string name="wifi_register_submit">提交注册信息</string>
+    <string name="wifi_register_null_phone">手机号码不能为空</string>
+    <string name="wifi_register_wrong_format_phone">手机号码格式不正确</string>
+    <string name="wifi_register_null_token">验证码不能为空</string>
+    <string name="wifi_register_null_password">密码不能为空</string>
+    <string name="wifi_register_wrong_format">数据传输格式错误!</string>
+    <string name="wifi_register_input_wrong_format">输入数据格式有误!</string>
+
 </resources>

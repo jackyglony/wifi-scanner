@@ -204,6 +204,7 @@
     <string name="wifi_login_failure_unkown_reason">Login Failure, Please try again later</string>
     <string name="wifi_login_failure_with_reason">Login Failure, reson:</string>
     <string name="wifi_check_wifi_settings">Enter settings</string>
+    <string name="wifi_constom_call">Call:</string>
     <string name="wifi_constom_hotline">Custom Hotline:400&#8211;080&#8211;9500</string>
     <string name="settings_wifi_filter_mode_title">Choose the filter mode</string>
     <string name="share_information">I am visiting internet with ShiXun Wifi for free, you also can do this like me! See detail information in:http://www.591wifi.com</string>
@@ -215,6 +216,9 @@
     <string name="update_start_download_toast">Start to download apk</string>
     <string name="update_unknown_error_toast">Unknown error happened!</string>
     <string name="update_downloading_package">Downloading the update package\u2026</string>
+    <string name="update_update_url_wrong">Wrong update pakcage Url</string>
+    <string name="update_not_need_update">Your application is newest, no need update</string>
+    <string name="update_content_message">Update Content:</string>
     <string name="update_background_update">Update in Backgroud</string>
     <string name="update_find_new_version_msg">Have found a new version. Could you want to update?</string>
     <string name="update_find_new_version_title">Update confirm</string>
@@ -248,4 +252,34 @@
     <string name="more_about_us_title">About US</string>
     <string name="more_exit_title">Exit</string>
     <string name="more_download_with_qr">Download App with QRCode</string>
+
+    <!-- Wifi Connection Resources -->
+    <string name="wifi_connect_title">Connect WiFi</string>
+    <string name="wifi_connect_open_info">Wifi is Open, please connect directly</string>
+    <string name="wifi_connect_remember_info">Have saved pasword, connect directly</string>
+    <string name="wifi_connect_null_password">Password cannot be null</string>
+    <string name="wifi_connect_invalid_network">Invalid network</string>
+    <string name="wifi_connect_network">Connect</string>
+    <string name="wifi_connect_internet">Have connect, Internet</string>
+
+    <!-- Wifi Register Resrouces -->
+    <string name="wifi_register_title">Register</string>
+    <string name="wifi_register_welcome_info">Welcome to register 591:</string>
+    <string name="wifi_register_phone_number">Phone number:</string>
+    <string name="wifi_register_phone_tip">11 phone numbers</string>
+    <string name="wifi_register_get_token">get the token</string>
+    <string name="wifi_register_token_info">Token:</string>
+    <string name="wifi_register_token_tip">Please input the SMS Token</string>
+    <string name="wifi_register_password">Password:</string>
+    <string name="wifi_register_username">User name:</string>
+    <string name="wifi_register_password_tip">setting your password</string>
+    <string name="wifi_register_username_tip">setting your username</string>
+    <string name="wifi_register_submit">Submit register info</string>
+    <string name="wifi_register_null_phone">phone number cannot be null</string>
+    <string name="wifi_register_wrong_format_phone">Wrong phone format</string>
+    <string name="wifi_register_null_token">Token cannot be null</string>
+    <string name="wifi_register_null_password">Token cannot be null</string>
+    <string name="wifi_register_wrong_format">Wrong result format!</string>
+    <string name="wifi_register_input_wrong_format">Input error!</string>
+
 </resources>

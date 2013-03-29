@@ -66,8 +66,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:background="@drawable/login_button"
-                    android:text="@string/person_centre_register" />
+                    android:background="@drawable/general_button_background"
+                    android:minHeight="@dimen/general_item_small_image_width"
+                    android:text="@string/person_centre_register"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/mainview_backgroud_color" />
 
                 <Button
                     android:id="@+id/person_settings_btn"
@@ -75,8 +78,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/login_button"
-                    android:text="@string/person_centre_account_settings" />
+                    android:background="@drawable/general_button_background"
+                    android:minHeight="@dimen/general_item_small_image_width"
+                    android:text="@string/person_centre_account_settings"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/mainview_backgroud_color" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,8 +99,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:background="@drawable/login_button"
-                    android:text="@string/person_forget_account" />
+                    android:background="@drawable/general_button_background_normal"
+                    android:minHeight="@dimen/general_item_small_image_width"
+                    android:text="@string/person_forget_account"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/mainview_backgroud_color" />
 
                 <Button
                     android:id="@+id/person_change_account_btn"
@@ -102,8 +111,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/login_button"
-                    android:text="@string/person_centre_change_account" />
+                    android:background="@drawable/general_button_background_normal"
+                    android:minHeight="@dimen/general_item_small_image_width"
+                    android:text="@string/person_centre_change_account"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/mainview_backgroud_color" />
             </LinearLayout>
         </LinearLayout>
 
