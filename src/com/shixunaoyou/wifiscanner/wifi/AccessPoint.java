@@ -1,6 +1,7 @@
 package com.shixunaoyou.wifiscanner.wifi;
 
 import com.shixunaoyou.wifiscanner.R;
+import com.shixunaoyou.wifiscanner.util.Utils;
 
 import android.content.Context;
 import android.net.NetworkInfo.DetailedState;
@@ -56,6 +57,10 @@ public class AccessPoint extends Preference {
     private ImageView mSignalView;
     private ImageView mWifiSecurity;
     private TextView mSsidNameView;
+    private TextView mRssiView;
+    private TextView mChannelView;
+
+    private Context mContext;
 
     public static int getSecurity(WifiConfiguration config) {
         if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK)) {
@@ -137,6 +142,7 @@ public class AccessPoint extends Preference {
 
     public AccessPoint(Context context, WifiConfiguration config) {
         super(context);
+        mContext = context;
         onCreateView();
         loadConfig(config);
         updateTitle();
@@ -144,6 +150,7 @@ public class AccessPoint extends Preference {
 
     public AccessPoint(Context context, ScanResult result) {
         super(context);
+        mContext = context;
         onCreateView();
         loadResult(result);
         updateTitle();
@@ -151,6 +158,7 @@ public class AccessPoint extends Preference {
 
     public AccessPoint(Context context, Bundle savedState) {
         super(context);
+        mContext = context;
         onCreateView();
         mConfig = savedState.getParcelable(KEY_CONFIG);
         if (mConfig != null) {
@@ -210,6 +218,8 @@ public class AccessPoint extends Preference {
         updateSecuityImage();
         updateSignalImage();
         updateTitle();
+        updateRssi();
+        updateChannel();
         super.onBindView(view);
     }
 
@@ -218,6 +228,10 @@ public class AccessPoint extends Preference {
         mSsidNameView = (TextView) parent.findViewById(R.id.access_point_ssid);
         mWifiSecurity = (ImageView) parent
                 .findViewById(R.id.access_point_security);
+        mRssiView = (TextView) parent.findViewById(R.id.access_point_rssi);
+        mRssiView = (TextView) parent.findViewById(R.id.access_point_rssi);
+        mChannelView = (TextView) parent
+                .findViewById(R.id.access_point_channel);
     }
 
     private void updateSecuityImage() {
@@ -235,12 +249,27 @@ public class AccessPoint extends Preference {
         return security == SECURITY_NONE;
     }
 
+    public boolean isPSKWifi() {
+        return security == SECURITY_PSK;
+    }
+
     public boolean hasRememberPassword() {
         return getConfig() != null;
     }
 
     public boolean isActiveAccessPoint() {
         return mState != null;
+    }
+
+    public boolean isWrongPassworid() {
+        boolean result = false;
+        if (hasRememberPassword()) {
+            WifiConfiguration config = getConfig();
+            if (config.status == WifiConfiguration.Status.DISABLED) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     private void updateSignalImage() {
@@ -269,6 +298,31 @@ public class AccessPoint extends Preference {
 
     private void updateTitle() {
         setTitle(ssid);
+    }
+
+    private void updateRssi() {
+        if (Utils.getEnableShowRssi(mContext)) {
+            mRssiView.setVisibility(View.VISIBLE);
+        } else {
+            mRssiView.setVisibility(View.INVISIBLE);
+        }
+        if (getRawLevel() != -1) {
+            String rssi = mContext.getString(R.string.wifi_connect_signal_dbm,
+                    mLevel);
+            mRssiView.setText(rssi);
+        }
+    }
+
+    private void updateChannel() {
+        if (Utils.getEnableShowChannel(mContext)) {
+            mChannelView.setVisibility(View.VISIBLE);
+        } else {
+            mChannelView.setVisibility(View.INVISIBLE);
+        }
+        if (mScanResult != null) {
+            mChannelView.setText(String.valueOf(Utils
+                    .getChannelFromFrequency(mScanResult.frequency)));
+        }
     }
 
     @Override
@@ -311,6 +365,7 @@ public class AccessPoint extends Preference {
             if (security == SECURITY_PSK) {
                 pskType = getPskType(result);
             }
+            mScanResult = result;
             updateTitle();
             return true;
         }
@@ -342,6 +397,13 @@ public class AccessPoint extends Preference {
             return -1;
         }
         return WifiManager.calculateSignalLevel(mLevel, 4);
+    }
+
+    public int getRawLevel() {
+        if (mLevel == Integer.MAX_VALUE) {
+            return -1;
+        }
+        return mLevel;
     }
 
     public WifiConfiguration getConfig() {
@@ -388,7 +450,7 @@ public class AccessPoint extends Preference {
     @Override
     public void setTitle(CharSequence title) {
         if (mSsidNameView != null) {
-            mSsidNameView.setText(title);
+            mSsidNameView.setText(Utils.getOperatorWifiName(title.toString()));
         }
     }
 }

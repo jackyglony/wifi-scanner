@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/footer_margin_top" >
+
+    <TextView
+        android:id="@+id/wifi_connect_info_row_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dip"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:minWidth="@dimen/wifi_connection_info_minwidth"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:id="@+id/wifi_connect_info_row_value"
+        style="@style/WifiTextSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textIsSelectable="false"
+        android:textStyle="bold" />
+
+</LinearLayout>

@@ -1,37 +1,59 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<style name="AppTheme" parent="android:Theme.Light">
-		<item name="android:windowNoTitle">false</item>
-		<item name="android:windowTitleStyle">@style/WifiScannerWindowTitle</item>
-		<item name="android:windowTitleSize">50dp</item>
-		<item name="android:windowTitleBackgroundStyle">@style/WifiScannerTitleBarBackground</item>
-		<item name="android:windowContentOverlay">@null</item>
-	</style>
+    <style name="AppTheme" parent="android:Theme.Light">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowTitleStyle">@style/WifiScannerWindowTitle</item>
+        <item name="android:windowTitleSize">50dp</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WifiScannerTitleBarBackground</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:listSeparatorTextViewStyle">@style/PreferenceListHeader</item>
+    </style>
 
-	<style name="WifiScannerWindowTitle">
-		<item name="android:singleLine">true</item>
-		<item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
-		<item name="android:shadowColor">#BB000000</item>
-		<item name="android:shadowRadius">0</item>
-	</style>
+    <style name="WifiScannerWindowTitle">
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.WindowTitle</item>
+        <item name="android:shadowColor">#BB000000</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
 
-	<style name="WifiScannerTitleBarBackground">
-		<item name="android:background">@color/mainview_titlebar_color</item>
-	</style>
+    <style name="WifiScannerTitleBarBackground">
+        <item name="android:background">@color/mainview_titlebar_color</item>
+    </style>
 
-	<style name="wifiCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
-		<item name="android:button">@null</item>
-		<item name="android:drawableRight">@drawable/wifi_switch</item>
-	</style>
-	<style name="WifiTextMedium">
-		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-		<item name="android:textColor">@color/mainview_titlebar_color</item>
-	</style>
+    <style name="wifiCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@null</item>
+        <item name="android:drawableRight">@drawable/wifi_switch</item>
+    </style>
 
-	<style name="WifiRegisterButton">
-		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-		<item name="android:textColor">@color/mainview_backgroud_color</item>
-		<item name="android:background">@drawable/general_button_background</item>
-		<item name="android:minHeight">@dimen/account_register_button_minheight</item>
-	</style>
+    <style name="WifiTextMedium">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/mainview_titlebar_color</item>
+    </style>
+
+    <style name="WifiTextSmall">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/mainview_titlebar_color</item>
+    </style>
+
+    <style name="WifiTextLarge">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/mainview_titlebar_color</item>
+    </style>
+
+    <style name="WifiGeneralButton">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/mainview_backgroud_color</item>
+        <item name="android:background">@drawable/general_button_background</item>
+        <item name="android:minHeight">@dimen/account_register_button_minheight</item>
+    </style>
+
+    <style name="PreferenceListHeader" parent="@android:attr/listSeparatorTextViewStyle">
+        <item name="android:background">@color/wifi_connect_enabler_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/general_item_margin</item>
+    </style>
+
 </resources>

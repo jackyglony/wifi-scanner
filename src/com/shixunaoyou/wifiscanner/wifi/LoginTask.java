@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.shixunaoyou.wifiscanner.hub.LoginUtils;
 import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Logger;
+import com.shixunaoyou.wifiscanner.util.UMengUtils;
 import com.shixunaoyou.wifiscanner.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 public class LoginTask extends AsyncTask<Void, Void, String> {
     private static final String TAG = "LoginTask";
@@ -40,11 +42,14 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
             long dataCurrentTaffic = TrafficStats.getTotalRxBytes();
             Logger.debug(TAG, "dataCurrentTaffic: " + dataCurrentTaffic);
             Utils.setDataTrafficWhenLogin(mContext, dataCurrentTaffic);
+            MobclickAgent.onEvent(mContext, UMengUtils.EVENT_LOGIN_SUCCESS);
         } else if (!TextUtils.isEmpty(result)) {
             Utils.setLoginStatus(mContext, Constants.LOGIN_FALLURE);
             Utils.setErrorMessage(mContext, result);
             Toast.makeText(mContext, Utils.getShowErrorMessage(mContext),
                     Toast.LENGTH_SHORT).show();
+            MobclickAgent.onEvent(mContext, UMengUtils.EVENT_LOGIN_FAILURE);
+
         }
     }
 }

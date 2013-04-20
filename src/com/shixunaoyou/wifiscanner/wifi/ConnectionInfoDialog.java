@@ -4,87 +4,156 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.shixunaoyou.wifiscanner.BaseCustomDialog;
 import com.shixunaoyou.wifiscanner.R;
+import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Logger;
 import com.shixunaoyou.wifiscanner.util.Utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.TrafficStats;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ConnectionInfoDialog extends AlertDialog implements
-        DialogInterface.OnClickListener {
-    private View mView;
+public class ConnectionInfoDialog extends BaseCustomDialog implements
+        View.OnClickListener {
+    private View mContentView;
     private ViewGroup mInfoView;
     private Context mContext;
-    private LogoutListener mLogoutListener;
+    private ActionListener mLogoutListener;
     private WifiManager mWifiManager;
+    private ImageView mSignalView;
+    private View mLoginContainer;
+    private View mLogoutContainer;
+    private Button mBackButton3;
+    private int mLevel = 4;
+    private boolean hasLogin = false;
 
-    protected ConnectionInfoDialog(Context context, LogoutListener listener) {
+    protected ConnectionInfoDialog(Context context, ActionListener listener) {
         super(context);
         mContext = context;
         mLogoutListener = listener;
-        mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+        if (Utils.getLoginStatus(mContext) == Constants.HAVE_LOGIN) {
+            hasLogin = true;
+        }
+        mWifiManager = (WifiManager) mContext
+                .getSystemService(Context.WIFI_SERVICE);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initDialog();
         super.onCreate(savedInstanceState);
-
         showDataOfConnection();
     }
 
     private void initDialog() {
-        mView = getLayoutInflater().inflate(R.layout.connection_info, null);
-        setView(mView);
-        setButton(DialogInterface.BUTTON_NEGATIVE,
-                mContext.getString(android.R.string.cancel), this);
-        setButton(DialogInterface.BUTTON_POSITIVE,
-                mContext.getString(R.string.connection_info_logout), this);
-        setTitle(mContext
-                .getString(R.string.connection_info_dialog_title));
-        setInverseBackgroundForced(true);
+        mContentView = getLayoutInflater().inflate(R.layout.connection_info, null);
+        setView(mContentView);
+        initViews();
+        updateSignalView();
+        setAllButtonsListener();
+    }
+
+    private void initViews() {
+        mLoginContainer = mContentView.findViewById(R.id.connect_status_login_container);
+        mLogoutContainer = mContentView.findViewById(R.id.connect_status_logout_container);
+        mBackButton3 = (Button) mContentView.findViewById(R.id.connec_status_back_btn3);
+        mSignalView = (ImageView) mContentView.findViewById(R.id.connect_status_signal);
+        mSignalView.setVisibility(View.VISIBLE);
+        updateButtonStatus();
+    }
+
+    private void updateButtonStatus() {
+        int status = Utils.getLoginStatus(mContext);
+        if (status == Constants.HAVE_LOGIN || status == Constants.LOGIN_FALLURE) {
+            mLoginContainer.setVisibility(View.GONE);
+            mLogoutContainer.setVisibility(View.VISIBLE);
+            mBackButton3.setVisibility(View.GONE);
+        } else if (status == Constants.HAVE_LOGOUT) {
+            mLoginContainer.setVisibility(View.VISIBLE);
+            mLogoutContainer.setVisibility(View.GONE);
+            mBackButton3.setVisibility(View.GONE);
+        } else {
+            mLoginContainer.setVisibility(View.GONE);
+            mLogoutContainer.setVisibility(View.GONE);
+            mBackButton3.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setAllButtonsListener() {
+        setButtonListener(R.id.connec_status_login_btn);
+        setButtonListener(R.id.connec_status_logout_btn);
+        setButtonListener(R.id.connect_status_back_btn1);
+        setButtonListener(R.id.connec_status_back_btn2);
+        setButtonListener(R.id.connec_status_back_btn3);
+    }
+
+    private void setButtonListener(int resId) {
+        Button loginButton = (Button) mContentView.findViewById(resId);
+        loginButton.setOnClickListener(this);
     }
 
     private void showDataOfConnection() {
-        mInfoView = (ViewGroup) mView.findViewById(R.id.conn_info);
+        mInfoView = (ViewGroup) mContentView.findViewById(R.id.conn_info);
         long loginTime = Utils.getLastLoginTime(mContext);
         Logger.debug("Test", "currentTime: " + loginTime);
 
+        updateLoginStayTimeInfo(loginTime);
+        updateNetworkStatus();
         addSSIDInfo();
         addLoginStartTimeInfo(loginTime);
-        addLoginStayTimeInfo(loginTime);
         addDataTarfficTime();
     }
 
+    private void updateLoginStayTimeInfo(long loginTime) {
+        String time = mContext
+                .getString(R.string.connection_invalid_login_data);
+        if (hasLogin) {
+            long currentTime = System.currentTimeMillis();
+            long lastTime = currentTime - loginTime;
+            time = getFormatTime(lastTime);
+        }
+        TextView timeView = (TextView) mContentView
+                .findViewById(R.id.connect_status_info_time);
+        timeView.setText(time);
+    }
+
+    private void updateNetworkStatus() {
+        int status = Utils.getLoginStatus(mContext);
+        int resId = Utils.getResIdofStatus(status);
+        TextView statusView = (TextView) mContentView
+                .findViewById(R.id.connect_status_info);
+        statusView.setText(resId);
+    }
+
     private void addSSIDInfo() {
-        View titleView = addRow(mInfoView, R.string.connection_login_to_text,
-                mWifiManager.getConnectionInfo().getSSID());
-        TextView ssidView = (TextView) titleView.findViewById(R.id.value);
-        ssidView.setTextAppearance(mContext,
-                android.R.style.TextAppearance_Medium);
+        String ssid = mContext
+                .getString(R.string.connection_invalid_login_data);
+        if (Utils.getLoginStatus(mContext) != Constants.NO_WIFI) {
+            ssid = mWifiManager.getConnectionInfo().getSSID();
+        }
+        TextView ssidView = (TextView) mContentView
+                .findViewById(R.id.connect_status_ssid);
+        ssidView.setText(ssid);
     }
 
     private void addLoginStartTimeInfo(long longTime) {
-        Date date = new Date(longTime);
-        SimpleDateFormat dateformat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-        String formatDate = dateformat.format(date);
-        addRow(mInfoView, R.string.connection_login_start_time, formatDate);
-    }
+        String time = mContext
+                .getString(R.string.connection_invalid_login_data);
+        if (hasLogin) {
+            Date date = new Date(longTime);
+            SimpleDateFormat dateformat = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+            time = dateformat.format(date);
+        }
 
-    private void addLoginStayTimeInfo(long loginTime) {
-        long currentTime = System.currentTimeMillis();
-        long lastTime = currentTime - loginTime;
-        String timeInFormat = getFormatTime(lastTime);
-        addRow(mInfoView, R.string.connection_login_time, timeInFormat);
+        addRow(mInfoView, R.string.connection_login_start_time, time);
     }
 
     private View addRow(ViewGroup group, int nameResId, String value) {
@@ -141,22 +210,58 @@ public class ConnectionInfoDialog extends AlertDialog implements
     }
 
     private void addDataTarfficTime() {
-        long dataTrafficLogin = Utils.getDataTarfficOfLogin(mContext);
-        long currentDataTarffic = TrafficStats.getTotalRxBytes();
-        long dataConsume = currentDataTarffic - dataTrafficLogin;
-        float dataInFloat = (float) dataConsume / (1024 * 1024);
-        addRow(mInfoView, R.string.connection_data_traffic_info,
-                String.format("%.2fMB", dataInFloat));
+        String data = mContext
+                .getString(R.string.connection_invalid_login_data);
+        if (hasLogin) {
+            long dataTrafficLogin = Utils.getDataTarfficOfLogin(mContext);
+            long currentDataTarffic = TrafficStats.getTotalRxBytes();
+            long dataConsume = currentDataTarffic - dataTrafficLogin;
+            float dataInFloat = (float) dataConsume / (1024 * 1024);
+            data = String.format("%.2fMB", dataInFloat);
+        }
+        addRow(mInfoView, R.string.connection_data_traffic_info, data);
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            mLogoutListener.logout();
+    public interface ActionListener {
+        public void doAction(int action);
+    }
+
+    private void updateSignalView() {
+        switch (mLevel) {
+            case 0:
+                mSignalView.setImageResource(R.drawable.ic_wifi_signal_1);
+                break;
+            case 1:
+                mSignalView.setImageResource(R.drawable.ic_wifi_signal_2);
+                break;
+            case 2:
+                mSignalView.setImageResource(R.drawable.ic_wifi_signal_3);
+                break;
+            case 3:
+                mSignalView.setImageResource(R.drawable.ic_wifi_signal_4);
+                break;
+            default:
+                break;
         }
     }
 
-    public interface LogoutListener {
-        public void logout();
+    public void setWifiInfo(String ssid, int signalLevel) {
+        mLevel = signalLevel;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.connec_status_login_btn) {
+            mLogoutListener.doAction(Constants.LOGIN_ACTION);
+        } else if (id == R.id.connec_status_logout_btn) {
+            mLogoutListener.doAction(Constants.LOGOUT_ACTION);
+        }
+        this.dismiss();
+    }
+
+    @Override
+    protected int getDialogTitle() {
+        return R.string.connection_info_dialog_title;
     }
 }

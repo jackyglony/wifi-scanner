@@ -168,6 +168,8 @@
 
     <!-- settings String -->
     <string name="wifi_account_settings">Account Settings</string>
+    <string name="connection_info_login">Log in</string>
+    <string name="connection_info_back">Back</string>
     <string name="wifi_add_account">Click to add an account</string>
     <string name="wifi_edit_account">Current Account： %1$s</string>
     <string name="wifi_current_version">Current Version： %1$s</string>
@@ -179,10 +181,15 @@
     <string name="wifi_account_dialog_cancel">Cancel</string>
     <string name="wifi_notification_login_successful">Connect Successfully</string>
     <string name="wifi_notification_login_failure">Connect failure</string>
+    <!-- Settings Resources -->
     <string name="wifi_auto_login_title">Enable Auto Login</string>
     <string name="wifi_auto_login_summary">Login automatically with save account when find available Wi-Fi</string>
     <string name="wifi_enable_notification_title">Enable Notification</string>
     <string name="wifi_enable_notification_summary">Show notification in status bar when login successfully</string>
+    <string name="wifi_enable_show_channel_title">Show Channel</string>
+    <string name="wifi_enable_show_channel_summary">Show Channel in the Wifi List</string>
+    <string name="wifi_enable_show_rssi_title">Show dBm values</string>
+    <string name="wifi_enable_show_rssi_summary">Show dBm values in the Wifi List</string>
     <string name="wifi_settings_logout">Login Status</string>
     <string name="wifi_login_successfully_status">Have Logined ShiXun Network. Click to check detail</string>
     <string name="wifi_logout_successfully_status">Have Logouted ShiXun Network, Click to login</string>
@@ -232,6 +239,7 @@
     <string name="connection_minuts_info">minute(s)</string>
     <string name="connection_less_minuts_info">less one minute</string>
     <string name="connection_login_to_text">Have logined to</string>
+    <string name="connection_invalid_login_data">N/A</string>
 
     <!-- person centre string resource -->
     <string name="person_centre_register">Register</string>
@@ -243,6 +251,7 @@
     <string name="wifi_download_applition">Download Application</string>
     <string name="about_us">北京时讯遨游网络科技有限公司创立于2010年12月，致力于无线WiFi网络设备研发、无线WiFi网络组网方案提供、无线WiFi媒体运营的新技术企业。
 公司由一批在宽带网业界从事多年的人士发起创建，凭借团队多年来服务于IT行业的技术实力和丰富的行业资源，为客户提供一流的产品、技术和服务。</string>
+    <string name="about_us_qq">QQ group:11413494 </string>
 
     <!-- more settings resouces -->
     <string name="more_nofitication_title">notification settings</string>
@@ -251,16 +260,28 @@
     <string name="more_share_title">Share me to friends</string>
     <string name="more_about_us_title">About US</string>
     <string name="more_exit_title">Exit</string>
+    <string name="more_product_center_title">Product Center</string>
     <string name="more_download_with_qr">Download App with QRCode</string>
 
     <!-- Wifi Connection Resources -->
     <string name="wifi_connect_title">Connect WiFi</string>
     <string name="wifi_connect_open_info">Wifi is Open, please connect directly</string>
     <string name="wifi_connect_remember_info">Have saved pasword, connect directly</string>
+    <string name="wifi_connect_wrong_password">Password is not correct, try it again</string>
     <string name="wifi_connect_null_password">Password cannot be null</string>
+    <string name="wifi_connect_too_short_password">Passwrod is too short, at least 8 bits</string>
     <string name="wifi_connect_invalid_network">Invalid network</string>
     <string name="wifi_connect_network">Connect</string>
     <string name="wifi_connect_internet">Have connect, Internet</string>
+    <string name="wifi_connect_forget">Forget it</string>
+    <string name="wifi_connect_signal_dbm_percentage" translatable="false">%1$s dBm(%2$s%%)</string>
+    <string name="wifi_connect_signal_dbm" translatable="false">%1$s dBm</string>
+    <string name="wifi_connect_signal_bssid" translatable="false">BSSID</string>
+    <string name="wifi_connect_channel_info">Channel</string>
+    <string name="wifi_connect_dns1">DNS1</string>
+    <string name="wifi_connect_dns2">DNS2</string>
+    <string name="wifi_connect_netmask">Mask</string>
+    <string name="wifi_connect_gateway">Gateway</string>
 
     <!-- Wifi Register Resrouces -->
     <string name="wifi_register_title">Register</string>
@@ -281,5 +302,21 @@
     <string name="wifi_register_null_password">Token cannot be null</string>
     <string name="wifi_register_wrong_format">Wrong result format!</string>
     <string name="wifi_register_input_wrong_format">Input error!</string>
+    <!-- Feedback Resource -->
+    <string name="wifi_feedback_welcome">Welcome your any advices, your feedbacks are very important!</string>
+    <string name="wifi_feedback_title_tips">Please input title</string>
+    <string name="wifi_feedback_content_tips">Please input feedback</string>
+    <string name="wifi_feedback_address_tips">Please provide your mail address</string>
+    <string name="wifi_feedback_qq_grounp">QQ Group(11413494) welcome your  participation!</string>
+    <string name="wifi_feedback_qq_grounp_welcome">qq group welcome your participation!</string>
+    <string name="wifi_feedback_submit">Submit</string>
+    <string name="wifi_feedback_submit_success">Your feedback has been submitted, Thanks for your contribuation</string>
+    <string name="wifi_feedback_submit_failed">Submit failure, please try it later!</string>
 
+    <!-- Chect Resources -->
+    <string name="wifi_chest_loading_list">Loading data\u2026</string>
+    <string name="wifi_chest_empty_list">Cannot load data</string>
+    <string name="wifi_chest_packup_button">Pack up</string>
+    <string name="wifi_chest_download_button">Download</string>
+    <string name="wifi_chest_download_time">Download:%1$s</string>
 </resources>

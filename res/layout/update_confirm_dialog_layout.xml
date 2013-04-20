@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/WifiTextMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/footer_margin_top"
+            android:text="@string/update_find_new_version_msg" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_container_sider"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/update_confirm_dialog_updateinfo"
+                style="@style/WifiTextMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/footer_margin_top"
+                android:textIsSelectable="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/person_info_marge"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/update_confirm_dialog_download"
+                style="@style/WifiGeneralButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="@string/update_background_update" />
+
+            <Button
+                android:id="@+id/update_confirm_dialog_cancel"
+                style="@style/WifiGeneralButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:text="@string/wifi_account_dialog_cancel" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

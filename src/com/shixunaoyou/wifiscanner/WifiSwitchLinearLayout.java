@@ -145,7 +145,7 @@ public class WifiSwitchLinearLayout extends LinearLayout implements
                 break;
             case WifiManager.WIFI_STATE_DISABLED:
                 mCheckBox.setChecked(false);
-                mInfoView.setText(mOriginalSummary);
+                mInfoView.setText(R.string.wifi_no_wifi_status);
                 mCheckBox.setEnabled(true);
                 break;
             default:

@@ -22,9 +22,9 @@
 
                 <ImageView
                     android:id="@+id/person_image"
-                    android:layout_width="@dimen/general_item_image_width"
-                    android:layout_height="@dimen/general_item_image_width"
-                    android:layout_marginLeft="@dimen/person_info_marge"
+                    android:layout_width="@dimen/general_item_large_image_width"
+                    android:layout_height="@dimen/general_item_large_image_width"
+                    android:layout_marginLeft="@dimen/account_register_large_margin"
                     android:contentDescription="@null"
                     android:src="@drawable/male_user" >
                 </ImageView>
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/general_button_background"
+                    android:background="@drawable/general_button_background_normal"
                     android:minHeight="@dimen/general_item_small_image_width"
                     android:text="@string/person_centre_account_settings"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -125,6 +125,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="?android:attr/listDivider" />
     </LinearLayout>
 
 </ScrollView>

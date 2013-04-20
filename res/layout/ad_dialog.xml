@@ -2,28 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainview_backgroud_color"
     android:orientation="vertical" >
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/login_successful_tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dip"
         android:layout_marginRight="8dip"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center_horizontal"
         android:layout_marginTop="4dip"
-        android:text="@string/wifi_login_success_toast">
+        android:gravity="center_horizontal"
+        android:text="@string/wifi_login_success_toast"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/wifi_general_black_color" >
     </TextView>
-    <WebView 
+
+    <WebView
         android:id="@+id/ad_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dip"
         android:layout_marginRight="8dip"
-        android:layout_marginTop="8dip">
+        android:layout_marginTop="8dip" >
     </WebView>
-    
-    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/person_info_marge"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/wifi_addialog_enter_application"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:text="@string/wifi_check_wifi_settings" />
+
+        <Button
+            android:id="@+id/wifi_addialog_cancel"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:text="@string/wifi_account_dialog_cancel" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -26,7 +26,9 @@ import com.shixunaoyou.wifiscanner.R;
 import com.shixunaoyou.wifiscanner.WifiScannerMainTabActivity;
 import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Logger;
+import com.shixunaoyou.wifiscanner.util.UMengUtils;
 import com.shixunaoyou.wifiscanner.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 public class WiFiScanService extends Service {
     private static final String TAG = "WiFiScanService";
@@ -238,9 +240,10 @@ public class WiFiScanService extends Service {
                 Utils.setIsServiceUpdate(mContext, true);
             } else if (mFirstCheckStatus == Constants.CONNECTED) {
                 // Start to second check
+                MobclickAgent.onEvent(mContext,
+                        UMengUtils.EVENT_CONNECT_INTERNET);
                 Logger.debug(TAG, "Second Check!!");
                 ServiceSecondCheckStatus secondCheck = null;
-
                 secondCheck = new ServiceSecondCheckStatus(mContext);
                 if (Build.VERSION.SDK_INT >= 11) {
                     secondCheck
@@ -249,6 +252,9 @@ public class WiFiScanService extends Service {
                     secondCheck.execute();
                 }
             } else if (mFirstCheckStatus == Constants.HAVE_LOGOUT) {
+                MobclickAgent.onEvent(mContext,
+                        UMengUtils.EVENT_CONNECT_TO_SERVER);
+
                 Logger.debug(TAG, "Will login automtically!!");
                 String name = Utils.getUserName(mContext);
                 if (!TextUtils.isEmpty(name)) {

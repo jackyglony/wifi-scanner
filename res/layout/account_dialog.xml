@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300sp"
-    android:layout_height="wrap_content" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/mainview_backgroud_color"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/filter_container_sider"
         android:orientation="vertical"
-        android:background="@drawable/container_sider"
         android:padding="18dip" >
 
         <LinearLayout
@@ -28,8 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textIsSelectable="false"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textIsSelectable="false"
                 android:textStyle="bold|italic" />
         </LinearLayout>
 
@@ -67,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:singleLine="true"/>
+                android:singleLine="true" />
 
             <CheckBox
                 android:id="@+id/account_show_password"
@@ -77,4 +79,31 @@
                 android:text="@string/wifi_show_password" />
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:id="@+id/connect_status_logout_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/person_info_marge"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/account_dialog_save"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:text="@string/wifi_account_dialog_save" />
+
+        <Button
+            android:id="@+id/account_dialog_cancel"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:text="@string/wifi_account_dialog_cancel" />
+    </LinearLayout>
+
+</LinearLayout>

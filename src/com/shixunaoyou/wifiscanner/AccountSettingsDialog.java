@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 
 import com.shixunaoyou.wifiscanner.util.Utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,14 +12,15 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class AccountSettingsDialog extends AlertDialog implements
-        DialogInterface.OnClickListener, TextWatcher, OnCheckedChangeListener {
+public class AccountSettingsDialog extends BaseCustomDialog implements
+        View.OnClickListener, TextWatcher, OnCheckedChangeListener {
 
     public static final int BUTTON_EDIT = DialogInterface.BUTTON_POSITIVE;
 
@@ -30,7 +30,7 @@ public class AccountSettingsDialog extends AlertDialog implements
 
     private static final int VIEW_MODE = 2;
 
-    private View mView;
+    private View mContentView;
 
     private View mAccountInfo;
 
@@ -44,6 +44,9 @@ public class AccountSettingsDialog extends AlertDialog implements
 
     private CheckBox mShowPasswordCheckBox;
 
+    private Button mSaveButton;
+    private Button mCancelButton;
+
     private Context mContext;
 
     private int mMode = EDIT_MODE;
@@ -56,24 +59,31 @@ public class AccountSettingsDialog extends AlertDialog implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mView = getLayoutInflater().inflate(R.layout.account_dialog, null);
-        mAccountInputView = mView.findViewById(R.id.account_input_fields);
-        mAccountInfo = mView.findViewById(R.id.account_info);
-        mAccountView = (TextView) mView.findViewById(R.id.current_account_info);
-        mNameEdit = (EditText) mView.findViewById(R.id.account_user);
-        mPasswordEdit = (EditText) mView.findViewById(R.id.account_password);
-        mShowPasswordCheckBox = (CheckBox) mView
+        getViews();
+        initiateView();
+        initButtons();
+        super.onCreate(savedInstanceState);
+        validate();
+    }
+
+    private void getViews() {
+        mContentView = getLayoutInflater().inflate(R.layout.account_dialog,
+                null);
+        setView(mContentView);
+
+        mAccountInputView = mContentView
+                .findViewById(R.id.account_input_fields);
+        mAccountInfo = mContentView.findViewById(R.id.account_info);
+        mAccountView = (TextView) mContentView
+                .findViewById(R.id.current_account_info);
+        mNameEdit = (EditText) mContentView.findViewById(R.id.account_user);
+        mPasswordEdit = (EditText) mContentView
+                .findViewById(R.id.account_password);
+        mShowPasswordCheckBox = (CheckBox) mContentView
                 .findViewById(R.id.account_show_password);
         mShowPasswordCheckBox.setOnCheckedChangeListener(this);
         mPasswordEdit.addTextChangedListener(this);
         mNameEdit.addTextChangedListener(this);
-        setTitle(mContext.getString(R.string.wifi_account_settings));
-        setView(mView);
-        initiateView();
-        setInverseBackgroundForced(true);
-        super.onCreate(savedInstanceState);
-
-        validate();
     }
 
     private void initiateView() {
@@ -87,62 +97,16 @@ public class AccountSettingsDialog extends AlertDialog implements
             mAccountView.setText(Utils.getUserName(mContext));
             mMode = VIEW_MODE;
         }
-        setButtons(mMode);
+        // setButtons(mMode);
     }
 
-    private void setButtons(int mode) {
-        switch (mode) {
-            case EDIT_MODE:
-                setButton(BUTTON_EDIT,
-                        mContext.getString(R.string.wifi_account_dialog_save),
-                        this);
-                break;
-            case VIEW_MODE:
-                setButton(BUTTON_EDIT,
-                        mContext.getString(R.string.wifi_account_dialog_edit),
-                        this);
-                setButton(
-                        BUTTON_DELETE,
-                        mContext.getString(R.string.wifi_account_dialog_delete),
-                        this);
-                break;
-            default:
-                break;
-        }
-        setButton(DialogInterface.BUTTON_NEGATIVE,
-                mContext.getString(R.string.wifi_account_dialog_cancel), this);
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        setDialogCanotDismiss(true);
-        if (EDIT_MODE == mMode) {
-            if (which == BUTTON_EDIT) {
-                String name = mNameEdit.getText().toString();
-                String password = mPasswordEdit.getText().toString();
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(password)) {
-                    Utils.setPassword(mContext, password);
-                    Utils.setUserName(mContext, name);
-                }
-            }
-        } else {
-            if (which == BUTTON_DELETE) {
-                Utils.clearAccount(mContext);
-            }
-
-            if (which == BUTTON_EDIT) {
-                setDialogCanotDismiss(false);
-                mAccountInfo.setVisibility(View.GONE);
-                mAccountInputView.setVisibility(View.VISIBLE);
-                mMode = EDIT_MODE;
-                setButtons(mMode);
-                mNameEdit.requestFocus();
-                getButton(BUTTON_EDIT).setText(
-                        R.string.wifi_account_dialog_save);
-                getButton(BUTTON_DELETE).setVisibility(View.GONE);
-                validate();
-            }
-        }
+    private void initButtons() {
+        mSaveButton = (Button) mContentView
+                .findViewById(R.id.account_dialog_save);
+        mCancelButton = (Button) mContentView
+                .findViewById(R.id.account_dialog_cancel);
+        mSaveButton.setOnClickListener(this);
+        mCancelButton.setOnClickListener(this);
     }
 
     @Override
@@ -161,13 +125,11 @@ public class AccountSettingsDialog extends AlertDialog implements
     }
 
     private void validate() {
-        if (mMode == EDIT_MODE) {
-            if (TextUtils.isEmpty(mNameEdit.getText().toString())
-                    || TextUtils.isEmpty(mPasswordEdit.getText().toString())) {
-                getButton(BUTTON_EDIT).setEnabled(false);
-            } else {
-                getButton(BUTTON_EDIT).setEnabled(true);
-            }
+        if (TextUtils.isEmpty(mNameEdit.getText().toString())
+                || TextUtils.isEmpty(mPasswordEdit.getText().toString())) {
+            mSaveButton.setEnabled(false);
+        } else {
+            mSaveButton.setEnabled(true);
         }
     }
 
@@ -181,6 +143,7 @@ public class AccountSettingsDialog extends AlertDialog implements
         }
     }
 
+    @SuppressWarnings("unused")
     private void setDialogCanotDismiss(boolean canDismiss) {
         try {
             Field field = this.getClass().getSuperclass().getSuperclass()
@@ -190,5 +153,24 @@ public class AccountSettingsDialog extends AlertDialog implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.account_dialog_save) {
+            String name = mNameEdit.getText().toString();
+            String password = mPasswordEdit.getText().toString();
+            if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(password)) {
+                Utils.setPassword(mContext, password);
+                Utils.setUserName(mContext, name);
+            }
+        }
+        this.dismiss();
+    }
+
+    @Override
+    protected int getDialogTitle() {
+        return R.string.wifi_account_settings;
     }
 }

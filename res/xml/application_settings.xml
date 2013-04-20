@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-<!-- 
+
+    <!--
     <Preference
         android:key="account_settings"
         android:persistent="false"
@@ -11,7 +12,7 @@
         android:key="gateway_configure"
         android:persistent="false"
         android:title="@string/wifi_configure_gateway" />
--->
+    -->
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="enable_auto_login"
@@ -25,29 +26,43 @@
         android:persistent="true"
         android:summary="@string/wifi_enable_notification_summary"
         android:title="@string/wifi_enable_notification_title" />
-
-<!--     <Preference -->
-<!--         android:key="share_information" -->
-<!--         android:persistent="false" -->
-<!--         android:title="@string/more_share_title" -->
-<!--         /> -->
-<!--     <Preference -->
-<!--         android:key="check_update" -->
-<!--         android:persistent="false" -->
-<!--         android:title="@string/more_check_update_title" /> -->
-    <!--   <Preference
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="show_channel"
+        android:persistent="true"
+        android:summary="@string/wifi_enable_show_channel_summary"
+        android:title="@string/wifi_enable_show_channel_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="show_rssi"
+        android:persistent="true"
+        android:summary="@string/wifi_enable_show_rssi_summary"
+        android:title="@string/wifi_enable_show_rssi_title" />
+    <!-- <Preference -->
+    <!-- android:key="share_information" -->
+    <!-- android:persistent="false" -->
+    <!-- android:title="@string/more_share_title" -->
+    <!-- /> -->
+    <!-- <Preference -->
+    <!-- android:key="check_update" -->
+    <!-- android:persistent="false" -->
+    <!-- android:title="@string/more_check_update_title" /> -->
+    <!--
+           <Preference
         android:key="contact_us"
         android:persistent="false"
         android:title="@string/wifi_partership" />
-        -->
-<!--     <Preference -->
-<!--         android:key="about_application" -->
-<!--         android:persistent="false" -->
-<!--         android:summary="@string/wifi_constom_hotline" -->
-<!--         android:title="@string/more_about_us_title" /> -->
+    -->
+    <!-- <Preference -->
+    <!-- android:key="about_application" -->
+    <!-- android:persistent="false" -->
+    <!-- android:summary="@string/wifi_constom_hotline" -->
+    <!-- android:title="@string/more_about_us_title" /> -->
 
-<!--    <Preference -->
-<!--         android:key="download_application" -->
-<!--         android:persistent="false" -->
-<!--         android:title="@string/wifi_download_applition" /> -->
+
+    <!-- <Preference -->
+    <!-- android:key="download_application" -->
+    <!-- android:persistent="false" -->
+    <!-- android:title="@string/wifi_download_applition" /> -->
+
 </PreferenceScreen>

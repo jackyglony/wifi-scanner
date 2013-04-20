@@ -1,32 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/general_list_item_minHeight"
-    android:orientation="horizontal" >
+    android:minHeight="@dimen/general_list_item_minHeight" >
 
     <ImageView
         android:id="@+id/access_point_singal"
         android:layout_width="@dimen/general_item_small_image_width"
         android:layout_height="@dimen/general_item_small_image_height"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="start|center_vertical"
-        android:contentDescription="@null" />
+        android:layout_marginLeft="@dimen/footer_margin_top"
+        android:contentDescription="@null"
+        android:gravity="center_vertical" />
 
     <TextView
         android:id="@+id/access_point_ssid"
-        android:layout_width="0dip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/access_point_text_marge"
+        android:layout_toRightOf="@id/access_point_singal"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:maxWidth="@dimen/wifi_channel_ssid_maxwidth"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:id="@+id/access_point_rssi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/list_margin_right"
+        android:layout_marginRight="@dimen/list_margin_right"
+        android:layout_toLeftOf="@+id/access_point_channel"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:id="@+id/access_point_channel"
+        android:layout_width="@dimen/wifi_channel_view_width"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/list_margin_right"
+        android:layout_toLeftOf="@+id/access_point_security"
+        android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textIsSelectable="false" />
 
     <ImageView
         android:id="@+id/access_point_security"
-        android:layout_width="@dimen/general_item_small_image_width"
-        android:layout_height="@dimen/general_item_small_image_height"
+        android:layout_width="@dimen/general_item_tiny_image_width"
+        android:layout_height="@dimen/general_item_tiny_image_height"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="start|center_vertical"
-        android:contentDescription="@null" />
+        android:layout_marginRight="@dimen/list_margin_right"
+        android:contentDescription="@null"
+        android:gravity="center_vertical" />
 
-</LinearLayout>
+</RelativeLayout>

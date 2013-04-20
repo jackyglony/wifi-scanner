@@ -28,28 +28,35 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.text.TextUtils;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shixunaoyou.wifiscanner.AccountSettingsDialog;
-import com.shixunaoyou.wifiscanner.CheckUpdateAsyncTask;
 import com.shixunaoyou.wifiscanner.R;
 import com.shixunaoyou.wifiscanner.hub.LoginUtils;
+import com.shixunaoyou.wifiscanner.update.CheckUpdateAsyncTask;
 import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Credentials;
 import com.shixunaoyou.wifiscanner.util.KeyStore;
 import com.shixunaoyou.wifiscanner.util.Logger;
+import com.shixunaoyou.wifiscanner.util.UMengUtils;
 import com.shixunaoyou.wifiscanner.util.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 public class WifiListActivity extends PreferenceActivity implements
         DialogInterface.OnClickListener, OnDismissListener,
-        ConnectionInfoDialog.LogoutListener {
+        ConnectionInfoDialog.ActionListener, View.OnClickListener,
+        WifiFilterDialog.OnWifiFilerChangeListener {
 
+    public static final int FORGET_RESPONE = Activity.RESULT_FIRST_USER + 1;
     private static final String TAG = "WifiScannerActivity";
 
     private static final int CHECK_DETAIL_REQUEST = 1;
@@ -68,14 +75,14 @@ public class WifiListActivity extends PreferenceActivity implements
 
     private boolean mResetNetworks = false;
     private int mKeyStoreNetworkId = Constants.INVALID_NETWORK_ID;
-    private Preference mLoginStatusPrefs;
+    // private Preference mLoginStatusPrefs;
 
     // indicate whether to connect a wifi ap.
     private AtomicBoolean mConnected = new AtomicBoolean(false);
 
     private WifiDialog mDialog;
 
-    private ListPreference mWifiFilterListPref;
+    // private ListPreference mWifiFilterListPref;
 
     private Scanner mScanner;
 
@@ -87,6 +94,15 @@ public class WifiListActivity extends PreferenceActivity implements
     private boolean mIsResumed = false;
 
     private Context mContext;
+
+    private View mLoginStatusContainer;
+    private TextView mFilterStatusView;
+    private View mFilterStatusContainer;
+    private TextView mLoginStatusView;
+    private String mFilterStatus[];
+
+    private int mAlertDialogWidth;
+    private int mAlertDialogHeight;
 
     public WifiListActivity() {
         mFilter = new IntentFilter();
@@ -119,37 +135,67 @@ public class WifiListActivity extends PreferenceActivity implements
         } else {
             addPreferencesFromResource(R.xml.wifi_settings);
         }
-        mLoginStatusPrefs = this.findPreference(Constants.LOGIN_STATUS_KEY);
+        // mLoginStatusPrefs = this.findPreference(Constants.LOGIN_STATUS_KEY);
 
         mAccessPoints = (ProgressCategory) findPreference("access_points");
         mAccessPoints.setOrderingAsAdded(false);
 
-        mWifiFilterListPref = (ListPreference) findPreference("wifi_filter_mode");
+        // mWifiFilterListPref = (ListPreference)
+        // findPreference("wifi_filter_mode");
+        mFilterStatus = this.getResources().getStringArray(
+                R.array.wifi_filter_mode_summary_entries);
         initSummaryOfWifiFilterListPref();
-        setListnerForWifiFilterPref();
+        // setListnerForWifiFilterPref();
+
+        initHeaderView();
+
         autoCheckUpdate();
+        WindowManager manager = getWindowManager();
+        Display display = manager.getDefaultDisplay();
+        mAlertDialogWidth = (int) (display.getWidth() * 0.9);
+        mAlertDialogHeight = (int) (display.getHeight() * 0.8);
     }
 
     private void initSummaryOfWifiFilterListPref() {
-        String valueInString = mWifiFilterListPref.getValue();
-        setSummaryListPrefbyValueInString(mWifiFilterListPref, valueInString);
+        // String valueInString = mWifiFilterListPref.getValue();
+        // setSummaryListPrefbyValueInString(mWifiFilterListPref,
+        // valueInString);
     }
 
-    private void setListnerForWifiFilterPref() {
-        mWifiFilterListPref
-                .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                    public boolean onPreferenceChange(Preference pref,
-                            Object newValue) {
-                        setSummaryListPrefbyValueInString(
-                                (ListPreference) pref, (String) newValue);
-                        updateAccessPoints((String) newValue);
-                        return true;
-                    }
-                });
+    // private void setListnerForWifiFilterPref() {
+    // mWifiFilterListPref
+    // .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+    // public boolean onPreferenceChange(Preference pref,
+    // Object newValue) {
+    // setSummaryListPrefbyValueInString(
+    // (ListPreference) pref, (String) newValue);
+    // int valueInInt = parseIntFromString((String) newValue);
+    // updateAccessPoints(valueInInt);
+    // return true;
+    // }
+    // });
+    // }
+
+    private void initHeaderView() {
+        LayoutInflater inflator = LayoutInflater.from(this);
+        View headView = inflator.inflate(R.layout.wifi_list_header, null);
+        getListView().addHeaderView(headView);
+        mLoginStatusContainer = headView
+                .findViewById(R.id.wifi_list_header_login_container);
+        mFilterStatusView = (TextView) headView
+                .findViewById(R.id.wifi_list_header_filter_status);
+        mFilterStatusContainer = headView
+                .findViewById(R.id.wifi_list_filter_containter);
+        mLoginStatusView = (TextView) headView
+                .findViewById(R.id.wifi_list_header_login_status);
+        mFilterStatusView.setText(mFilterStatus[Utils.getFilterMode(this)]);
+
+        mFilterStatusContainer.setOnClickListener(this);
+        mLoginStatusContainer.setOnClickListener(this);
     }
 
     private void autoCheckUpdate() {
-        CheckUpdateAsyncTask task = new CheckUpdateAsyncTask(this, null);
+        CheckUpdateAsyncTask task = new CheckUpdateAsyncTask(this, null, false);
         task.execute();
     }
 
@@ -175,7 +221,7 @@ public class WifiListActivity extends PreferenceActivity implements
                 updateView();
             } else {
                 // Check network
-                WifiFirstCheckStatus task = new WifiFirstCheckStatus(false);
+                WifiFirstCheckStatus task = new WifiFirstCheckStatus(true);
                 // WifiSecondCheckStatus task = new WifiSecondCheckStatus(this);
                 if (Build.VERSION.SDK_INT >= 11) {
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -186,6 +232,7 @@ public class WifiListActivity extends PreferenceActivity implements
         }
         mConnected.set(Utils.isHasWifiConnection(this));
         mIsResumed = true;
+        updateAccessPoints();
     }
 
     @Override
@@ -213,7 +260,29 @@ public class WifiListActivity extends PreferenceActivity implements
     @Override
     protected void onDestroy() {
         Logger.debug(TAG, "onDestroy");
+        logoutIfAccountIsDeleted();
         super.onDestroy();
+    }
+
+    private void logoutIfAccountIsDeleted() {
+        if (isAccountIsDeleted()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    LoginUtils.getInstance(mContext).logoutHub();
+                }
+
+            }).start();
+        }
+    }
+
+    private boolean isAccountIsDeleted() {
+        boolean result = false;
+        if (TextUtils.isEmpty(Utils.getUserName(this))
+                && Utils.getLoginStatus(this) == Constants.HAVE_LOGIN) {
+            result = true;
+        }
+        return result;
     }
 
     @SuppressWarnings("deprecation")
@@ -236,20 +305,7 @@ public class WifiListActivity extends PreferenceActivity implements
             }
             if (status == Constants.HAVE_LOGOUT
                     || status == Constants.LOGIN_FALLURE) {
-                String name = Utils.getUserName(this);
-                if (TextUtils.isEmpty(name)) {
-                    AccountSettingsDialog dialog = new AccountSettingsDialog(
-                            this, this);
-                    dialog.show();
-                } else {
-                    WiFiLoginTask loginTask = new WiFiLoginTask(this);
-                    if (Build.VERSION.SDK_INT >= 11) {
-                        loginTask
-                                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    } else {
-                        loginTask.execute();
-                    }
-                }
+                login();
             }
             if (status == Constants.STATUS_UNKOWN) {
                 WifiFirstCheckStatus task = new WifiFirstCheckStatus(true);
@@ -266,15 +322,6 @@ public class WifiListActivity extends PreferenceActivity implements
         return true;
     }
 
-    private void setSummaryListPrefbyValueInString(ListPreference listPrefs,
-            String value) {
-        if (listPrefs != null) {
-            String summary[] = getSummaryEntiesOfWifiFilter();
-            int mode = parseIntFromString(value);
-            listPrefs.setSummary(summary[mode]);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK
@@ -282,6 +329,8 @@ public class WifiListActivity extends PreferenceActivity implements
             Logger.debug(TAG, "onActivityResult");
             String password = getPassword(data);
             connectWifi(password);
+        } else if (resultCode == FORGET_RESPONE) {
+            forget(mSelectedAccessPoint.networkId);
         }
     }
 
@@ -371,28 +420,6 @@ public class WifiListActivity extends PreferenceActivity implements
         return config;
     }
 
-    private int parseIntFromString(String value) {
-        int defautValue = Constants.DEFAULT_MODE;
-        try {
-            defautValue = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-        }
-        return defautValue;
-    }
-
-    private String[] getSummaryEntiesOfWifiFilter() {
-        final String[] summary = getResources().getStringArray(
-                R.array.wifi_filter_mode_summary_entries);
-        return summary;
-    }
-
-    // private void updateFilterState() {
-    // mFilterNetwork = mWifiFilter.isChecked();
-    // mWifiFilter
-    // .setSummary(mFilterNetwork ? R.string.wifi_filter_only_open_summary
-    // : R.string.wifi_filter_all_summary);
-    // }
-
     private void handleEvent(Intent intent) {
         String action = intent.getAction();
         if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
@@ -457,14 +484,13 @@ public class WifiListActivity extends PreferenceActivity implements
     }
 
     private void updateAccessPoints() {
-        updateAccessPoints(mWifiFilterListPref.getValue());
+        updateAccessPoints(Utils.getFilterMode(this));
     }
 
-    private void updateAccessPoints(String valueOfFilter) {
+    private void updateAccessPoints(int valueOfFilter) {
         Logger.debug(TAG, "updateAccessPoints");
         mAccessPoints.removeAll();
-        int valueInInt = parseIntFromString(valueOfFilter);
-        switch (valueInInt) {
+        switch (valueOfFilter) {
             case Constants.FILTER_MODE_VISIBLE:
                 addVisibleAcessPoints();
                 break;
@@ -621,14 +647,6 @@ public class WifiListActivity extends PreferenceActivity implements
         }
     }
 
-    private void showDialog(AccessPoint accessPoint, boolean edit) {
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
-        mDialog = new WifiDialog(this, this, accessPoint, edit);
-        mDialog.show();
-    }
-
     private void forget(int networkId) {
         mWifiManager.removeNetwork(networkId);
         saveNetworks();
@@ -662,8 +680,11 @@ public class WifiListActivity extends PreferenceActivity implements
         saveNetworks();
 
         // Connect to network by disabling others.
+        mWifiManager.disconnect();
         mWifiManager.enableNetwork(networkId, true);
-        mWifiManager.reconnect();
+        boolean result = mWifiManager.reconnect();
+
+        Logger.debug(TAG, "result = " + result);
         mResetNetworks = true;
     }
 
@@ -679,49 +700,22 @@ public class WifiListActivity extends PreferenceActivity implements
 
     private void updateView() {
         Logger.debug(TAG, "updateView");
-        int resId = R.string.wifi_login_unknow_status;
         int status = Utils.getLoginStatus(this);
-        switch (status) {
-            case Constants.CANNOT_CONNECT:
-                resId = R.string.wifi_no_connection_satus;
-                break;
-            case Constants.HAVE_LOGIN:
-                resId = R.string.wifi_login_successfully_status;
-                break;
-            case Constants.HAVE_LOGOUT:
-                resId = R.string.wifi_logout_successfully_status;
-                break;
-            case Constants.NOT_FIND_SERVER:
-                resId = R.string.wifi_cannot_login_status;
-                break;
-            case Constants.NO_WIFI:
-                resId = R.string.wifi_no_wifi_status;
-                break;
-            case Constants.NOT_NEED_LOGIN:
-                resId = R.string.wifi_not_need_login_status;
-                break;
-            case Constants.LOGIN_FALLURE:
-                resId = R.string.wifi_login_fail_status;
-                break;
-            case Constants.STATUS_UNKOWN:
-                resId = R.string.wifi_login_unknow_status;
-                break;
-            default:
-                break;
-        }
+        int resId = Utils.getResIdofStatus(status);
 
         if (status == Constants.LOGIN_FALLURE) {
-            mLoginStatusPrefs.setSummary(Utils.getShowErrorMessage(this));
+            mLoginStatusView.setText(Utils.getShowErrorMessage(this));
         } else {
-            mLoginStatusPrefs.setSummary(resId);
+            mLoginStatusView.setText(resId);
         }
         if (status == Constants.HAVE_LOGIN || status == Constants.HAVE_LOGOUT
                 || status == Constants.LOGIN_FALLURE
                 || status == Constants.STATUS_UNKOWN) {
-            mLoginStatusPrefs.setEnabled(true);
-        } else {
-            mLoginStatusPrefs.setEnabled(false);
+            // mLoginStatusPrefs.setEnabled(true);
         }
+        // else {
+        // mLoginStatusPrefs.setEnabled(false);
+        // }
     }
 
     @Override
@@ -730,13 +724,51 @@ public class WifiListActivity extends PreferenceActivity implements
     }
 
     @Override
-    public void logout() {
+    public void doAction(int action) {
+        if (action == Constants.LOGOUT_ACTION) {
+            logout();
+        } else if (action == Constants.LOGIN_ACTION) {
+            login();
+        }
+
+    }
+
+    private void logout() {
         LogoutTask task = new LogoutTask();
         if (Build.VERSION.SDK_INT >= 11) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
             task.execute();
         }
+        MobclickAgent.onEvent(this, UMengUtils.EVENT_LOGOUT_SUCCESS);
+    }
+
+    private void login() {
+        String name = Utils.getUserName(this);
+        if (TextUtils.isEmpty(name)) {
+            AccountSettingsDialog dialog = new AccountSettingsDialog(this, this);
+            dialog.show();
+            dialog.getWindow().setLayout(mAlertDialogWidth, mAlertDialogHeight);
+        } else {
+            WiFiLoginTask loginTask = new WiFiLoginTask(this);
+            if (Build.VERSION.SDK_INT >= 11) {
+                loginTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                loginTask.execute();
+            }
+        }
+
+    }
+
+    @Override
+    public void onWifiFilterChanged() {
+        updateFilter();
+    }
+
+    private void updateFilter() {
+        int filterMode = Utils.getFilterMode(this);
+        mFilterStatusView.setText(mFilterStatus[filterMode]);
+        updateAccessPoints(filterMode);
     }
 
     @Override
@@ -768,6 +800,20 @@ public class WifiListActivity extends PreferenceActivity implements
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.wifi_list_filter_containter) {
+            WifiFilterDialog dlg = new WifiFilterDialog(this, this);
+            dlg.show();
+        } else if (id == R.id.wifi_list_header_login_container) {
+            ConnectionInfoDialog dlg = new ConnectionInfoDialog(this, this);
+            // dlg.setWifiInfo(null, signalLevel);
+            dlg.show();
+            dlg.getWindow().setLayout(mAlertDialogWidth, mAlertDialogHeight);
         }
     }
 
@@ -814,7 +860,7 @@ public class WifiListActivity extends PreferenceActivity implements
             Toast.makeText(WifiListActivity.this,
                     R.string.wifi_logout_success_toast, Toast.LENGTH_SHORT)
                     .show();
-            mLoginStatusPrefs.setEnabled(true);
+            // mLoginStatusPrefs.setEnabled(true);
             Utils.setIsServiceUpdate(WifiListActivity.this, false);
             updateView();
             Logger.debug(TAG, " ready to logout");
@@ -822,8 +868,7 @@ public class WifiListActivity extends PreferenceActivity implements
 
         @Override
         protected void onPreExecute() {
-            mLoginStatusPrefs.setSummary(R.string.wifi_logouting_status);
-            mLoginStatusPrefs.setEnabled(false);
+            mLoginStatusView.setText(R.string.wifi_logouting_status);
         }
     }
 
@@ -845,7 +890,7 @@ public class WifiListActivity extends PreferenceActivity implements
                         R.string.wifi_notification_login_successful,
                         Toast.LENGTH_SHORT).show();
 
-                mLoginStatusPrefs.setEnabled(true);
+                // mLoginStatusPrefs.setEnabled(true);
                 Utils.setIsServiceUpdate(WifiListActivity.this, false);
             }
             updateView();
@@ -853,8 +898,7 @@ public class WifiListActivity extends PreferenceActivity implements
 
         @Override
         protected void onPreExecute() {
-            mLoginStatusPrefs.setSummary(R.string.wifi_loging_status);
-            mLoginStatusPrefs.setEnabled(false);
+            mLoginStatusView.setText(R.string.wifi_loging_status);
         }
     }
 
@@ -874,8 +918,7 @@ public class WifiListActivity extends PreferenceActivity implements
         @Override
         protected void onPreExecute() {
             Logger.debug(TAG, "start to check baidu");
-            mLoginStatusPrefs.setSummary(R.string.wifi_checking_status);
-            mLoginStatusPrefs.setEnabled(false);
+            mLoginStatusView.setText(R.string.wifi_checking_status);
         }
 
         @Override
@@ -889,6 +932,9 @@ public class WifiListActivity extends PreferenceActivity implements
                 updateView();
             } else if (mFirstCheckStatus == Constants.CONNECTED) {
                 WifiSecondCheckStatus secondCheck = null;
+                MobclickAgent.onEvent(mContext,
+                        UMengUtils.EVENT_CONNECT_INTERNET);
+
                 secondCheck = new WifiSecondCheckStatus(mContext);
                 if (Build.VERSION.SDK_INT >= 11) {
                     secondCheck
@@ -899,7 +945,10 @@ public class WifiListActivity extends PreferenceActivity implements
             } else if (mFirstCheckStatus == Constants.HAVE_LOGOUT) {
                 Logger.debug(TAG, "WifiFirstCheckStatus: " + "Can Login now");
                 Utils.setLoginStatus(mContext, mFirstCheckStatus);
-                Utils.setIsServiceUpdate(WifiListActivity.this, false);
+                Utils.setIsServiceUpdate(mContext, false);
+                MobclickAgent.onEvent(mContext,
+                        UMengUtils.EVENT_CONNECT_TO_SERVER);
+
                 updateView();
                 if (mIsLogin) {
                     Logger.debug(TAG, "Will login automtically!!");
@@ -931,8 +980,7 @@ public class WifiListActivity extends PreferenceActivity implements
 
         @Override
         protected void onPreExecute() {
-            mLoginStatusPrefs.setSummary(R.string.wifi_second_checking_satus);
-            mLoginStatusPrefs.setEnabled(false);
+            mLoginStatusView.setText(R.string.wifi_second_checking_satus);
         }
 
         @Override
@@ -971,7 +1019,7 @@ public class WifiListActivity extends PreferenceActivity implements
                         R.string.wifi_change_account_toast, Toast.LENGTH_SHORT)
                         .show();
             }
-            mLoginStatusPrefs.setEnabled(true);
+            // mLoginStatusPrefs.setEnabled(true);
             Utils.setLoginStatus(mContext, result);
             Utils.setIsServiceUpdate(WifiListActivity.this, false);
             updateView();

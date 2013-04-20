@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/filter_container_sider"
+    android:descendantFocusability="afterDescendants"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/wifi_list_filter_containter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/general_list_item_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="@dimen/general_list_item_minHeight"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/WifiTextLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginLeft="@dimen/footer_margin_top"
+            android:layout_marginTop="@dimen/footer_margin_top"
+            android:text="@string/wifi_filter"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/wifi_list_header_filter_status"
+            style="@style/WifiTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/footer_margin_top"
+            android:layout_marginLeft="@dimen/footer_margin_top"
+            android:layout_marginTop="@dimen/footer_margin_top"
+            android:textIsSelectable="false" >
+        </TextView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:id="@+id/wifi_list_header_login_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/general_list_item_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="@dimen/general_list_item_minHeight"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/WifiTextLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginLeft="@dimen/footer_margin_top"
+            android:layout_marginTop="@dimen/footer_margin_top"
+            android:text="@string/wifi_settings_logout"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/wifi_list_header_login_status"
+            style="@style/WifiTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/footer_margin_top"
+            android:layout_marginLeft="@dimen/footer_margin_top"
+            android:layout_marginTop="@dimen/footer_margin_top"
+            android:textIsSelectable="false" >
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

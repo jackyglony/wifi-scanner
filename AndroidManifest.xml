@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shixunaoyou.wifiscanner"
     android:versionCode="2"
-    android:versionName="1.2" >
+    android:versionName="1.3" >
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -24,6 +25,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5157ed2256240bb70e021dfb" >
+        </meta-data>
+
         <activity
             android:name="com.shixunaoyou.wifiscanner.LoadingActivity"
             android:clearTaskOnLaunch="true"
@@ -53,34 +59,53 @@
         </activity>
         <activity android:name="com.shixunaoyou.wifiscanner.wifi.WifiListActivity" >
         </activity>
-        <activity android:name="com.shixunaoyou.wifiscanner.MoreActivity" >
+        <activity android:name="com.shixunaoyou.wifiscanner.more.MoreActivity" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name=".wifi.PartershipActivity" >
+        <activity android:name="com.shixunaoyou.wifiscanner.more.ProductCenterActivity" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name="com.shixunaoyou.wifiscanner.SettingActivity" >
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.SettingActivity"
+            android:screenOrientation="portrait" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name="com.shixunaoyou.wifiscanner.PersonCentreActivity" >
+        <activity android:name="com.shixunaoyou.wifiscanner.personcentre.PersonCentreActivity" >
         </activity>
         <activity
             android:name="com.shixunaoyou.wifiscanner.wifi.WifiConnectActivity"
-            android:configChanges="orientation" >
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
             <action android:name="android.intent.action.VIEW" />
         </activity>
-        <activity android:name=".RegisterActivity" >
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.personcentre.RegisterActivity"
+            android:screenOrientation="portrait" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name=".AboutUSActivity" >
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.AboutUSActivity"
+            android:screenOrientation="portrait" >
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.FeedbackActivity"
+            android:screenOrientation="portrait" >
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity android:name="com.shixunaoyou.wifiscanner.wifichest.WifiChestActivity" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
@@ -99,7 +124,7 @@
             android:exported="false" >
         </service>
         <service
-            android:name="com.shixunaoyou.wifiscanner.DownloadUpdateService"
+            android:name="com.shixunaoyou.wifiscanner.update.DownloadUpdateService"
             android:exported="false" >
         </service>
     </application>

@@ -1,5 +1,7 @@
 package com.shixunaoyou.wifiscanner;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +18,18 @@ public class LoadingActivity extends Activity {
         Handler handler = new Handler();
         handler.postDelayed(new splashhandler(), 3000);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        MobclickAgent.onPause(this);
+        super.onPause();
     }
 
     class splashhandler implements Runnable {

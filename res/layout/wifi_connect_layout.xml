@@ -1,99 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainview_backgroud_color"
-    android:orientation="vertical" >
+    android:background="@color/mainview_backgroud_color" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/access_point_text_marge"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/wifi_connect_signal"
-            android:layout_width="@dimen/general_item_image_width"
-            android:layout_height="@dimen/general_item_image_height"
-            android:layout_gravity="start|center_vertical"
-            android:contentDescription="@null" />
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/general_item_margin"
-            android:orientation="vertical" >
+            android:layout_margin="@dimen/access_point_text_marge"
+            android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/wifi_connect_ssid"
+            <ImageView
+                android:id="@+id/wifi_connect_signal"
+                android:layout_width="@dimen/general_item_image_width"
+                android:layout_height="@dimen/general_item_image_height"
+                android:layout_gravity="start|center_vertical"
+                android:contentDescription="@null" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textIsSelectable="false" />
+                android:layout_marginLeft="@dimen/general_item_margin"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/wifi_connect_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textIsSelectable="false" />
+                <TextView
+                    android:id="@+id/wifi_connect_ssid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textIsSelectable="false" />
+
+                <TextView
+                    android:id="@+id/wifi_connect_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textIsSelectable="false" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/wifi_connect_password_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/access_point_text_marge"
-        android:layout_marginRight="@dimen/access_point_text_marge"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/wifi_connect_password_view"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/wifi_connect_password_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:gravity="start|center_vertical"
-            android:text="@string/wifi_password"
+            android:layout_marginLeft="@dimen/access_point_text_marge"
+            android:layout_marginRight="@dimen/access_point_text_marge"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/wifi_connect_password_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="start|center_vertical"
+                android:text="@string/wifi_password"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/mainview_titlebar_color" />
+
+            <EditText
+                android:id="@+id/wifi_connect_password_edit"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginLeft="@dimen/general_item_margin"
+                android:layout_weight="1"
+                android:background="@drawable/password_input_background"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wifi_connect_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_container_sider"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/wifi_connect_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/general_item_margin"
+            android:background="@drawable/general_button_background"
+            android:minHeight="@dimen/general_item_image_height"
+            android:text="@string/wifi_connect_network"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/mainview_titlebar_color" />
+            android:textColor="@color/mainview_backgroud_color" />
 
-        <EditText
-            android:id="@+id/wifi_connect_password_edit"
-            android:layout_width="0dip"
+        <Button
+            android:id="@+id/wifi_connect_internet_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginLeft="@dimen/general_item_margin"
-            android:layout_weight="1"
-            android:background="@drawable/password_input_background"
-            android:inputType="textPassword" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/general_item_margin"
+            android:background="@drawable/general_button_background"
+            android:minHeight="@dimen/general_item_image_height"
+            android:text="@string/wifi_connect_internet"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/mainview_backgroud_color"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/wifi_connect_forget_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/general_item_margin"
+            android:background="@drawable/general_button_background"
+            android:minHeight="@dimen/general_item_image_height"
+            android:text="@string/wifi_connect_forget"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/mainview_backgroud_color"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/wifi_connect_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/general_item_margin"
-        android:background="@drawable/general_button_background"
-        android:minHeight="@dimen/general_item_image_height"
-        android:text="@string/wifi_connect_network"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/mainview_backgroud_color" />
-
-    <Button
-        android:id="@+id/wifi_connect_internet_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/general_item_margin"
-        android:background="@drawable/general_button_background"
-        android:minHeight="@dimen/general_item_image_height"
-        android:text="@string/wifi_connect_internet"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/mainview_backgroud_color"
-        android:visibility="gone" />
-
-</LinearLayout>
+</ScrollView>

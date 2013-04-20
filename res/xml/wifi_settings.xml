@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/wifi_settings_category" >
+    android:title="@string/wifi_settings_category"
+    android:scrollbarStyle="outsideOverlay" >
 
-    <ListPreference
-        android:defaultValue="0"
-        android:dialogTitle="@string/settings_wifi_filter_mode_title"
-        android:entries="@array/wifi_filter_mode_entries"
-        android:entryValues="@array/wifi_filter_mode_values"
-        android:key="wifi_filter_mode"
-        android:title="@string/wifi_filter" />
+<!--     <ListPreference -->
+<!--         android:defaultValue="0" -->
+<!--         android:dialogTitle="@string/settings_wifi_filter_mode_title" -->
+<!--         android:entries="@array/wifi_filter_mode_entries" -->
+<!--         android:entryValues="@array/wifi_filter_mode_values" -->
+<!--         android:key="wifi_filter_mode" -->
+<!--         android:title="@string/wifi_filter" /> -->
 
-    <Preference
-        android:key="login_status"
-        android:persistent="false"
-        android:title="@string/wifi_settings_logout" />
+<!--     <Preference -->
+<!--         android:key="login_status" -->
+<!--         android:persistent="false" -->
+<!--         android:title="@string/wifi_settings_logout" /> -->
 
     <com.shixunaoyou.wifiscanner.wifi.ProgressCategory
         android:key="access_points"

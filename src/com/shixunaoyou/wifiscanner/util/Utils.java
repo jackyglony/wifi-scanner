@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.shixunaoyou.wifiscanner.R;
 
@@ -20,6 +22,20 @@ import android.util.Log;
 
 public class Utils {
     private static final String TAG = "Utils";
+    private static final int MIN_RSSI = -100;
+    private static final int MAX_RSSI = -50;
+    @SuppressWarnings("boxing")
+    private final static ArrayList<Integer> channelsFrequency = new ArrayList<Integer>(
+            Arrays.asList(0, 2412, 2417, 2422, 2427, 2432, 2437, 2442, 2447,
+                    2452, 2457, 2462, 2467, 2472, 2484));
+
+    public static Integer getFrequencyFromChannel(int channel) {
+        return channelsFrequency.get(channel);
+    }
+
+    public static int getChannelFromFrequency(int frequency) {
+        return channelsFrequency.indexOf(Integer.valueOf(frequency));
+    }
 
     public static String getUserName(Context context) {
         SharedPreferences sPref = PreferenceManager
@@ -68,6 +84,18 @@ public class Utils {
         SharedPreferences sPref = PreferenceManager
                 .getDefaultSharedPreferences(context);
         return sPref.getBoolean(Constants.ENABLE_NOTIFICATION_KEY, true);
+    }
+
+    public static boolean getEnableShowChannel(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getBoolean(Constants.ENABLE_SHOW_CHANNEL, false);
+    }
+
+    public static boolean getEnableShowRssi(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getBoolean(Constants.ENABLE_SHOW_RSSI, false);
     }
 
     public static void setLoginStatus(Context context, int status) {
@@ -348,6 +376,93 @@ public class Utils {
             return context.getResources().getString(
                     R.string.wifi_login_failure_with_reason)
                     + error;
+        }
+    }
+
+    public static int getFilterMode(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getInt(Constants.FILTER_MODE_KEY,
+                Constants.FILTER_MODE_OPEN);
+    }
+
+    public static void setFilterMode(Context context, int mode) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Editor editor = sPref.edit();
+        editor.putInt(Constants.FILTER_MODE_KEY, mode);
+        editor.commit();
+    }
+
+    public static String getUserAddress(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getString(Constants.MAIL_ADDRESS, null);
+    }
+
+    public static void setUserAddress(Context context, String updateUrl) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Editor editor = sPref.edit();
+        editor.putString(Constants.MAIL_ADDRESS, updateUrl);
+        editor.commit();
+    }
+
+    public static int getPercentageOfdBm(int dBm) {
+        int result = 0;
+        if (dBm > MAX_RSSI) {
+            result = 100;
+        } else if (dBm < MIN_RSSI) {
+            result = 0;
+        } else {
+            result = 2 * (dBm + 100);
+        }
+        return result;
+    }
+
+    public static int getResIdofStatus(int status) {
+        int resId = R.string.wifi_login_unknow_status;
+
+        switch (status) {
+            case Constants.CANNOT_CONNECT:
+                resId = R.string.wifi_no_connection_satus;
+                break;
+            case Constants.HAVE_LOGIN:
+                resId = R.string.wifi_login_successfully_status;
+                break;
+            case Constants.HAVE_LOGOUT:
+                resId = R.string.wifi_logout_successfully_status;
+                break;
+            case Constants.NOT_FIND_SERVER:
+                resId = R.string.wifi_cannot_login_status;
+                break;
+            case Constants.NO_WIFI:
+                resId = R.string.wifi_no_wifi_status;
+                break;
+            case Constants.NOT_NEED_LOGIN:
+                resId = R.string.wifi_not_need_login_status;
+                break;
+            case Constants.LOGIN_FALLURE:
+                resId = R.string.wifi_login_fail_status;
+                break;
+            case Constants.STATUS_UNKOWN:
+                resId = R.string.wifi_login_unknow_status;
+                break;
+            default:
+                break;
+        }
+        return resId;
+    }
+
+    public static String getOperatorWifiName(String ssid) {
+        if (TextUtils.equals(ssid, "CMCC")) {
+            return Constants.CMCC;
+        } else if (TextUtils.equals(ssid, "ChinaNet")) {
+            return Constants.CHINANET;
+        } else if (TextUtils.equals(ssid, "ChinaUnicom")) {
+            return Constants.CHINA_UNICOM;
+        } else {
+            return ssid;
         }
     }
 }

@@ -40,7 +40,7 @@
 
     <Button
         android:id="@+id/wifi_register_gettoken_btn"
-        style="@style/WifiRegisterButton"
+        style="@style/WifiGeneralButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/account_register_large_margin"
@@ -112,7 +112,7 @@
 
     <Button
         android:id="@+id/wifi_register_submit_btn"
-        style="@style/WifiRegisterButton"
+        style="@style/WifiGeneralButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/account_register_large_margin"

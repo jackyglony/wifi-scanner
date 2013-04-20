@@ -5,5 +5,6 @@
     <color name="more_item_pressed_color">#6B6262</color>
     <color name="mainview_titlebar_color">#669900</color>
     <color name="general_text_color">#FFFFFF</color>
-
+    <color name="wifi_connect_enabler_color">#D6DDDF</color>
+    <color name="wifi_general_black_color">#000000</color>
 </resources>

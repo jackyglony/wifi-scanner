@@ -5,8 +5,8 @@
     <string name="menu_settings">设置</string>
     <string name="tab_title_wifi_list">扫描WiFi</string>
     <string name="tab_title_person_centre">个人中心</string>
-    <string name="tab_title_partership">商家报装</string>
-    <string name="tab_title_settings">设置</string>
+    <string name="tab_title_partership">百宝箱</string>
+    <string name="tab_title_settings">更多</string>
     <string name="wifi_hub_user_name">名字</string>
     <string name="wifi_hub_user_password">密码</string>
     <string name="wifi_secured_first_item">通过 %1$s保护</string>
@@ -180,13 +180,19 @@
     <string name="wifi_account_dialog_cancel">取消</string>
     <string name="wifi_notification_login_successful">已成功登陆时讯无线</string>
     <string name="wifi_notification_login_failure">登陆失败</string>
+
+    <!-- Settings Resouces -->
     <string name="wifi_auto_login_title">开启自动登陆</string>
     <string name="wifi_auto_login_summary">当发现可用WiFi网络时即使在程序关闭时也为我自动使用保存的帐号登陆</string>
     <string name="wifi_enable_notification_title">启用状态栏通知</string>
     <string name="wifi_enable_notification_summary">当登录成功时，在状态栏显示通知</string>
+    <string name="wifi_enable_show_channel_title">显示信号频道</string>
+    <string name="wifi_enable_show_channel_summary">在Wifi列表中显示信号的频道</string>
+    <string name="wifi_enable_show_rssi_title">显示信号dBm值</string>
+    <string name="wifi_enable_show_rssi_summary">在Wifi列表中显示信号的dBm</string>
     <string name="wifi_settings_logout">时讯无线联盟热点</string>
-    <string name="wifi_login_successfully_status">登录成功，点击查看详情</string>
-    <string name="wifi_logout_successfully_status">发现时讯无线热点，但尚未登录，点击登录</string>
+    <string name="wifi_login_successfully_status">您现在已登录至时讯无线</string>
+    <string name="wifi_logout_successfully_status">发现时讯无线热点，但尚未登录，您可以现在登录</string>
     <string name="wifi_cannot_login_status">没有发现时讯无线热点</string>
     <string name="wifi_not_need_login_status">已经连接互联网(未通过时讯无线热点登录)</string>
     <string name="wifi_no_wifi_status">没有WiFi连接</string>
@@ -194,7 +200,7 @@
     <string name="wifi_logouting_status">正在下线\u2026</string>
     <string name="wifi_checking_status">正在检查当前网络状态\u2026</string>
     <string name="wifi_login_fail_status">登录失败，点击重试</string>
-    <string name="wifi_login_unknow_status">状态未知，点击重新检查</string>
+    <string name="wifi_login_unknow_status">状态未知，请重新检查</string>
     <string name="wifi_no_connection_satus">没有网络连接</string>
     <string name="wifi_second_checking_satus">已经连接网络, 正在检查是否为时讯网络\u2026</string>
     <string name="wifi_configure_gateway">配置网关</string>
@@ -226,15 +232,18 @@
 
     <!-- connection dialog string resource -->
     <string name="connection_info_logout">下线</string>
-    <string name="connection_login_start_time">本次登录时间</string>
-    <string name="connection_login_time">已登录</string>
-    <string name="connection_data_traffic_info">数据传输</string>
+    <string name="connection_info_login">登录</string>
+    <string name="connection_info_back">返回</string>
+    <string name="connection_login_start_time">本次登陆开始自：</string>
+    <string name="connection_login_time">已登录时间：</string>
+    <string name="connection_data_traffic_info">数据传输：</string>
     <string name="connection_info_dialog_title">登录信息</string>
     <string name="connection_time_day_info">天</string>
     <string name="connection_time_hour_info">小时</string>
     <string name="connection_minuts_info">分钟</string>
     <string name="connection_less_minuts_info">不到一分钟</string>
     <string name="connection_login_to_text">已登陆至</string>
+    <string name="connection_invalid_login_data">N/A</string>
 
     <!-- person centre string resource -->
     <string name="person_centre_register">注册</string>
@@ -244,25 +253,34 @@
     <string name="person_centre_login_status">已登录</string>
     <string name="person_centre_logout_status">未登录</string>
     <string name="wifi_download_applition">下载本客户端</string>
-    <string name="about_us">  北京时讯遨游网络科技有限公司专注于WiFi无线网络开发、WiFi网络方案提供、WiFi网络媒体运营的新技术公司。以“无线路由器和上网行为管理设备”为核心产品，形成了针对于政府、企业、媒体等不同行业、不同规模、不同应用的系列产品和针对性方案，是国内最有影响力的的WiFi无线网络设备技术提供商及其WiFi无线网络媒体运行商。</string>
-
+    <string name="about_us">""&#160;&#160;"&#160;"&#160;北京时讯遨游网络科技有限公司专注于WiFi无线网络设备研发、WiFi网络方案提供、WiFi网络媒体运营的新技术公司，"免费无线宝"是时讯无线在Android平台上开发提供的免费WiFi网络分享的互助应用，它完全免费，并且可免费登录时讯无线上万台免费无线热点。</string>
+    <string name="about_us_qq">QQ群：11413494</string>
     <!-- more settings string resource -->
-    <string name="more_nofitication_title">通知设置</string>
+    <string name="more_nofitication_title">应用设置</string>
     <string name="more_check_update_title">更新检测</string>
     <string name="more_feeback_title">意见反馈</string>
     <string name="more_share_title">告诉朋友</string>
     <string name="more_about_us_title">关于我们</string>
     <string name="more_exit_title">退出应用</string>
     <string name="more_download_with_qr">下载客户端</string>
+    <string name="more_product_center_title">产品中心</string>
 
     <!-- Wifi connection Resources -->
     <string name="wifi_connect_title">连接WiFi</string>
     <string name="wifi_connect_open_info">无密码，可直接连接</string>
     <string name="wifi_connect_remember_info">密码已保存，可直接连接</string>
+    <string name="wifi_connect_wrong_password">输入密码有误，请重新输入</string>
     <string name="wifi_connect_null_password">密码不能为空</string>
+    <string name="wifi_connect_too_short_password">密码太短，至少需要8位密码</string>
     <string name="wifi_connect_invalid_network">无效网络</string>
     <string name="wifi_connect_network">连接</string>
     <string name="wifi_connect_internet">已经连接，开始上网</string>
+    <string name="wifi_connect_forget">忘记网络</string>
+    <string name="wifi_connect_channel_info">频道</string>
+    <string name="wifi_connect_dns1">DNS1</string>
+    <string name="wifi_connect_dns2">DNS2</string>
+    <string name="wifi_connect_netmask">子网掩码</string>
+    <string name="wifi_connect_gateway">网关</string>
 
     <!-- Wifi Register Resrouces -->
     <string name="wifi_register_title">注册</string>
@@ -284,4 +302,24 @@
     <string name="wifi_register_wrong_format">数据传输格式错误!</string>
     <string name="wifi_register_input_wrong_format">输入数据格式有误!</string>
 
+    <!-- Feedback Resource -->
+    <string name="wifi_feedback_welcome">欢迎您的意见及建议，你的反馈对我们至关重要, QQ群（11413494）期待您的加入。</string>
+    <string name="wifi_feedback_title_tips">请输入标题</string>
+    <string name="wifi_feedback_content_tips">请输入反馈内容</string>
+    <string name="wifi_feedback_qq_grounp"> QQ群（11413494）期待您的加入。</string>
+    <string name="wifi_feedback_qq_grounp_welcome">QQ群期待您的加入</string>
+    <string name="wifi_feedback_address_tips">请留下邮箱以方便和你取得联系</string>
+    <string name="wifi_feedback_submit">提交反馈</string>
+    <string name="wifi_feedback_null_subject">标题不能为空</string>
+    <string name="wifi_feedback_null_content">反馈内容不能为空</string>
+    <string name="wifi_feedback_wrong_mail_address">邮件地址格式不正确</string>
+    <string name="wifi_feedback_submit_success">您的反馈已提交，感谢您的参与！</string>
+    <string name="wifi_feedback_submit_failed">反馈提交失败，请稍候再尝试！</string>
+
+    <!-- Chect Resources -->
+    <string name="wifi_chest_loading_list">正在加载列表\u2026</string>
+    <string name="wifi_chest_empty_list">网络问题，无法加载数据</string>
+    <string name="wifi_chest_packup_button">收起</string>
+    <string name="wifi_chest_download_button">下载</string>
+    <string name="wifi_chest_download_time">下载量:%1$s</string>
 </resources>

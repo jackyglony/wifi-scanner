@@ -1,13 +1,17 @@
 package com.shixunaoyou.wifiscanner;
 
-import com.shixunaoyou.wifiscanner.wifi.PartershipActivity;
+import com.shixunaoyou.wifiscanner.more.MoreActivity;
+import com.shixunaoyou.wifiscanner.personcentre.PersonCentreActivity;
 import com.shixunaoyou.wifiscanner.wifi.WifiListActivity;
+import com.shixunaoyou.wifiscanner.wifichest.WifiChestActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TabHost;
@@ -24,8 +28,10 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
 
     private RadioButton mWifiRadio;
     private RadioButton mPersonCentreRadio;
-    private RadioButton mPartershipRadio;
+    private RadioButton mChestRadio;
     private RadioButton mSettingsRadio;
+//    private Button mLeftButton;
+    private Button mRightButton;
 
     private WifiSwitchLinearLayout mWifiSwitchLayout;
     private TextView mTitleView;
@@ -37,6 +43,7 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
         initTabs();
         initRadios();
         updateFirstEnter();
+        MobclickAgent.onError(this);
     }
 
     private void initTitleBar() {
@@ -45,6 +52,7 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
                 R.layout.custom_tab_titlebar);
         mTitleView = (TextView) findViewById(R.id.titlebar_title);
+        mRightButton = (Button) findViewById(R.id.wifi_titlebar_rightbtn);
     }
 
     private void initTabs() {
@@ -70,19 +78,19 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
         Intent intent = new Intent(this, PersonCentreActivity.class);
         return buildTabSpec(TAB_PERSON_CENTRE,
                 R.string.tab_title_person_centre,
-                R.drawable.icon_person_centre, intent);
+                R.drawable.icon_person_center, intent);
     }
 
     private TabHost.TabSpec getPartershipTab() {
-        Intent intent = new Intent(this, PartershipActivity.class);
+        Intent intent = new Intent(this, WifiChestActivity.class);
         return buildTabSpec(TAB_PARTERSHIP, R.string.tab_title_partership,
-                R.drawable.icon_partership, intent);
+                R.drawable.icon_chest, intent);
     }
 
     private TabHost.TabSpec getSettingsTab() {
         Intent intent = new Intent(this, MoreActivity.class);
         return buildTabSpec(TAB_SETTINGS, R.string.tab_title_settings,
-                R.drawable.icon_settings, intent);
+                R.drawable.icon_more, intent);
     }
 
     private TabHost.TabSpec buildTabSpec(String tag, int resLabel, int resIcon,
@@ -98,12 +106,12 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
         mWifiRadio = (RadioButton) this.findViewById(R.id.tab_wifi_scan);
         mPersonCentreRadio = (RadioButton) this
                 .findViewById(R.id.tab_person_centre);
-        mPartershipRadio = (RadioButton) this.findViewById(R.id.tab_partership);
+        mChestRadio = (RadioButton) this.findViewById(R.id.tab_chest);
         mSettingsRadio = (RadioButton) this.findViewById(R.id.tab_settings);
 
         mWifiRadio.setOnCheckedChangeListener(this);
         mPersonCentreRadio.setOnCheckedChangeListener(this);
-        mPartershipRadio.setOnCheckedChangeListener(this);
+        mChestRadio.setOnCheckedChangeListener(this);
         mSettingsRadio.setOnCheckedChangeListener(this);
     }
 
@@ -118,11 +126,13 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
         if (mWifiSwitchLayout != null) {
             mWifiSwitchLayout.resume();
         }
+        MobclickAgent.onResume(this);
+
     }
 
     @Override
     protected void onPause() {
-
+        MobclickAgent.onPause(this);
         if (mWifiSwitchLayout != null) {
             mWifiSwitchLayout.pause();
         }
@@ -138,18 +148,22 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
                 case R.id.tab_wifi_scan:
                     this.mHost.setCurrentTabByTag(TAB_WIFI_TAB);
                     mTitleView.setText(R.string.tab_title_wifi_list);
+                    mRightButton.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.tab_person_centre:
                     this.mHost.setCurrentTabByTag(TAB_PERSON_CENTRE);
                     mTitleView.setText(R.string.tab_title_person_centre);
+                    mRightButton.setVisibility(View.INVISIBLE);
                     break;
-                case R.id.tab_partership:
+                case R.id.tab_chest:
                     this.mHost.setCurrentTabByTag(TAB_PARTERSHIP);
                     mTitleView.setText(R.string.tab_title_partership);
+                    mRightButton.setVisibility(View.VISIBLE);
                     break;
                 case R.id.tab_settings:
                     this.mHost.setCurrentTabByTag(TAB_SETTINGS);
                     mTitleView.setText(R.string.tab_title_settings);
+                    mRightButton.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.wifi_switch_checkbox:
                     break;

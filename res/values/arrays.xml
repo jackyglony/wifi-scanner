@@ -125,4 +125,11 @@
         <item>Only show Wifi which need authorization</item>
     </string-array>
 
+    <integer-array name="wifi_filter_mode_int_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
+
 </resources>
