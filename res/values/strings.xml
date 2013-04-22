@@ -318,5 +318,8 @@
     <string name="wifi_chest_empty_list">Cannot load data</string>
     <string name="wifi_chest_packup_button">Pack up</string>
     <string name="wifi_chest_download_button">Download</string>
-    <string name="wifi_chest_download_time">Download:%1$s</string>
+    <string name="wifi_chest_download_time">%1$sDownload</string>
+    <string name="wifi_chest_ten_thousand_times">%1$s10kDownload</string>
+    <string name="wifi_chest_app_update_time">Update time:%1$s</string>
+    <string name="wifi_chest_app_version">version:%1$s</string>
 </resources>

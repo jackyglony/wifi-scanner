@@ -3,16 +3,21 @@ package com.shixunaoyou.wifiscanner.wifichest;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.shixunaoyou.wifiscanner.R;
+import com.shixunaoyou.wifiscanner.util.HttpUtils;
 import com.shixunaoyou.wifiscanner.util.Logger;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +43,12 @@ public class WifiChestActivity extends ListActivity implements
         setContentView(R.layout.wifi_chest_layout);
         getViews();
         LoadProcossTask task = new LoadProcossTask();
-        task.execute();
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            task.execute();
+        }
     }
 
     private void getViews() {
@@ -49,22 +59,84 @@ public class WifiChestActivity extends ListActivity implements
     public void updateView(AppItemViewHolder holder, AppItem appItem) {
         holder.mDescription.setText(appItem.getDescription());
         holder.mTitle.setText(appItem.getTitle());
-        holder.mRanking.setImageResource(R.drawable.rating_bg_10);
+        holder.mRanking
+                .setImageResource(getRatingResource(appItem.getRanking()));
         holder.mSize.setText(String.format("%.2fMB", (float) appItem.getSize()
                 / (1024 * 1024)));
         holder.mIcon.setImageResource(R.drawable.ic_launcher);
-        holder.mDownloadCount.setText(getString(
-                R.string.wifi_chest_download_time, appItem.getDownload()));
+        holder.mVersionView.setText(getString(R.string.wifi_chest_app_version,
+                appItem.getVersion()));
+        holder.mUpdateView.setText(getString(R.string.wifi_chest_app_update_time,
+                appItem.getUpdateTime()));
+        int download = appItem.getDownload();
+        if (download >= 10000) {
+            holder.mDownloadCount.setText(getString(
+                    R.string.wifi_chest_ten_thousand_times,
+                    String.format("%.2f", (float) download / 10000)));
+        } else {
+            holder.mDownloadCount.setText(getString(
+                    R.string.wifi_chest_download_time, download));
+        }
+    }
+
+    private int getRatingResource(int rank) {
+        int resId = R.drawable.rating_bg_10;
+        switch (rank) {
+            case 1:
+                resId = R.drawable.rating_bg_1;
+                break;
+            case 2:
+                resId = R.drawable.rating_bg_2;
+                break;
+            case 3:
+                resId = R.drawable.rating_bg_3;
+                break;
+            case 4:
+                resId = R.drawable.rating_bg_4;
+                break;
+            case 5:
+                resId = R.drawable.rating_bg_5;
+                break;
+            case 6:
+                resId = R.drawable.rating_bg_6;
+                break;
+            case 7:
+                resId = R.drawable.rating_bg_7;
+                break;
+            case 8:
+                resId = R.drawable.rating_bg_8;
+                break;
+            case 9:
+                resId = R.drawable.rating_bg_9;
+                break;
+            case 10:
+                resId = R.drawable.rating_bg_10;
+                break;
+            default:
+                break;
+        }
+        return resId;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapter, View view, int position,
-            long id) {
-        // TODO Auto-generated method stub
+    public void onItemClick(AdapterView<?> adapter, final View view,
+            int position, long id) {
         Logger.debug(TAG, "onItemClick");
         AppItemViewHolder holder = (AppItemViewHolder) view.getTag();
         if (holder.mHideContainer.getVisibility() == View.GONE) {
             holder.mHideContainer.setVisibility(View.VISIBLE);
+            Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (getListView() != null && view != null) {
+                        getListView().requestChildRectangleOnScreen(
+                                view,
+                                new Rect(0, 0, view.getWidth(), view
+                                        .getHeight()), false);
+                    }
+                }
+            });
         } else {
             holder.mHideContainer.setVisibility(View.GONE);
         }
@@ -72,7 +144,6 @@ public class WifiChestActivity extends ListActivity implements
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         Logger.debug(TAG, "onClick");
 
         AppItemViewHolder holder = (AppItemViewHolder) v.getTag();
@@ -119,8 +190,6 @@ public class WifiChestActivity extends ListActivity implements
                         .findViewById(R.id.wifi_app_download_count);
                 holder.mIcon = (ImageView) convertView
                         .findViewById(R.id.wifi_application_icon);
-                holder.mPackupButton = (Button) convertView
-                        .findViewById(R.id.wifi_app_packup_button);
                 holder.mProgressBar = (ProgressBar) convertView
                         .findViewById(R.id.wifi_app_progressbar);
                 holder.mProgressValue = (TextView) convertView
@@ -133,6 +202,10 @@ public class WifiChestActivity extends ListActivity implements
                         .findViewById(R.id.wifi_application_title);
                 holder.mHideContainer = convertView
                         .findViewById(R.id.wifi_app_hideinfo_container);
+                holder.mVersionView = (TextView) convertView
+                        .findViewById(R.id.wifi_app_update_time);
+                holder.mUpdateView = (TextView) convertView
+                        .findViewById(R.id.wifi_app_version);
                 convertView.setTag(holder);
                 convertView.setOnClickListener(WifiChestActivity.this);
             } else {
@@ -151,10 +224,11 @@ public class WifiChestActivity extends ListActivity implements
         private Button mDownload;
         private TextView mSize;
         private TextView mDescription;
-        private Button mPackupButton;
         private ProgressBar mProgressBar;
         private TextView mProgressValue;
         private View mHideContainer;
+        private TextView mUpdateView;
+        private TextView mVersionView;
 
         private AppItemViewHolder(View sparent) {
         }
@@ -164,31 +238,20 @@ public class WifiChestActivity extends ListActivity implements
 
         @Override
         protected List<AppItem> doInBackground(Void... params) {
-            String testData = "{\"iSize\":3145728,\"sFreeLicense\":\"免费|收费\",\"sLanguage\":\"英文|中文\",\"sVersion\":\"1.0.1\""
-                    + ",\"dUpdateTime\":\"2013-04-09 00:00:00\""
-                    + ",\"iDownloadTime\":\"10000\",\"sAppNameEN\":"
-                    + "\"591WiFiServer\",\"sLogo\":\"http://ip:port/appServer/app/images/591wifi.png?v=123546123000\","
-                    + "\"sAppNameZN\":\"时讯遨游客户端\",\"id\":1,\"iRanking\":\"10\",\"iDescription\":\"免费通软件\"}";
-                String testData2 = "{\"iSize\":3145728,\"sFreeLicense\":\"免费|收费\",\"sLanguage\":\"英文|中文\",\"sVersion\":\"1.0.1\""
-                        + ",\"dUpdateTime\":\"2013-04-09 00:00:00\""
-                        + ",\"iDownloadTime\":\"10000\",\"sAppNameEN\":"
-                        + "\"591WiFiServer\",\"sLogo\":\"http://ip:port/appServer/app/images/591wifi.png?v=123546123000\","
-                        + "\"sAppNameZN\":\"时讯遨游客户端2\",\"id\":1,\"iRanking\":\"10\",\"iDescription\":\"免费通软件2\"}";
-            JSONObject object = null, object2 = null;
+            List<AppItem> list = new ArrayList<AppItem>();
             try {
-                object = new JSONObject(testData);
-                object2 = new JSONObject(testData2);
+                JSONObject result = HttpUtils
+                        .sendPostRequest("http://www.591wifi.com/portal/showallapp");
+                JSONArray apps = (JSONArray) result.get("showallapp");
+                for (int i = 0; i < apps.length(); i++) {
+                    JSONObject app = apps.getJSONObject(i);
+                    AppItem item = new AppItem(app, null);
+                    list.add(item);
+                }
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
                 Logger.debug(TAG, "Error: " + e.toString());
                 e.printStackTrace();
             }
-            AppItem item = new AppItem(object, null);
-            List<AppItem> list = new ArrayList<AppItem>();
-            AppItem item2 = new AppItem(object2, null);
-
-            list.add(item);
-            list.add(item2);
             return list;
         }
 

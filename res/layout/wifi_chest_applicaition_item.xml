@@ -102,8 +102,8 @@
             android:id="@+id/divider"
             android:layout_width="@dimen/wifi_app_list_item_divider_width"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/wifi_app_list_item_divider_width"
             android:layout_marginBottom="@dimen/wifi_app_list_item_padding_top_bottom"
+            android:layout_marginRight="@dimen/wifi_app_list_item_divider_width"
             android:layout_marginTop="@dimen/wifi_app_list_item_padding_top_bottom"
             android:background="@drawable/divider_vertical_dark" />
 
@@ -119,20 +119,36 @@
         android:id="@+id/wifi_app_hideinfo_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/wifi_general_gray_color"
         android:orientation="vertical"
         android:visibility="gone" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/footer_margin_top"
             android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/wifi_app_packup_button"
+            <TextView
+                android:id="@+id/wifi_app_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginRight="@dimen/footer_margin_top"
+                android:gravity="start"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textIsSelectable="false" />
+
+            <TextView
+                android:id="@+id/wifi_app_version"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/footer_margin_top"
+                android:gravity="end"
                 android:layout_weight="1"
-                android:text="@string/wifi_chest_packup_button" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textIsSelectable="false" />
         </LinearLayout>
 
         <TextView

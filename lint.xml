@@ -13,5 +13,6 @@
         <ignore path="src/com/shixunaoyou/wifiscanner/update/DownloadUpdateService.java" />
         <ignore path="src/com/shixunaoyou/wifiscanner/wifi/WiFiScanService.java" />
         <ignore path="src/com/shixunaoyou/wifiscanner/wifi/WifiListActivity.java" />
+        <ignore path="src/com/shixunaoyou/wifiscanner/wifichest/WifiChestActivity.java" />
     </issue>
 </lint>

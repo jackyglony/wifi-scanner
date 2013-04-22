@@ -321,5 +321,9 @@
     <string name="wifi_chest_empty_list">网络问题，无法加载数据</string>
     <string name="wifi_chest_packup_button">收起</string>
     <string name="wifi_chest_download_button">下载</string>
-    <string name="wifi_chest_download_time">下载量:%1$s</string>
+    <string name="wifi_chest_download_time">%1$s次下载</string>
+    <string name="wifi_chest_ten_thousand_times">%1$s万次下载</string>
+    <string name="wifi_chest_app_update_time">更新时间:%1$s</string>
+    <string name="wifi_chest_app_version">版本号：%1$s</string>
+
 </resources>

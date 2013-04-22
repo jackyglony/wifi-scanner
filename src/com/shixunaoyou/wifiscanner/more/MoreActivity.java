@@ -104,7 +104,7 @@ public class MoreActivity extends Activity implements View.OnClickListener {
         ProductCenter {
             @Override
             int getImageResId() {
-                return R.drawable.icon_about_us;
+                return R.drawable.icon_product_center;
             }
 
             @Override
