@@ -325,5 +325,5 @@
     <string name="wifi_chest_ten_thousand_times">%1$s万次下载</string>
     <string name="wifi_chest_app_update_time">更新时间:%1$s</string>
     <string name="wifi_chest_app_version">版本号：%1$s</string>
-
+    <string name="wifi_chest_app_download_failed">下载失败</string>
 </resources>

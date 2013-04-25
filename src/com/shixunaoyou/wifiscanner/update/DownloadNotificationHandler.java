@@ -38,7 +38,8 @@ public class DownloadNotificationHandler {
     @SuppressWarnings("deprecation")
     private void initNotification() {
         String contextText = null;
-        mDownNotification = new Notification(R.drawable.download, contextText,
+        mDownNotification = new Notification(
+                android.R.drawable.stat_sys_download, contextText,
                 System.currentTimeMillis());
         mDownNotification.flags = Notification.FLAG_ONGOING_EVENT;
         initContentView();
@@ -52,7 +53,7 @@ public class DownloadNotificationHandler {
         mContentView = new RemoteViews(mContext.getPackageName(),
                 R.layout.download_notification_view);
         mContentView.setProgressBar(R.id.download_progressbar, 100, 0, false);
-        mContentView.setImageViewResource(R.id.app_icon, R.drawable.download);
+        mContentView.setImageViewResource(R.id.app_icon, android.R.drawable.stat_sys_download);
         mContentView.setTextViewText(R.id.download_information,
                 mContext.getString(R.string.update_downloading_package));
         mContentView.setTextViewText(R.id.download_progress_text, "0%");

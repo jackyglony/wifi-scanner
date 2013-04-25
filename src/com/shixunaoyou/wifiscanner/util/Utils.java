@@ -1,5 +1,6 @@
 package com.shixunaoyou.wifiscanner.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -12,10 +13,13 @@ import java.util.Arrays;
 import com.shixunaoyou.wifiscanner.R;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -464,5 +468,28 @@ public class Utils {
         } else {
             return ssid;
         }
+    }
+
+    public static void installUpdateApk(Context context, String fullPath) {
+        File apkfile = new File(fullPath);
+        if (!apkfile.exists()) {
+            return;
+        }
+        Intent installIntent = new Intent(Intent.ACTION_VIEW);
+        installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        installIntent.setDataAndType(Uri.parse("file://" + apkfile.toString()),
+                "application/vnd.android.package-archive");
+        context.startActivity(installIntent);
+    }
+
+    public static boolean checkAndCreatePath() {
+        boolean result = false;
+        File file = new File(Environment.getExternalStorageDirectory()
+                + Constants.SAVE_PATH);
+        if (!file.exists()) {
+            result = file.mkdirs();
+        }
+        result = file.canWrite();
+        return result;
     }
 }

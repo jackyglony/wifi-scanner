@@ -10,14 +10,13 @@ import org.json.JSONObject;
 import com.shixunaoyou.wifiscanner.R;
 import com.shixunaoyou.wifiscanner.util.HttpUtils;
 import com.shixunaoyou.wifiscanner.util.Logger;
+import com.shixunaoyou.wifiscanner.util.Utils;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class WifiChestActivity extends ListActivity implements
-        AdapterView.OnItemClickListener, View.OnClickListener {
-
+        AdapterView.OnItemClickListener, View.OnClickListener,
+        ImageDownloadListener {
     private static String TAG = "WifiChestActivity";
     private View mLoadingContainer;
     private View mListContainer;
@@ -42,6 +41,7 @@ public class WifiChestActivity extends ListActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wifi_chest_layout);
         getViews();
+        Utils.checkAndCreatePath();
         LoadProcossTask task = new LoadProcossTask();
 
         if (Build.VERSION.SDK_INT >= 11) {
@@ -56,18 +56,22 @@ public class WifiChestActivity extends ListActivity implements
         mListContainer = findViewById(R.id.wifi_chest_applist_container);
     }
 
-    public void updateView(AppItemViewHolder holder, AppItem appItem) {
+    private void updateView(AppItemViewHolder holder, AppItem appItem) {
         holder.mDescription.setText(appItem.getDescription());
         holder.mTitle.setText(appItem.getTitle());
         holder.mRanking
                 .setImageResource(getRatingResource(appItem.getRanking()));
         holder.mSize.setText(String.format("%.2fMB", (float) appItem.getSize()
                 / (1024 * 1024)));
-        holder.mIcon.setImageResource(R.drawable.ic_launcher);
+        if (appItem.getAppIcon() == null) {
+            holder.mIcon.setImageResource(R.drawable.ic_launcher);
+        } else {
+            holder.mIcon.setImageDrawable(appItem.getAppIcon());
+        }
         holder.mVersionView.setText(getString(R.string.wifi_chest_app_version,
                 appItem.getVersion()));
-        holder.mUpdateView.setText(getString(R.string.wifi_chest_app_update_time,
-                appItem.getUpdateTime()));
+        holder.mUpdateView.setText(getString(
+                R.string.wifi_chest_app_update_time, appItem.getUpdateTime()));
         int download = appItem.getDownload();
         if (download >= 10000) {
             holder.mDownloadCount.setText(getString(
@@ -76,6 +80,27 @@ public class WifiChestActivity extends ListActivity implements
         } else {
             holder.mDownloadCount.setText(getString(
                     R.string.wifi_chest_download_time, download));
+        }
+        if (appItem.isShowDescription()) {
+            holder.mHideContainer.setVisibility(View.VISIBLE);
+            holder.mArrow.setImageResource(R.drawable.arrow_up);
+        } else {
+            holder.mHideContainer.setVisibility(View.GONE);
+            holder.mArrow.setImageResource(R.drawable.arrow_downlad);
+        }
+
+        if (appItem.isDownloading()) {
+            holder.mProgressContainer.setVisibility(View.VISIBLE);
+            holder.mProgressBar.setProgress(appItem.getPercentage());
+            holder.mProgressValue.setText(appItem.getPercentage() + "%");
+        } else {
+            holder.mProgressContainer.setVisibility(View.GONE);
+        }
+
+        if (appItem.isDownloading()) {
+            holder.mDownload.setEnabled(false);
+        } else {
+            holder.mDownload.setEnabled(true);
         }
     }
 
@@ -121,36 +146,57 @@ public class WifiChestActivity extends ListActivity implements
     @Override
     public void onItemClick(AdapterView<?> adapter, final View view,
             int position, long id) {
-        Logger.debug(TAG, "onItemClick");
-        AppItemViewHolder holder = (AppItemViewHolder) view.getTag();
-        if (holder.mHideContainer.getVisibility() == View.GONE) {
-            holder.mHideContainer.setVisibility(View.VISIBLE);
-            Handler handler = new Handler();
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (getListView() != null && view != null) {
-                        getListView().requestChildRectangleOnScreen(
-                                view,
-                                new Rect(0, 0, view.getWidth(), view
-                                        .getHeight()), false);
-                    }
-                }
-            });
-        } else {
-            holder.mHideContainer.setVisibility(View.GONE);
-        }
+        // Logger.debug(TAG, "onItemClick");
+        // AppItemViewHolder holder = (AppItemViewHolder) view.getTag();
+        // if (holder.mHideContainer.getVisibility() == View.GONE) {
+        // holder.mHideContainer.setVisibility(View.VISIBLE);
+        // Handler handler = new Handler();
+        // handler.post(new Runnable() {
+        // @Override
+        // public void run() {
+        // if (getListView() != null && view != null) {
+        // getListView().requestChildRectangleOnScreen(
+        // view,
+        // new Rect(0, 0, view.getWidth(), view
+        // .getHeight()), false);
+        // }
+        // }
+        // });
+        // } else {
+        // holder.mHideContainer.setVisibility(View.GONE);
+        // }
     }
 
     @Override
     public void onClick(View v) {
         Logger.debug(TAG, "onClick");
-
-        AppItemViewHolder holder = (AppItemViewHolder) v.getTag();
-        if (holder.mHideContainer.getVisibility() == View.GONE) {
-            holder.mHideContainer.setVisibility(View.VISIBLE);
+        int id = v.getId();
+        if (id == R.id.wifi_app_download_btn) {
+            AppItem item = (AppItem) v.getTag(R.id.wifi_app_download_count);
+            View parentView = (View) v.getTag(R.id.wifi_app_download_btn);
+            DownloadHandler handler = new DownloadHandler(this, item,
+                    parentView);
+            handler.startDownload();
         } else {
-            holder.mHideContainer.setVisibility(View.GONE);
+            AppItemViewHolder holder = (AppItemViewHolder) v.getTag();
+            AppItem item = (AppItem) v.getTag(R.id.wifi_app_download_count);
+            if (holder.mHideContainer.getVisibility() == View.GONE) {
+                holder.mHideContainer.setVisibility(View.VISIBLE);
+                holder.mArrow.setImageResource(R.drawable.arrow_up);
+                item.setShowingDescription(true);
+            } else {
+                holder.mArrow.setImageResource(R.drawable.arrow_downlad);
+                holder.mHideContainer.setVisibility(View.GONE);
+                item.setShowingDescription(false);
+            }
+        }
+    }
+
+    @Override
+    public void onImageDowlnloadCompleted() {
+        // TODO Auto-generated method stub
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -176,6 +222,7 @@ public class WifiChestActivity extends ListActivity implements
 
         public View getView(int position, View convertView, ViewGroup parent) {
             AppItemViewHolder holder = null;
+            AppItem item = mAppList.get(position);
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
 
@@ -206,12 +253,22 @@ public class WifiChestActivity extends ListActivity implements
                         .findViewById(R.id.wifi_app_update_time);
                 holder.mUpdateView = (TextView) convertView
                         .findViewById(R.id.wifi_app_version);
+                holder.mProgressContainer = convertView
+                        .findViewById(R.id.wifi_app_progress_container);
+                holder.mArrow = (ImageView) convertView
+                        .findViewById(R.id.wifi_app_arrow);
                 convertView.setTag(holder);
+                convertView.setTag(R.id.wifi_app_download_count, item);
                 convertView.setOnClickListener(WifiChestActivity.this);
+                holder.mDownload.setOnClickListener(WifiChestActivity.this);
+                holder.mDownload
+                        .setTag(R.id.wifi_app_download_btn, convertView);
             } else {
                 holder = (AppItemViewHolder) convertView.getTag();
             }
-            updateView(holder, mAppList.get(position));
+            convertView.setTag(R.id.wifi_app_download_count, item);
+            holder.mDownload.setTag(R.id.wifi_app_download_count, item);
+            updateView(holder, item);
             return convertView;
         }
     }
@@ -229,6 +286,8 @@ public class WifiChestActivity extends ListActivity implements
         private View mHideContainer;
         private TextView mUpdateView;
         private TextView mVersionView;
+        private View mProgressContainer;
+        private ImageView mArrow;
 
         private AppItemViewHolder(View sparent) {
         }
@@ -245,7 +304,7 @@ public class WifiChestActivity extends ListActivity implements
                 JSONArray apps = (JSONArray) result.get("showallapp");
                 for (int i = 0; i < apps.length(); i++) {
                     JSONObject app = apps.getJSONObject(i);
-                    AppItem item = new AppItem(app, null);
+                    AppItem item = new AppItem(app, WifiChestActivity.this);
                     list.add(item);
                 }
             } catch (JSONException e) {
@@ -267,4 +326,5 @@ public class WifiChestActivity extends ListActivity implements
         protected void onPreExecute() {
         }
     }
+
 }

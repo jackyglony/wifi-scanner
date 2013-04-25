@@ -1,15 +1,27 @@
 package com.shixunaoyou.wifiscanner.wifichest;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Logger;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
 import android.view.View;
 
 public class AppItem {
     private static String TAG = "AppItem";
+    private static final String SAVE_PATH = "/android/Downloads/WifiScanner/";
+
     private static String ID_KEY = "id";
     private static String DESCRIPTION_KEY = "sIntroduction";
     private static String TITLE_KEY = "sAppNameZN";
@@ -18,12 +30,14 @@ public class AppItem {
     private static String RANKING_KEY = "iRank";
     private static String DOWNLOAD_COUNT = "iDownloadTime";
     private static String UPDATE_TIME = "dUpdateTime";
+    private static String DOWNLOAD_URL = "sAddress";
     private static String VERSION = "sVersion";
 
     private Drawable mAppIcon;
     private String mTitle;
     private View mViewContainter;
     private String mImageUrl;
+    private String mDownloadUrl;
     private int mId;
     private int mDownloadProgressValue;
     private String mDescrition;
@@ -31,15 +45,37 @@ public class AppItem {
     private int mDownloadCount;
     private long mSize;
     private int mRanking;
-    private boolean isImageDownloadCompleted;
+//    private boolean isImageDownloadCompleted;
     private ImageDownloadListener mListener;
     private String mUpdateTime;
     private String mVersion;
+    private String mApkName;
+    private boolean mIsShowDescription;
+    private boolean mIsDownloading;
+    private String mImageLocal;
+
+    private int mPercentage;
 
     public AppItem(JSONObject o, ImageDownloadListener listener) {
         mListener = listener;
         parseJSONObject(o);
         startDownloadImage();
+    }
+
+    public boolean isShowDescription() {
+        return mIsShowDescription;
+    }
+
+    public void setShowingDescription(boolean isShow) {
+        mIsShowDescription = isShow;
+    }
+
+    public boolean isDownloading() {
+        return mIsDownloading;
+    }
+
+    public void setIsDownloading(boolean isDownloading) {
+        mIsDownloading = isDownloading;
     }
 
     private void parseJSONObject(JSONObject o) {
@@ -53,7 +89,11 @@ public class AppItem {
             mDownloadCount = Integer.parseInt(o.getString(DOWNLOAD_COUNT));
             mRanking = Integer.parseInt(o.getString(RANKING_KEY));
             mUpdateTime = o.getString(UPDATE_TIME);
+            mDownloadUrl = o.getString(DOWNLOAD_URL);
             mVersion = o.getString(VERSION);
+            mApkName = mTitle + ".apk";
+            mImageLocal = Environment.getExternalStorageDirectory() + SAVE_PATH
+                    + mTitle;
         } catch (JSONException e) {
             isPaserSuccessful = false;
             Logger.debug(TAG, "Error: " + e.toString());
@@ -65,12 +105,26 @@ public class AppItem {
         }
     }
 
+    public String getApkName() {
+        return mApkName;
+    }
+
+    public String getDownloadUrl() {
+        return mDownloadUrl;
+    }
+
     public boolean isParseSuccessful() {
         return isPaserSuccessful;
     }
 
     private void startDownloadImage() {
         if (isPaserSuccessful) {
+            ImageDownloadTask task = new ImageDownloadTask();
+            if (Build.VERSION.SDK_INT > 11) {
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                task.execute();
+            }
         }
     }
 
@@ -124,5 +178,60 @@ public class AppItem {
 
     public void setViewContainter(View mViewContainter) {
         this.mViewContainter = mViewContainter;
+    }
+
+    public int getPercentage() {
+        return mPercentage;
+    }
+
+    public void setPercentage(int mPercentage) {
+        this.mPercentage = mPercentage;
+    }
+
+    public String getImageUrl() {
+        return mImageUrl;
+    }
+
+    class ImageDownloadTask extends AsyncTask<Void, Integer, Integer> {
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int status = Constants.STATUS_UNKOWN;
+            try {
+                downloadImage();
+                status = Constants.DOWNLOAD_COMPLETE;
+            } catch (Exception e) {
+                status = Constants.DOWNLOAD_ERROR;
+                // TODO Auto-generated catch block
+                Logger.debug(TAG, "error: " + e.toString());
+                e.printStackTrace();
+            }
+            return status;
+        }
+
+        private void downloadImage() throws Exception {
+            URL url;
+            url = new URL(mImageUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(200000);
+            File apkFile = new File(mImageLocal);
+            FileOutputStream fos = new FileOutputStream(apkFile);
+            InputStream is = conn.getInputStream();
+            byte buf[] = new byte[1024 * 2];
+            do {
+                int numread = is.read(buf);
+                if (numread <= 0) {
+                    break;
+                }
+                fos.write(buf, 0, numread);
+            } while (true);
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            if (result == Constants.DOWNLOAD_COMPLETE) {
+                mAppIcon = Drawable.createFromPath(mImageLocal);
+                mListener.onImageDowlnloadCompleted();
+            }
+        }
     }
 }

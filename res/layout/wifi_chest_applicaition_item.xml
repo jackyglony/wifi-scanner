@@ -17,12 +17,13 @@
             android:id="@+id/wifi_application_icon"
             android:layout_width="@dimen/general_item_image_width"
             android:layout_height="@dimen/general_item_image_height"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center_vertical"
             android:contentDescription="@null" />
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/footer_margin_left"
             android:layout_weight="1"
             android:orientation="vertical" >
 
@@ -55,6 +56,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
                 <ImageView
@@ -66,6 +69,15 @@
                     android:contentDescription="@null"
                     android:gravity="start" />
 
+                <ImageView
+                    android:id="@+id/wifi_app_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="start"
+                    android:contentDescription="@null"
+                    android:src="@drawable/arrow_downlad" />
+
                 <TextView
                     android:id="@+id/wifi_app_download_count"
                     android:layout_width="wrap_content"
@@ -76,23 +88,29 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/wifi_app_progress_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/footer_margin_top"
                 android:orientation="horizontal"
                 android:visibility="gone" >
 
                 <ProgressBar
                     android:id="@+id/wifi_app_progressbar"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_weight="1" />
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_weight="1"
+                    android:max="100" />
 
                 <TextView
                     android:id="@+id/wifi_app_progess_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:gravity="end|center_vertical"
+                    android:minWidth="20dip"
                     android:textIsSelectable="false" >
                 </TextView>
             </LinearLayout>
@@ -103,16 +121,16 @@
             android:layout_width="@dimen/wifi_app_list_item_divider_width"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/wifi_app_list_item_padding_top_bottom"
-            android:layout_marginRight="@dimen/wifi_app_list_item_divider_width"
+            android:layout_marginRight="@dimen/wifi_app_list_item_padding_top_bottom"
             android:layout_marginTop="@dimen/wifi_app_list_item_padding_top_bottom"
-            android:background="@drawable/divider_vertical_dark" />
+            android:background="@drawable/between_button_line" />
 
         <Button
             android:id="@+id/wifi_app_download_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:text="@string/wifi_chest_download_button" />
+            android:background="@drawable/btn_download" />
     </LinearLayout>
 
     <LinearLayout
@@ -134,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginRight="@dimen/footer_margin_top"
+                android:layout_marginRight="@dimen/footer_margin_left"
                 android:gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textIsSelectable="false" />
@@ -145,8 +163,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginRight="@dimen/footer_margin_top"
-                android:gravity="end"
                 android:layout_weight="1"
+                android:gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textIsSelectable="false" />
         </LinearLayout>

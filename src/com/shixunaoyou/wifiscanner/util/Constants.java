@@ -80,5 +80,5 @@ public class Constants {
     public static final String CMCC = "中国移动免费热点";
     public static final String CHINA_UNICOM = "中国联通免费热点";
     public static final String CHINANET = "中国电信免费热点";
-
+    public static final String SAVE_PATH = "/android/Downloads/WifiScanner/";
 }

@@ -29,7 +29,6 @@ public class DownloadUpdateService extends Service {
 
     private static final int DOWNLOAD_TIMEOUT = 20 * 1000;
 
-    private static final String SAVE_PATH = "/android/Downloads/WifiScanner/";
     private static final String FILENAME = "WifiScanner.apk";
     // TODO: Test URL
     private String mFileFullPath;
@@ -94,14 +93,14 @@ public class DownloadUpdateService extends Service {
     private boolean checkAndUpdatePath() {
         boolean result = false;
         File file = new File(Environment.getExternalStorageDirectory()
-                + SAVE_PATH);
+                + Constants.SAVE_PATH);
         if (!file.exists()) {
             result = file.mkdirs();
         }
         result = file.canWrite();
         if (result) {
             mFileFullPath = Environment.getExternalStorageDirectory()
-                    + SAVE_PATH + FILENAME;
+                    + Constants.SAVE_PATH + FILENAME;
         }
         return result;
     }
@@ -170,7 +169,6 @@ public class DownloadUpdateService extends Service {
                 }
                 fos.write(buf, 0, numread);
             } while (true);
-
         }
 
         @Override
@@ -193,22 +191,9 @@ public class DownloadUpdateService extends Service {
             } else {
                 MobclickAgent
                         .onEvent(mContext, UMengUtils.EVENT_UPDATE_SUCCESS);
-                installUpdateApk();
+                Utils.installUpdateApk(mContext, mFileFullPath);
             }
             DownloadUpdateService.this.stopSelf();
-        }
-
-        private void installUpdateApk() {
-            File apkfile = new File(mFileFullPath);
-            if (!apkfile.exists()) {
-                return;
-            }
-            Intent installIntent = new Intent(Intent.ACTION_VIEW);
-            installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            installIntent.setDataAndType(
-                    Uri.parse("file://" + apkfile.toString()),
-                    "application/vnd.android.package-archive");
-            mContext.startActivity(installIntent);
         }
 
         private void showErrorMessage(Integer result) {
