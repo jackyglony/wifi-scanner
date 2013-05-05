@@ -215,7 +215,13 @@ public class ConnectionInfoDialog extends BaseCustomDialog implements
         if (hasLogin) {
             long dataTrafficLogin = Utils.getDataTarfficOfLogin(mContext);
             long currentDataTarffic = TrafficStats.getTotalRxBytes();
-            long dataConsume = currentDataTarffic - dataTrafficLogin;
+            long dataConsume;
+            if(currentDataTarffic < dataTrafficLogin) {
+                dataConsume = currentDataTarffic;
+                Utils.setDataTrafficWhenLogin(mContext, 0);
+            } else {
+                dataConsume  = currentDataTarffic - dataTrafficLogin;
+            }
             float dataInFloat = (float) dataConsume / (1024 * 1024);
             data = String.format("%.2fMB", dataInFloat);
         }

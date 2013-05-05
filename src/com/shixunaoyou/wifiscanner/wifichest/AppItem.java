@@ -45,7 +45,7 @@ public class AppItem {
     private int mDownloadCount;
     private long mSize;
     private int mRanking;
-//    private boolean isImageDownloadCompleted;
+    // private boolean isImageDownloadCompleted;
     private ImageDownloadListener mListener;
     private String mUpdateTime;
     private String mVersion;
@@ -54,28 +54,14 @@ public class AppItem {
     private boolean mIsDownloading;
     private String mImageLocal;
 
+    private boolean mIsApkExisted;
     private int mPercentage;
 
     public AppItem(JSONObject o, ImageDownloadListener listener) {
         mListener = listener;
         parseJSONObject(o);
-        startDownloadImage();
-    }
-
-    public boolean isShowDescription() {
-        return mIsShowDescription;
-    }
-
-    public void setShowingDescription(boolean isShow) {
-        mIsShowDescription = isShow;
-    }
-
-    public boolean isDownloading() {
-        return mIsDownloading;
-    }
-
-    public void setIsDownloading(boolean isDownloading) {
-        mIsDownloading = isDownloading;
+        checkApkFile();
+        loadingImage();
     }
 
     private void parseJSONObject(JSONObject o) {
@@ -105,6 +91,65 @@ public class AppItem {
         }
     }
 
+    private void loadingImage() {
+        if (!loadLocalImage()) {
+            startDownloadImage();
+        }
+    }
+
+    private boolean loadLocalImage() {
+        boolean isSuccessful = false;
+        File file = new File(mImageLocal);
+        if (file.exists()) {
+            mAppIcon = Drawable.createFromPath(mImageLocal);
+            if (mAppIcon != null) {
+                isSuccessful = true;
+            }
+        }
+        return isSuccessful;
+    }
+
+    private void startDownloadImage() {
+
+        if (isPaserSuccessful) {
+            ImageDownloadTask task = new ImageDownloadTask();
+            if (Build.VERSION.SDK_INT > 11) {
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                task.execute();
+            }
+        }
+    }
+
+    private void checkApkFile() {
+        File file = new File(getApkFullPath());
+        if (file.exists()) {
+            mIsApkExisted = true;
+        } else {
+            mIsApkExisted = false;
+        }
+    }
+
+    public boolean isApkExisted() {
+        return mIsApkExisted;
+    }
+
+    public boolean isShowDescription() {
+        return mIsShowDescription;
+    }
+
+    public void setShowingDescription(boolean isShow) {
+        mIsShowDescription = isShow;
+    }
+
+    public boolean isDownloading() {
+        return mIsDownloading;
+    }
+
+    public void setIsDownloading(boolean isDownloading) {
+        mIsDownloading = isDownloading;
+    }
+
     public String getApkName() {
         return mApkName;
     }
@@ -115,17 +160,6 @@ public class AppItem {
 
     public boolean isParseSuccessful() {
         return isPaserSuccessful;
-    }
-
-    private void startDownloadImage() {
-        if (isPaserSuccessful) {
-            ImageDownloadTask task = new ImageDownloadTask();
-            if (Build.VERSION.SDK_INT > 11) {
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                task.execute();
-            }
-        }
     }
 
     public String getVersion() {
@@ -233,5 +267,19 @@ public class AppItem {
                 mListener.onImageDowlnloadCompleted();
             }
         }
+    }
+
+    public String getApkFullPath() {
+        return Environment.getExternalStorageDirectory() + Constants.SAVE_PATH
+                + getApkName();
+    }
+
+    public String getTempApkFullPath() {
+        return Environment.getExternalStorageDirectory() + Constants.SAVE_PATH
+                + getApkName() + ".tmp";
+    }
+
+    public void updateStatus() {
+        checkApkFile();
     }
 }

@@ -1,8 +1,11 @@
 package com.shixunaoyou.wifiscanner.more;
 
+import com.shixunaoyou.wifiscanner.BaseScannerActivity;
+import com.shixunaoyou.wifiscanner.ExitConfirmDialog;
 import com.shixunaoyou.wifiscanner.R;
 import com.shixunaoyou.wifiscanner.update.CheckUpdateAsyncTask;
 import com.shixunaoyou.wifiscanner.util.UMengUtils;
+import com.shixunaoyou.wifiscanner.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -17,7 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MoreActivity extends Activity implements View.OnClickListener {
+public class MoreActivity extends BaseScannerActivity implements
+        View.OnClickListener {
 
     private LinearLayout mContainterView;
     private LayoutInflater mFlater;
@@ -148,7 +152,13 @@ public class MoreActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void action(Context context) {
-                android.os.Process.killProcess(android.os.Process.myPid());
+                ExitConfirmDialog dlg = new ExitConfirmDialog(context);
+                dlg.show();
+                int width = (int) (Utils
+                        .getActivityDisplayWidth((Activity) context) * 0.9);
+                int height = (int) (Utils
+                        .getActivityDisplayHeight((Activity) context) * 0.4);
+                dlg.getWindow().setLayout(width, height);
             }
 
         };

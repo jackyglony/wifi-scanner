@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/base_custom_dlg_message"
+        style="@style/WifiTextMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/footer_margin_left"
+        android:textIsSelectable="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/person_info_marge"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/base_custom_ok_btn"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:text="@string/wifi_base_custom_confirm" />
+
+        <Button
+            android:id="@+id/base_custom_cancel_btn"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:text="@string/wifi_account_dialog_cancel" />
+    </LinearLayout>
+
+</LinearLayout>

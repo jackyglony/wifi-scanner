@@ -32,10 +32,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,9 +50,8 @@ import com.shixunaoyou.wifiscanner.util.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 public class WifiListActivity extends PreferenceActivity implements
-        DialogInterface.OnClickListener, OnDismissListener,
-        ConnectionInfoDialog.ActionListener, View.OnClickListener,
-        WifiFilterDialog.OnWifiFilerChangeListener {
+        OnDismissListener, ConnectionInfoDialog.ActionListener,
+        View.OnClickListener, WifiFilterDialog.OnWifiFilerChangeListener {
 
     public static final int FORGET_RESPONE = Activity.RESULT_FIRST_USER + 1;
     private static final String TAG = "WifiScannerActivity";
@@ -123,6 +120,14 @@ public class WifiListActivity extends PreferenceActivity implements
         mScanner = new Scanner();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,10 +155,8 @@ public class WifiListActivity extends PreferenceActivity implements
         initHeaderView();
 
         autoCheckUpdate();
-        WindowManager manager = getWindowManager();
-        Display display = manager.getDefaultDisplay();
-        mAlertDialogWidth = (int) (display.getWidth() * 0.9);
-        mAlertDialogHeight = (int) (display.getHeight() * 0.8);
+        mAlertDialogWidth = (int) (Utils.getActivityDisplayWidth(this) * 0.9);
+        mAlertDialogHeight = (int) (Utils.getActivityDisplayHeight(this) * 0.8);
     }
 
     private void initSummaryOfWifiFilterListPref() {
@@ -250,8 +253,13 @@ public class WifiListActivity extends PreferenceActivity implements
         if (mResetNetworks) {
             enableNetworks();
         }
+        startService();
+    }
+
+    private void startService() {
         // if we enable auto login, we start the service when we exit the view
         if (Utils.getEnableAutoLogin(this)) {
+            Logger.debug(TAG, "OnPause: ready to start service");
             Intent intentService = new Intent(this, WiFiScanService.class);
             this.startService(intentService);
         }
@@ -260,6 +268,8 @@ public class WifiListActivity extends PreferenceActivity implements
     @Override
     protected void onDestroy() {
         Logger.debug(TAG, "onDestroy");
+        // if we enable auto login, we start the service when we exit the view
+        startService();
         logoutIfAccountIsDeleted();
         super.onDestroy();
     }
@@ -746,7 +756,8 @@ public class WifiListActivity extends PreferenceActivity implements
     private void login() {
         String name = Utils.getUserName(this);
         if (TextUtils.isEmpty(name)) {
-            AccountSettingsDialog dialog = new AccountSettingsDialog(this, this);
+            AccountSettingsDialog dialog = new AccountSettingsDialog(this,
+                    this, true);
             dialog.show();
             dialog.getWindow().setLayout(mAlertDialogWidth, mAlertDialogHeight);
         } else {
@@ -771,37 +782,37 @@ public class WifiListActivity extends PreferenceActivity implements
         updateAccessPoints(filterMode);
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == WifiDialog.BUTTON_FORGET && mSelectedAccessPoint != null) {
-            forget(mSelectedAccessPoint.networkId);
-        } else if (which == WifiDialog.BUTTON_SUBMIT && mDialog != null) {
-            WifiConfiguration config = mDialog.getConfig();
-
-            if (config == null) {
-                if (mSelectedAccessPoint != null
-                        && !requireKeyStore(mSelectedAccessPoint.getConfig())) {
-                    connect(mSelectedAccessPoint.networkId);
-                }
-            } else if (config.networkId != Constants.INVALID_NETWORK_ID) {
-                if (mSelectedAccessPoint != null) {
-                    mWifiManager.updateNetwork(config);
-                    saveNetworks();
-                }
-            } else {
-                int networkId = mWifiManager.addNetwork(config);
-                if (networkId != Constants.INVALID_NETWORK_ID) {
-                    mWifiManager.enableNetwork(networkId, false);
-                    config.networkId = networkId;
-                    if (mDialog.edit || requireKeyStore(config)) {
-                        saveNetworks();
-                    } else {
-                        connect(networkId);
-                    }
-                }
-            }
-        }
-    }
+    // @Override
+    // public void onClick(DialogInterface dialog, int which) {
+    // if (which == WifiDialog.BUTTON_FORGET && mSelectedAccessPoint != null) {
+    // forget(mSelectedAccessPoint.networkId);
+    // } else if (which == WifiDialog.BUTTON_SUBMIT && mDialog != null) {
+    // WifiConfiguration config = mDialog.getConfig();
+    //
+    // if (config == null) {
+    // if (mSelectedAccessPoint != null
+    // && !requireKeyStore(mSelectedAccessPoint.getConfig())) {
+    // connect(mSelectedAccessPoint.networkId);
+    // }
+    // } else if (config.networkId != Constants.INVALID_NETWORK_ID) {
+    // if (mSelectedAccessPoint != null) {
+    // mWifiManager.updateNetwork(config);
+    // saveNetworks();
+    // }
+    // } else {
+    // int networkId = mWifiManager.addNetwork(config);
+    // if (networkId != Constants.INVALID_NETWORK_ID) {
+    // mWifiManager.enableNetwork(networkId, false);
+    // config.networkId = networkId;
+    // if (mDialog.edit || requireKeyStore(config)) {
+    // saveNetworks();
+    // } else {
+    // connect(networkId);
+    // }
+    // }
+    // }
+    // }
+    // }
 
     @Override
     public void onClick(View v) {

@@ -2,10 +2,11 @@ package com.shixunaoyou.wifiscanner;
 
 import java.lang.reflect.Field;
 
+import com.shixunaoyou.wifiscanner.personcentre.RegisterActivity;
 import com.shixunaoyou.wifiscanner.util.Utils;
-
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -46,15 +47,22 @@ public class AccountSettingsDialog extends BaseCustomDialog implements
 
     private Button mSaveButton;
     private Button mCancelButton;
+    private Button mRegisterButton;
 
     private Context mContext;
-
+    private boolean mIsShowRegister;
     private int mMode = EDIT_MODE;
 
     public AccountSettingsDialog(Context context, OnDismissListener listener) {
         super(context);
         mContext = context;
         this.setOnDismissListener(listener);
+    }
+
+    public AccountSettingsDialog(Context context, OnDismissListener listener,
+            boolean isShowRegister) {
+        this(context, listener);
+        mIsShowRegister = isShowRegister;
     }
 
     @Override
@@ -105,8 +113,18 @@ public class AccountSettingsDialog extends BaseCustomDialog implements
                 .findViewById(R.id.account_dialog_save);
         mCancelButton = (Button) mContentView
                 .findViewById(R.id.account_dialog_cancel);
+        mRegisterButton = (Button) mContentView
+                .findViewById(R.id.account_dialog_register);
         mSaveButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
+        mRegisterButton.setOnClickListener(this);
+        if (mIsShowRegister) {
+            mRegisterButton.setVisibility(View.VISIBLE);
+            mSaveButton.setText(R.string.connection_info_login);
+        } else {
+            mRegisterButton.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -165,6 +183,9 @@ public class AccountSettingsDialog extends BaseCustomDialog implements
                 Utils.setPassword(mContext, password);
                 Utils.setUserName(mContext, name);
             }
+        } else if (id == R.id.account_dialog_register) {
+            Intent intent = new Intent(mContext, RegisterActivity.class);
+            mContext.startActivity(intent);
         }
         this.dismiss();
     }

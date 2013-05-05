@@ -15,4 +15,5 @@ public class UMengUtils {
     public static final String EVENT_CONNECT_TO_SERVER = "connect_to_591server";
     public static final String EVENT_FEEDBACK_SUCCESSFUL = "feedback_successful";
     public static final String EVENT_FEEDBACK_FAILED = "feedback_failed";
+    public static final String EVENT_DOWNLOAD_APP = "download_app";
 }

@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import com.shixunaoyou.wifiscanner.R;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,11 +24,16 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
 
 public class Utils {
     private static final String TAG = "Utils";
     private static final int MIN_RSSI = -100;
     private static final int MAX_RSSI = -50;
+    private static int mDisplayWidth = -1;
+    private static int mDisplayHeight = -1;
+
     @SuppressWarnings("boxing")
     private final static ArrayList<Integer> channelsFrequency = new ArrayList<Integer>(
             Arrays.asList(0, 2412, 2417, 2422, 2427, 2432, 2437, 2442, 2447,
@@ -139,8 +145,9 @@ public class Utils {
             URL url = new URL("http://" + Utils.getGateway(context));
             Logger.debug(TAG, "URL: " + url.toString());
             urlc = (HttpURLConnection) url.openConnection();
-            urlc.setConnectTimeout(6000);
-            urlc.setReadTimeout(6000);
+            urlc.setRequestProperty("http.keepAlive", "false");
+            urlc.setConnectTimeout(10000);
+            urlc.setReadTimeout(10000);
             urlc.setRequestMethod("GET");
             urlc.setDoInput(true);
             urlc.connect();
@@ -491,5 +498,39 @@ public class Utils {
         }
         result = file.canWrite();
         return result;
+    }
+
+    public static String getAppList(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getString(Constants.APP_LIST, null);
+    }
+
+    public static void setAppList(Context context, String applist) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Editor editor = sPref.edit();
+        editor.putString(Constants.APP_LIST, applist);
+        editor.commit();
+    }
+
+    @SuppressWarnings("deprecation")
+    public static int getActivityDisplayWidth(Activity activity) {
+        if (mDisplayWidth == -1) {
+            WindowManager wm = activity.getWindowManager();
+            Display display = wm.getDefaultDisplay();
+            mDisplayWidth = display.getWidth();
+        }
+        return mDisplayWidth;
+    }
+
+    @SuppressWarnings("deprecation")
+    public static int getActivityDisplayHeight(Activity activity) {
+        if (mDisplayHeight == -1) {
+            WindowManager wm = activity.getWindowManager();
+            Display display = wm.getDefaultDisplay();
+            mDisplayHeight = display.getHeight();
+        }
+        return mDisplayHeight;
     }
 }

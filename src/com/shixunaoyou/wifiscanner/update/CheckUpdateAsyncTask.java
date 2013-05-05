@@ -26,7 +26,6 @@ public class CheckUpdateAsyncTask extends AsyncTask<Void, Void, JSONObject>
 
     private final static String TAG = "CheckUpdateAsyncTask";
     private final String UPDATE_URL = "http://www.591wifi.com/portal/appupdate";
-    private CheckCompletedListener mCompletedListener;
     private Context mContext;
     private boolean mShoulShowInfo = true;
 
@@ -34,7 +33,6 @@ public class CheckUpdateAsyncTask extends AsyncTask<Void, Void, JSONObject>
             CheckCompletedListener listener, boolean showInfo) {
         super();
         mContext = context;
-        mCompletedListener = listener;
         mShoulShowInfo = showInfo;
     }
 

@@ -16,7 +16,6 @@ import com.umeng.analytics.MobclickAgent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
@@ -216,7 +215,6 @@ public class DownloadUpdateService extends Service {
 
         @Override
         protected void onProgressUpdate(Integer... progress) {
-            Logger.debug(LOG_TAG, "Have completed download %" + progress[0]);
             mNotificationHandler.updateNotification(progress[0]);
         }
     }

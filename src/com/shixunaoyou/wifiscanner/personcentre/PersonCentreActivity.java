@@ -1,15 +1,12 @@
 package com.shixunaoyou.wifiscanner.personcentre;
 
 import com.shixunaoyou.wifiscanner.AccountSettingsDialog;
+import com.shixunaoyou.wifiscanner.BaseScannerActivity;
 import com.shixunaoyou.wifiscanner.R;
-import com.shixunaoyou.wifiscanner.R.id;
-import com.shixunaoyou.wifiscanner.R.layout;
-import com.shixunaoyou.wifiscanner.R.string;
 import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Logger;
 import com.shixunaoyou.wifiscanner.util.Utils;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
@@ -21,7 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class PersonCentreActivity extends Activity implements
+public class PersonCentreActivity extends BaseScannerActivity implements
         View.OnClickListener, OnDismissListener {
 
     private Button mRegisterBtn;

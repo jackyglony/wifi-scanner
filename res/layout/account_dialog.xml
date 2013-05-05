@@ -97,6 +97,15 @@
             android:text="@string/wifi_account_dialog_save" />
 
         <Button
+            android:id="@+id/account_dialog_register"
+            style="@style/WifiGeneralButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:text="@string/person_centre_register" />
+
+        <Button
             android:id="@+id/account_dialog_cancel"
             style="@style/WifiGeneralButton"
             android:layout_width="0dip"

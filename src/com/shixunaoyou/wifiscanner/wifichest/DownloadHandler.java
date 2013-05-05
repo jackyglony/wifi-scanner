@@ -14,7 +14,6 @@ import com.shixunaoyou.wifiscanner.util.Utils;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -28,12 +27,12 @@ public class DownloadHandler {
     private View mView;
     private ProgressBar mProgressBar;
     private TextView mTextView;
-    private static final String SAVE_PATH = "/android/Downloads/WifiScanner/";
     private String mFileFullPath;
     private String mDownloadUrl;
     private View mProgressContainer;
     private Button mDownloadButton;
     private Context mContext;
+    private DownloadListener mDownloadListener;
 
     public DownloadHandler(Context context, AppItem item, View view) {
         mItem = item;
@@ -42,23 +41,13 @@ public class DownloadHandler {
         initialData();
     }
 
-    public void startDownload() {
-        DownloadTask task = new DownloadTask();
-        if (Build.VERSION.SDK_INT >= 11) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            task.execute();
-        }
-    }
-
     private void initialData() {
         initialFileData();
         initalView();
     }
 
     private void initialFileData() {
-        mFileFullPath = Environment.getExternalStorageDirectory() + SAVE_PATH
-                + mItem.getApkName();
+        mFileFullPath = mItem.getTempApkFullPath();
         mDownloadUrl = mItem.getDownloadUrl();
     }
 
@@ -72,6 +61,20 @@ public class DownloadHandler {
                 .findViewById(R.id.wifi_app_download_btn);
         mProgressBar.setMax(100);
         mProgressBar.setProgress(0);
+        mTextView.setText("0%");
+    }
+
+    public void startDownload() {
+        DownloadTask task = new DownloadTask();
+        if (Build.VERSION.SDK_INT >= 11) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            task.execute();
+        }
+    }
+
+    public void setDownloadListener(DownloadListener listener) {
+        mDownloadListener = listener;
     }
 
     class DownloadTask extends AsyncTask<Void, Integer, Integer> {
@@ -129,19 +132,38 @@ public class DownloadHandler {
             mDownloadButton.setEnabled(true);
             mItem.setIsDownloading(false);
             if (result == Constants.DOWNLOAD_COMPLETE) {
-                Utils.installUpdateApk(mContext, mFileFullPath);
+                renameApkFile();
+                Utils.installUpdateApk(mContext, mItem.getApkFullPath());
+                mItem.updateStatus();
             } else {
                 Toast.makeText(mContext,
                         R.string.wifi_chest_app_download_failed,
                         Toast.LENGTH_SHORT).show();
             }
+            if (mDownloadListener != null) {
+                mDownloadListener.onDownloadCompleted(result);
+            }
+        }
+
+        private void renameApkFile() {
+            File file = new File(mFileFullPath);
+            if (file.exists()) {
+                file.renameTo(new File(mItem.getApkFullPath()));
+            }
         }
 
         @Override
         protected void onProgressUpdate(Integer... progress) {
-            mProgressBar.setProgress(progress[0]);
-            mTextView.setText(progress[0] + "%");
-            mItem.setPercentage(progress[0]);
+            int centage = progress[0];
+            if (centage <= 100) {
+                mProgressBar.setProgress(progress[0]);
+                mTextView.setText(progress[0] + "%");
+                mItem.setPercentage(progress[0]);
+            }
         }
+    }
+
+    public interface DownloadListener {
+        public void onDownloadCompleted(int status);
     }
 }

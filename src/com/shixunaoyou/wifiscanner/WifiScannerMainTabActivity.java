@@ -158,7 +158,7 @@ public class WifiScannerMainTabActivity extends ActivityGroup implements
                 case R.id.tab_chest:
                     this.mHost.setCurrentTabByTag(TAB_PARTERSHIP);
                     mTitleView.setText(R.string.tab_title_partership);
-                    mRightButton.setVisibility(View.VISIBLE);
+                    mRightButton.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.tab_settings:
                     this.mHost.setCurrentTabByTag(TAB_SETTINGS);

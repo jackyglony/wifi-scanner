@@ -8,9 +8,6 @@ import org.json.JSONObject;
 
 import com.shixunaoyou.wifiscanner.BaseCustomActivity;
 import com.shixunaoyou.wifiscanner.R;
-import com.shixunaoyou.wifiscanner.R.id;
-import com.shixunaoyou.wifiscanner.R.layout;
-import com.shixunaoyou.wifiscanner.R.string;
 import com.shixunaoyou.wifiscanner.util.HttpUtils;
 import com.shixunaoyou.wifiscanner.util.Logger;
 import com.shixunaoyou.wifiscanner.util.UMengUtils;

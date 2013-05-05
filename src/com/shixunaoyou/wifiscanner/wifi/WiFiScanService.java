@@ -76,13 +76,7 @@ public class WiFiScanService extends Service {
             boolean lastStatus = mConnected.get();
             mConnected.set(info.isConnected());
             if (!lastStatus && mConnected.get()) {
-                Logger.debug(TAG, "Service start to check network!");
-                ServiceFirstCheckStatus task = new ServiceFirstCheckStatus();
-                if (Build.VERSION.SDK_INT >= 11) {
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                } else {
-                    task.execute();
-                }
+                startCheckNetwork();
             }
             if (!info.isConnected()) {
                 Utils.setLoginStatus(this, Constants.NO_WIFI);
@@ -91,10 +85,29 @@ public class WiFiScanService extends Service {
         }
     }
 
+    private void startCheckNetwork() {
+        Logger.debug(TAG, "Service start to check network!");
+        ServiceFirstCheckStatus task = new ServiceFirstCheckStatus();
+        if (Build.VERSION.SDK_INT >= 11) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            task.execute();
+        }
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        mConnected.set(Utils.isHasWifiConnection(this));
+        boolean isHasWifiConnecton = Utils.isHasWifiConnection(this);
+        if (intent != null) {
+            boolean isReboot = intent.getBooleanExtra(Constants.REBOOT_START,
+                    false);
+            mConnected.set(isHasWifiConnecton);
+            if (isHasWifiConnecton && isReboot) {
+                Logger.debug(TAG, "start try to login after rebooting");
+                startCheckNetwork();
+            }
+        }
         return Service.START_STICKY;
     }
 

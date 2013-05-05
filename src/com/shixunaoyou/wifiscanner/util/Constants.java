@@ -81,4 +81,8 @@ public class Constants {
     public static final String CHINA_UNICOM = "中国联通免费热点";
     public static final String CHINANET = "中国电信免费热点";
     public static final String SAVE_PATH = "/android/Downloads/WifiScanner/";
+    public static final String APP_LIST = "app_list";
+
+    public static final int BOOT_COMPLETE = 1;
+    public static final String REBOOT_START = "reboot";
 }

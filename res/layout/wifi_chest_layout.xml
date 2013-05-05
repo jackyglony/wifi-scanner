@@ -28,18 +28,22 @@
             android:text="@string/wifi_chest_loading_list" />
     </LinearLayout>
 
-  
     <LinearLayout
         android:id="@+id/wifi_chest_applist_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/emptyText"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:gravity="center_horizontal|top"
             android:paddingTop="@dimen/general_empty_txt_top_padding"
             android:text="@string/wifi_chest_empty_list"
@@ -52,6 +56,33 @@
             android:paddingLeft="@dimen/general_item_margin"
             android:paddingRight="@dimen/general_item_margin"
             android:scrollbarStyle="outsideOverlay" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_chest_refresh_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal|top"
+            android:paddingTop="@dimen/general_empty_txt_top_padding"
+            android:text="@string/wifi_chest_empty_list" />
+
+        <Button
+            android:id="@+id/wifi_chest_refresh_btn"
+            style="@style/WifiGeneralButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/general_item_margin"
+            android:paddingRight="@dimen/general_item_margin"
+            android:text="@string/wifi_chest_refresh_list" />
     </LinearLayout>
 
 </RelativeLayout>

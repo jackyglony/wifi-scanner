@@ -318,7 +318,7 @@
 
     <!-- Chect Resources -->
     <string name="wifi_chest_loading_list">正在加载列表\u2026</string>
-    <string name="wifi_chest_empty_list">网络问题，无法加载数据</string>
+    <string name="wifi_chest_empty_list">加载数据失败</string>
     <string name="wifi_chest_packup_button">收起</string>
     <string name="wifi_chest_download_button">下载</string>
     <string name="wifi_chest_download_time">%1$s次下载</string>
@@ -326,4 +326,9 @@
     <string name="wifi_chest_app_update_time">更新时间:%1$s</string>
     <string name="wifi_chest_app_version">版本号：%1$s</string>
     <string name="wifi_chest_app_download_failed">下载失败</string>
+    <string name="wifi_chest_refresh_list">立即刷新</string>
+
+    <string name="wifi_base_custom_confirm">确定</string>
+    <string name="wifi_exit_confirm">退出确认</string>
+    <string name="wifi_exit_message">确定要退出程序?</string>
 </resources>

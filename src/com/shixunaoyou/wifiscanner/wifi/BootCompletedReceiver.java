@@ -1,5 +1,6 @@
 package com.shixunaoyou.wifiscanner.wifi;
 
+import com.shixunaoyou.wifiscanner.util.Constants;
 import com.shixunaoyou.wifiscanner.util.Logger;
 import com.shixunaoyou.wifiscanner.util.Utils;
 
@@ -16,6 +17,7 @@ public class BootCompletedReceiver extends BroadcastReceiver {
         Logger.debug(TAG, "receive the boot complete message");
         if (Utils.getEnableAutoLogin(context)) {
             Intent intentService = new Intent(context, WiFiScanService.class);
+            intentService.putExtra(Constants.REBOOT_START, true);
             context.startService(intentService);
         }
     }

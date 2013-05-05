@@ -35,17 +35,19 @@ public class HttpUtils {
         Logger.debug(TAG, "Request Url: " + url);
         try {
             wrapperUrl = new URI(url);
-            HttpPost post = new HttpPost(wrapperUrl);
-            HttpResponse response = getDefaultClient().execute(post);
+
             HttpParams httpParameters = new BasicHttpParams();
-            HttpEntity responseEntity = response.getEntity();
-            int timeoutConnection = 5000;
+            int timeoutConnection = 20000;
             HttpConnectionParams.setConnectionTimeout(httpParameters,
                     timeoutConnection);
             // Set the default socket timeout (SO_TIMEOUT)
             // in milliseconds which is the timeout for waiting for data.
-            int timeoutSocket = 5000;
+            int timeoutSocket = 20000;
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+            HttpPost post = new HttpPost(wrapperUrl);
+            post.setParams(httpParameters);
+            HttpResponse response = getDefaultClient().execute(post);
+            HttpEntity responseEntity = response.getEntity();
             String jsonResultString = EntityUtils.toString(responseEntity);
             Logger.debug(TAG, "Result: " + jsonResultString);
             responseEntity.consumeContent();
