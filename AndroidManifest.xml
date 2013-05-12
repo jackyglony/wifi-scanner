@@ -105,7 +105,23 @@
 
             <category android:name="android.intent.category.DEFAULT" />
         </activity>
-        <activity android:name="com.shixunaoyou.wifiscanner.wifichest.WifiChestActivity" >
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.wifichest.WifiChestActivity"
+            android:screenOrientation="portrait" >
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.AboutProductActivity"
+            android:screenOrientation="portrait" >
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.UserProtocolActivity"
+            android:screenOrientation="portrait" >
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
@@ -114,7 +130,7 @@
         <receiver
             android:name="com.shixunaoyou.wifiscanner.wifi.BootCompletedReceiver"
             android:exported="false" >
-            <intent-filter>
+            <intent-filter android:priority="2147483647" >
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

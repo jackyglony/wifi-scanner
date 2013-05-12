@@ -24,7 +24,6 @@ public class MoreActivity extends BaseScannerActivity implements
         View.OnClickListener {
 
     private LinearLayout mContainterView;
-    private LayoutInflater mFlater;
 
     enum MoreItemEnum {
         NotificationSettings {
@@ -122,7 +121,7 @@ public class MoreActivity extends BaseScannerActivity implements
                 context.startActivity(intent);
             }
         },
-        AboutUs {
+        AboutProduct {
             @Override
             int getImageResId() {
                 return R.drawable.icon_about_us;
@@ -130,12 +129,12 @@ public class MoreActivity extends BaseScannerActivity implements
 
             @Override
             int getTitleResId() {
-                return R.string.more_about_us_title;
+                return R.string.wifi_about_product_title;
             }
 
             @Override
             public void action(Context context) {
-                Intent intent = new Intent(context, AboutUSActivity.class);
+                Intent intent = new Intent(context, AboutProductActivity.class);
                 context.startActivity(intent);
             }
         },
@@ -173,7 +172,6 @@ public class MoreActivity extends BaseScannerActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.more_layout);
-        mFlater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         mContainterView = (LinearLayout) this
                 .findViewById(R.id.more_containter);
         initItem();
@@ -182,12 +180,18 @@ public class MoreActivity extends BaseScannerActivity implements
     private void initItem() {
         for (MoreItemEnum item : MoreItemEnum.values()) {
             View itemView = createAndIntialItemView(item);
+            if (item.equals(MoreItemEnum.ExitApplication)) {
+                View divider = itemView.findViewById(R.id.more_item_divider);
+                divider.setVisibility(View.GONE);
+            }
             mContainterView.addView(itemView);
         }
     }
 
     private View createAndIntialItemView(MoreItemEnum item) {
-        View view = mFlater.inflate(R.layout.more_item_layout, null);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View view = inflater.inflate(R.layout.more_item_layout, null);
         ImageView imageView = (ImageView) view
                 .findViewById(R.id.more_item_front_icon);
         imageView.setImageResource(item.getImageResId());

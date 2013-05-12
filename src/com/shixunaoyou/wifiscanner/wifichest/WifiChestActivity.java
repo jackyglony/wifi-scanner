@@ -226,7 +226,6 @@ public class WifiChestActivity extends ListActivity implements
 
     @Override
     public void onImageDowlnloadCompleted() {
-        // TODO Auto-generated method stub
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
@@ -434,9 +433,12 @@ public class WifiChestActivity extends ListActivity implements
                         || !TextUtils.equals(oldData, result.toString())) {
                     Logger.debug(TAG, "Need refesh data");
                     mNeedRefreshData = true;
-                    Utils.setAppList(getApplicationContext(), result.toString());
-                    list = getApplistFromJSONObject(result);
                 }
+                list = getApplistFromJSONObject(result);
+                if (list.size() > 0) {
+                    Utils.setAppList(getApplicationContext(), result.toString());
+                }
+
             } catch (JSONException e) {
                 Logger.debug(TAG, "Error: " + e.toString());
                 e.printStackTrace();
@@ -447,20 +449,17 @@ public class WifiChestActivity extends ListActivity implements
         @Override
         protected void onPostExecute(List<AppItem> list) {
             Logger.debug(TAG, "Real data coming");
-            if (!mNeedRefreshData) {
-                Logger.debug(TAG, "Don't need refresh!");
-                return;
-            }
             if (list.size() == 0) {
                 mLoadingContainer.setVisibility(View.GONE);
-                mListContainer.setVisibility(View.GONE);
                 mRefreshContainer.setVisibility(View.VISIBLE);
             } else {
                 mLoadingContainer.setVisibility(View.GONE);
-                mListContainer.setVisibility(View.VISIBLE);
-                mAppList = list;
-                setAdapter();
+                if (mNeedRefreshData && list.size() > 0) {
+                    mAppList = list;
+                    setAdapter();
+                }
             }
+            mListContainer.setVisibility(View.VISIBLE);
         }
 
         protected void onPreExecute() {

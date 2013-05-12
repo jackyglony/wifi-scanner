@@ -87,7 +87,6 @@ public class DownloadHandler {
 
             } catch (Exception e) {
                 status = Constants.DOWNLOAD_ERROR;
-                // TODO Auto-generated catch block
                 Logger.debug(TAG, "error: " + e.toString());
                 e.printStackTrace();
             }

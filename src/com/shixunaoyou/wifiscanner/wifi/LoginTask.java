@@ -49,7 +49,6 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
             Toast.makeText(mContext, Utils.getShowErrorMessage(mContext),
                     Toast.LENGTH_SHORT).show();
             MobclickAgent.onEvent(mContext, UMengUtils.EVENT_LOGIN_FAILURE);
-
         }
     }
 }

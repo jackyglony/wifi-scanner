@@ -13,6 +13,7 @@ public class Constants {
     public final static String ENABLE_NOTIFICATION_KEY = "enable_notify";
     public final static String ENABLE_SHOW_CHANNEL = "show_channel";
     public final static String ENABLE_SHOW_RSSI = "show_rssi";
+    public final static String ENABLE_SERVICE_NOTIFICATION = "enable_notification";
 
     public final static String DATA_TRAFFIC = "data_traffic";
 

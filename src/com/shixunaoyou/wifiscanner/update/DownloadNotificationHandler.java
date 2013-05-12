@@ -53,7 +53,8 @@ public class DownloadNotificationHandler {
         mContentView = new RemoteViews(mContext.getPackageName(),
                 R.layout.download_notification_view);
         mContentView.setProgressBar(R.id.download_progressbar, 100, 0, false);
-        mContentView.setImageViewResource(R.id.app_icon, android.R.drawable.stat_sys_download);
+        mContentView.setImageViewResource(R.id.app_icon,
+                android.R.drawable.stat_sys_download);
         mContentView.setTextViewText(R.id.download_information,
                 mContext.getString(R.string.update_downloading_package));
         mContentView.setTextViewText(R.id.download_progress_text, "0%");

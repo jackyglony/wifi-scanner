@@ -1,8 +1,11 @@
 package com.shixunaoyou.wifiscanner.wifi;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +15,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -35,6 +41,7 @@ public class WiFiScanService extends Service {
 
     private static final String NOTIFICATION_TAG = "com.cm.wifiscanner";
     private static final int NOTIFICATION_ID = 0;
+    private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
 
     private IntentFilter mFilter;
     private BroadcastReceiver mReceiver;
@@ -47,6 +54,10 @@ public class WiFiScanService extends Service {
     // indicate whether to connect a wifi ap.
     private AtomicBoolean mConnected = new AtomicBoolean(false);
     private Context mContext;
+    private ServiceNotificationHandler mNotificationHandler;
+    private WifiManager mWifiManager;
+    private boolean isStart;
+    private long mLastUpdateTime;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -57,8 +68,11 @@ public class WiFiScanService extends Service {
     public void onCreate() {
         super.onCreate();
         Logger.debug(TAG, "Service Create");
+        mWifiManager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         mFilter = new IntentFilter();
         mFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        mFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         mContext = this.getApplicationContext();
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -66,23 +80,145 @@ public class WiFiScanService extends Service {
                 handleEvent(intent);
             }
         };
+        mConnected.set(Utils.isHasWifiConnection(this));
+        mNotificationHandler = ServiceNotificationHandler.getInstance(this);
         registerReceiver(mReceiver, mFilter);
     }
 
+    private void updateNotification() {
+        Logger.debug(TAG, "updateNotification");
+        if (!mConnected.get()) {
+            mNotificationHandler.sendNotification();
+            mNotificationHandler
+                    .updateNoficationMessage(
+                            getString(R.string.wifi_service_notificaion_no_wifi),
+                            false);
+            mNotificationHandler.updateNoficationHotWord(null);
+        } else {
+            WifiInfo info = mWifiManager.getConnectionInfo();
+            String ssid = info.getSSID();
+            mNotificationHandler.updateNoficationMessage(
+                    getString(R.string.wifi_service_notificaion_connect_wifi,
+                            ssid), true);
+        }
+    }
+
     private void handleEvent(Intent intent) {
-        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+        String action = intent.getAction();
+        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(action)) {
             NetworkInfo info = (NetworkInfo) intent
                     .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+            Logger.debug(TAG, "handleEvent: "
+                    + WifiManager.NETWORK_STATE_CHANGED_ACTION);
             boolean lastStatus = mConnected.get();
             mConnected.set(info.isConnected());
-            if (!lastStatus && mConnected.get()) {
+            if (!lastStatus && mConnected.get() && !isStart) {
                 startCheckNetwork();
             }
             if (!info.isConnected()) {
                 Utils.setLoginStatus(this, Constants.NO_WIFI);
                 Utils.setIsServiceUpdate(this, true);
             }
+            if (!isStart) {
+                updateNotification();
+            }
+            isStart = false;
+        } else if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+            Logger.debug(TAG, "status: SCAN_RESULTS_AVAILABLE_ACTION");
+            if (!mConnected.get() && shouldUpdateTimer()) {
+                updateAvaibleNetworkNotification();
+            }
+        } else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
+            int status = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
+                    WifiManager.WIFI_STATE_UNKNOWN);
+            if (status == WifiManager.WIFI_STATE_DISABLED) {
+                resetUpdateTime();
+            }
         }
+    }
+
+    private void resetUpdateTime() {
+        Logger.debug(TAG, "resetUpdateTime");
+        if (mWifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+            mLastUpdateTime = 0;
+        }
+    }
+
+    private boolean shouldUpdateTimer() {
+        long current = System.currentTimeMillis();
+        boolean shouldUpdate = false;
+        if (mLastUpdateTime == 0) {
+            shouldUpdate = true;
+            mLastUpdateTime = current;
+        } else if (current - mLastUpdateTime > UPDATE_INTERVAL) {
+            shouldUpdate = true;
+            mLastUpdateTime = current;
+        } else {
+            shouldUpdate = false;
+        }
+        return shouldUpdate;
+    }
+
+    private void updateAvaibleNetworkNotification() {
+        Logger.debug(TAG, "updateAvaibleNetworkNotification");
+        List<AccessPoint> points = getAllAccessPoints();
+        int availableNetworkCount = 0;
+        int openNetworkCount = 0;
+        for (AccessPoint accessPoint : points) {
+            if (accessPoint.getLevel() != Constants.NOT_IN_RANGE) {
+                availableNetworkCount++;
+                if (accessPoint.security == AccessPoint.SECURITY_NONE) {
+                    openNetworkCount++;
+                }
+            }
+        }
+        updateNofitication(availableNetworkCount, openNetworkCount);
+    }
+
+    private void updateNofitication(int availableNetworkCount,
+            int openNetworkCount) {
+        if (availableNetworkCount > 0) {
+            String message = getString(
+                    R.string.wifi_service_notification_avail_wifi,
+                    availableNetworkCount, openNetworkCount);
+            mNotificationHandler.updateNoficationMessage(message, true);
+        }
+    }
+
+    private List<AccessPoint> getAllAccessPoints() {
+        List<AccessPoint> accessPoints = new ArrayList<AccessPoint>();
+        List<WifiConfiguration> configs = mWifiManager.getConfiguredNetworks();
+        if (configs != null) {
+            for (WifiConfiguration config : configs) {
+                AccessPoint accessPoint = new AccessPoint(this, config);
+                accessPoints.add(accessPoint);
+            }
+        }
+
+        List<ScanResult> results = mWifiManager.getScanResults();
+        if (results != null) {
+            for (ScanResult result : results) {
+                // Ignore hidden and ad-hoc networks.
+                if (result.SSID == null || result.SSID.length() == 0
+                        || result.capabilities.contains("[IBSS]")) {
+                    continue;
+                }
+
+                if (result.frequency == 0) {
+                    continue;
+                }
+                boolean found = false;
+                for (AccessPoint accessPoint : accessPoints) {
+                    if (accessPoint.update(result)) {
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    accessPoints.add(new AccessPoint(this, result));
+                }
+            }
+        }
+        return accessPoints;
     }
 
     private void startCheckNetwork() {
@@ -98,11 +234,16 @@ public class WiFiScanService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        Logger.debug(TAG, "onStartCommand");
         boolean isHasWifiConnecton = Utils.isHasWifiConnection(this);
         if (intent != null) {
             boolean isReboot = intent.getBooleanExtra(Constants.REBOOT_START,
                     false);
             mConnected.set(isHasWifiConnecton);
+            if (isReboot) {
+                updateNotification();
+            }
+            isStart = true;
             if (isHasWifiConnecton && isReboot) {
                 Logger.debug(TAG, "start try to login after rebooting");
                 startCheckNetwork();
@@ -117,6 +258,15 @@ public class WiFiScanService extends Service {
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
         }
+    }
+
+    private void updateLoginNotification() {
+        Logger.debug(TAG, "updateLoginNotification");
+        WifiInfo info = mWifiManager.getConnectionInfo();
+        String ssid = info.getSSID();
+        mNotificationHandler.updateNoficationMessage(
+                getString(R.string.wifi_service_notification_login_wifi, ssid),
+                true);
     }
 
     class ServiceLoginTask extends LoginTask {
@@ -163,7 +313,6 @@ public class WiFiScanService extends Service {
             if (isConnect) {
                 contextText = this.getResources().getString(
                         R.string.wifi_notification_login_successful);
-                showAdDialog();
             } else {
                 contextText = this.getResources().getString(
                         R.string.wifi_notification_login_failure);
@@ -278,6 +427,13 @@ public class WiFiScanService extends Service {
                     } else {
                         loginTask.execute();
                     }
+                    WifiInfo info = mWifiManager.getConnectionInfo();
+                    String ssid = info.getSSID();
+                    mNotificationHandler
+                            .updateNoficationMessage(
+                                    getString(
+                                            R.string.wifi_service_notification_login_wifi,
+                                            ssid), true);
                     Utils.setLoginStatus(mContext, mFirstCheckStatus);
                     Utils.setIsServiceUpdate(mContext, true);
                 }
@@ -304,6 +460,7 @@ public class WiFiScanService extends Service {
             mSecondCheckStatus = result;
             if (mSecondCheckStatus) {
                 status = Constants.HAVE_LOGIN;
+                updateLoginNotification();
             } else {
                 status = Constants.NOT_NEED_LOGIN;
             }
@@ -323,11 +480,13 @@ public class WiFiScanService extends Service {
             Logger.debug(TAG, "DoubleCheck: " + result);
             if (result == Constants.CONNECTED) {
                 result = Constants.HAVE_LOGIN;
-                if (Build.VERSION.SDK_INT >= 11) {
-                    sendNotificationForICS(true);
-                } else {
-                    sendNotification(true);
-                }
+                // if (Build.VERSION.SDK_INT >= 11) {
+                // sendNotificationForICS(true);
+                // } else {
+                // sendNotification(true);
+                // }
+                showAdDialog();
+                updateLoginNotification();
                 Toast.makeText(WiFiScanService.this,
                         R.string.wifi_notification_login_successful,
                         Toast.LENGTH_SHORT).show();

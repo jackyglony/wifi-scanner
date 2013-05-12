@@ -27,6 +27,12 @@
         android:summary="@string/wifi_enable_notification_summary"
         android:title="@string/wifi_enable_notification_title" />
     <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="enable_notification"
+        android:persistent="true"
+        android:summary="@string/wifi_enable_show_notification_summary"
+        android:title="@string/wifi_enable_show_notification_title" />
+    <CheckBoxPreference
         android:defaultValue="false"
         android:key="show_channel"
         android:persistent="true"

@@ -108,6 +108,12 @@ public class Utils {
         return sPref.getBoolean(Constants.ENABLE_SHOW_RSSI, false);
     }
 
+    public static boolean getEnableServiceNotification(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getBoolean(Constants.ENABLE_SERVICE_NOTIFICATION, true);
+    }
+
     public static void setLoginStatus(Context context, int status) {
         SharedPreferences sPref = PreferenceManager
                 .getDefaultSharedPreferences(context);

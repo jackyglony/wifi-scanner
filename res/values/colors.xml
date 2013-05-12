@@ -8,4 +8,6 @@
     <color name="wifi_connect_enabler_color">#D6DDDF</color>
     <color name="wifi_general_black_color">#000000</color>
     <color name="wifi_general_gray_color">#C8C8C8</color>
+    <color name="wifi_general_light_gray_color">#DDDDDD</color>
+    <color name="wifi_general_dark_gray_color">#808080</color>
 </resources>

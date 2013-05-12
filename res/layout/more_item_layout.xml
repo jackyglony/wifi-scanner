@@ -32,14 +32,16 @@
             android:textIsSelectable="false" />
 
         <ImageView
-            android:id="@+id/more_item_back_icon"
-            android:layout_width="@dimen/general_item_image_width"
-            android:layout_height="@dimen/general_item_image_height"
+            android:id="@+id/more_item_arrow"
+            android:layout_width="@dimen/general_item_small_image_width"
+            android:layout_height="@dimen/general_item_small_image_width"
             android:layout_gravity="start|center_vertical"
+            android:src="@drawable/arrow"
             android:contentDescription="@null" />
     </LinearLayout>
 
     <View
+        android:id="@+id/more_item_divider"
         android:layout_width="match_parent"
         android:layout_height="1dip"
         android:background="?android:attr/listDivider" />

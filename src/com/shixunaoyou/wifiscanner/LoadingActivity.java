@@ -17,7 +17,6 @@ public class LoadingActivity extends Activity {
         setContentView(R.layout.loading);
         Handler handler = new Handler();
         handler.postDelayed(new splashhandler(), 3000);
-
     }
 
     @Override

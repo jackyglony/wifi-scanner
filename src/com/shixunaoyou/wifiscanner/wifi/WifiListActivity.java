@@ -101,6 +101,8 @@ public class WifiListActivity extends PreferenceActivity implements
     private int mAlertDialogWidth;
     private int mAlertDialogHeight;
 
+    private ServiceNotificationHandler mNotificationHandler;
+
     public WifiListActivity() {
         mFilter = new IntentFilter();
         mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
@@ -149,35 +151,14 @@ public class WifiListActivity extends PreferenceActivity implements
         // findPreference("wifi_filter_mode");
         mFilterStatus = this.getResources().getStringArray(
                 R.array.wifi_filter_mode_summary_entries);
-        initSummaryOfWifiFilterListPref();
-        // setListnerForWifiFilterPref();
 
         initHeaderView();
 
         autoCheckUpdate();
         mAlertDialogWidth = (int) (Utils.getActivityDisplayWidth(this) * 0.9);
         mAlertDialogHeight = (int) (Utils.getActivityDisplayHeight(this) * 0.8);
+        mNotificationHandler = ServiceNotificationHandler.getInstance(this);
     }
-
-    private void initSummaryOfWifiFilterListPref() {
-        // String valueInString = mWifiFilterListPref.getValue();
-        // setSummaryListPrefbyValueInString(mWifiFilterListPref,
-        // valueInString);
-    }
-
-    // private void setListnerForWifiFilterPref() {
-    // mWifiFilterListPref
-    // .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-    // public boolean onPreferenceChange(Preference pref,
-    // Object newValue) {
-    // setSummaryListPrefbyValueInString(
-    // (ListPreference) pref, (String) newValue);
-    // int valueInInt = parseIntFromString((String) newValue);
-    // updateAccessPoints(valueInInt);
-    // return true;
-    // }
-    // });
-    // }
 
     private void initHeaderView() {
         LayoutInflater inflator = LayoutInflater.from(this);
@@ -211,10 +192,9 @@ public class WifiListActivity extends PreferenceActivity implements
                 && KeyStore.getInstance().test() == KeyStore.NO_ERROR) {
             connect(mKeyStoreNetworkId);
         }
-
-        mKeyStoreNetworkId = Constants.INVALID_NETWORK_ID;
         Intent intentService = new Intent(this, WiFiScanService.class);
         this.stopService(intentService);
+        mKeyStoreNetworkId = Constants.INVALID_NETWORK_ID;
         Logger.debug(TAG, "OnResume: " + Utils.getIsServiceChangeStatus(this)
                 + "mIsResumed:" + mIsResumed);
         if (!mIsResumed || Utils.getIsServiceChangeStatus(this)) {
@@ -234,6 +214,7 @@ public class WifiListActivity extends PreferenceActivity implements
             }
         }
         mConnected.set(Utils.isHasWifiConnection(this));
+        updateNotification();
         mIsResumed = true;
         updateAccessPoints();
     }
@@ -241,7 +222,7 @@ public class WifiListActivity extends PreferenceActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-
+        startService();
         unregisterReceiver(mReceiver);
         mScanner.pause();
 
@@ -253,7 +234,6 @@ public class WifiListActivity extends PreferenceActivity implements
         if (mResetNetworks) {
             enableNetworks();
         }
-        startService();
     }
 
     private void startService() {
@@ -460,6 +440,7 @@ public class WifiListActivity extends PreferenceActivity implements
                 Utils.setIsServiceUpdate(this, false);
                 updateView();
             }
+            updateNotification();
             if (!lastStatus && mConnected.get()) {
                 WifiFirstCheckStatus task = new WifiFirstCheckStatus(true);
                 if (Build.VERSION.SDK_INT >= 11) {
@@ -472,6 +453,31 @@ public class WifiListActivity extends PreferenceActivity implements
         } else if (WifiManager.RSSI_CHANGED_ACTION.equals(action)) {
             updateConnectionState(null);
         }
+    }
+
+    private void updateNotification() {
+        if (!mConnected.get()) {
+            mNotificationHandler.sendNotification();
+            mNotificationHandler
+                    .updateNoficationMessage(
+                            getString(R.string.wifi_service_notificaion_no_wifi),
+                            false);
+            mNotificationHandler.updateNoficationHotWord(null);
+        } else {
+            WifiInfo info = mWifiManager.getConnectionInfo();
+            String ssid = info.getSSID();
+            mNotificationHandler.updateNoficationMessage(
+                    getString(R.string.wifi_service_notificaion_connect_wifi,
+                            ssid), false);
+        }
+    }
+
+    private void updateLoginNotification() {
+        WifiInfo info = mWifiManager.getConnectionInfo();
+        String ssid = info.getSSID();
+        mNotificationHandler.updateNoficationMessage(
+                getString(R.string.wifi_service_notification_login_wifi, ssid),
+                false);
     }
 
     private void enableNetworks() {
@@ -900,7 +906,6 @@ public class WifiListActivity extends PreferenceActivity implements
                 Toast.makeText(WifiListActivity.this,
                         R.string.wifi_notification_login_successful,
                         Toast.LENGTH_SHORT).show();
-
                 // mLoginStatusPrefs.setEnabled(true);
                 Utils.setIsServiceUpdate(WifiListActivity.this, false);
             }
@@ -1001,6 +1006,7 @@ public class WifiListActivity extends PreferenceActivity implements
             mSecondCheckStatus = result;
             if (mSecondCheckStatus) {
                 status = Constants.HAVE_LOGIN;
+                updateLoginNotification();
             } else {
                 status = Constants.NOT_NEED_LOGIN;
             }
@@ -1025,6 +1031,7 @@ public class WifiListActivity extends PreferenceActivity implements
                 Toast.makeText(WifiListActivity.this,
                         R.string.wifi_notification_login_successful,
                         Toast.LENGTH_SHORT).show();
+                updateLoginNotification();
             } else if (result == Constants.HAVE_LOGOUT) {
                 Toast.makeText(WifiListActivity.this,
                         R.string.wifi_change_account_toast, Toast.LENGTH_SHORT)

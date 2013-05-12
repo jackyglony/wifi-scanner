@@ -16,4 +16,7 @@ public class UMengUtils {
     public static final String EVENT_FEEDBACK_SUCCESSFUL = "feedback_successful";
     public static final String EVENT_FEEDBACK_FAILED = "feedback_failed";
     public static final String EVENT_DOWNLOAD_APP = "download_app";
+    public static final String EVENT_CLOSE_NOTIFICATION = "close_notification";
+    public static final String EVENT_OPEN_NOTIFICATION = "open_notification";
+    public static final String EVENT_CLICK_HOTWORD = "click_hotword";
 }
