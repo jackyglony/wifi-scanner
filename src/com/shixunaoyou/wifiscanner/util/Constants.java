@@ -86,4 +86,9 @@ public class Constants {
 
     public static final int BOOT_COMPLETE = 1;
     public static final String REBOOT_START = "reboot";
+    public static final String OPEN_HOTWORD_ACTION = "com.shixunaoyou.wifiscanner.OPEN_HOTWORD";
+    public static final String HOT_WORD = "hot_word";
+    public static final String HOT_WORD_URL = "hot_word_url";
+    public static final String HOT_WORD_TIME = "hot_word_time";
+
 }

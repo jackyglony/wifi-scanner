@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/footer_margin_left"
+        android:layout_marginBottom="@dimen/access_point_text_marge"
         android:text="@string/wifi_about_agreement"
         android:textAppearance="?android:attr/textAppearanceMedium" >
     </TextView>

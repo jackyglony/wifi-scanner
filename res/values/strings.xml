@@ -335,7 +335,7 @@
 
     <!-- About product Resources -->
     <string name="wifi_about_slogan">分享世界，分享网络</string>
-    <string name="wifi_about_tv_copyright">Copyright © 2013免费无线包</string>
+    <string name="wifi_about_tv_copyright">Copyright © 2013免费无线宝</string>
     <string name="wifi_about_tv_publisher">时讯无线</string>
     <string name="wifi_about_product_title">关于免费无线宝</string>
     <string name="wifi_about_user_protocol">用户服务协议</string>
@@ -443,5 +443,6 @@
  5、若您对本公司及本服务有任何意见，欢迎垂询本公司客服中心。 
 
  无线免费宝
- 2012年2月"</string>
+ 2013年5月\n"
+ </string>
 </resources>

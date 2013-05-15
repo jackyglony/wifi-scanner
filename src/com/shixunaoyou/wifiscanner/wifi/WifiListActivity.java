@@ -462,7 +462,7 @@ public class WifiListActivity extends PreferenceActivity implements
                     .updateNoficationMessage(
                             getString(R.string.wifi_service_notificaion_no_wifi),
                             false);
-            mNotificationHandler.updateNoficationHotWord(null);
+            mNotificationHandler.updateNoficationHotWord(true);
         } else {
             WifiInfo info = mWifiManager.getConnectionInfo();
             String ssid = info.getSSID();

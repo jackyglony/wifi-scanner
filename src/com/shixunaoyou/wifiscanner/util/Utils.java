@@ -539,4 +539,32 @@ public class Utils {
         }
         return mDisplayHeight;
     }
+
+    public static String getHotwordList(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getString(Constants.HOT_WORD, null);
+    }
+
+    public static void setHotwordList(Context context, String hotwordList) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Editor editor = sPref.edit();
+        editor.putString(Constants.HOT_WORD, hotwordList);
+        editor.commit();
+    }
+
+    public static long getHotwordUpdateTime(Context context) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sPref.getLong(Constants.HOT_WORD_TIME, 0);
+    }
+
+    public static void setHotwordUpdateTime(Context context, long updatTime) {
+        SharedPreferences sPref = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Editor editor = sPref.edit();
+        editor.putLong(Constants.HOT_WORD_TIME, updatTime);
+        editor.commit();
+    }
 }

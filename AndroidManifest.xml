@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shixunaoyou.wifiscanner"
-    android:versionCode="2"
-    android:versionName="1.3" >
+    android:versionCode="3"
+    android:versionName="1.4" >
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -125,6 +125,22 @@
             <action android:name="android.intent.action.VIEW" />
 
             <category android:name="android.intent.category.DEFAULT" />
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.wifi.HotwordHandlerActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.QuestionWebViewActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.shixunaoyou.wifiscanner.more.ProductInfoWebViewActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
         </activity>
 
         <receiver

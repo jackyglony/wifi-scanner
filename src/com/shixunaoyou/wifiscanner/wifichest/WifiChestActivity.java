@@ -222,6 +222,7 @@ public class WifiChestActivity extends ListActivity implements
             holder.mHideContainer.setVisibility(View.GONE);
             item.setShowingDescription(false);
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -456,6 +457,7 @@ public class WifiChestActivity extends ListActivity implements
                 mLoadingContainer.setVisibility(View.GONE);
                 if (mNeedRefreshData && list.size() > 0) {
                     mAppList = list;
+                    mAllView.clear();
                     setAdapter();
                 }
             }

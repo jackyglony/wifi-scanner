@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Notification;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 import com.shixunaoyou.wifiscanner.R;
 import com.shixunaoyou.wifiscanner.WifiScannerMainTabActivity;
 import com.shixunaoyou.wifiscanner.util.Constants;
+import com.shixunaoyou.wifiscanner.util.HttpUtils;
 import com.shixunaoyou.wifiscanner.util.Logger;
 import com.shixunaoyou.wifiscanner.util.UMengUtils;
 import com.shixunaoyou.wifiscanner.util.Utils;
@@ -41,7 +45,9 @@ public class WiFiScanService extends Service {
 
     private static final String NOTIFICATION_TAG = "com.cm.wifiscanner";
     private static final int NOTIFICATION_ID = 0;
-    private static final long UPDATE_INTERVAL = 1000 * 60 * 2;
+    private static final long UPDATE_NOTIFICATION_INTERVAL = 1000 * 60 * 5;
+    private static final long UPDATE_HOTWORD_INTERVAL = 1000 * 60 * 60 * 2;
+    private static final String HOT_WORD_URL = "http://www.591wifi.com/portal/getrssinfolist&version=1.0";
 
     private IntentFilter mFilter;
     private BroadcastReceiver mReceiver;
@@ -57,7 +63,8 @@ public class WiFiScanService extends Service {
     private ServiceNotificationHandler mNotificationHandler;
     private WifiManager mWifiManager;
     private boolean isStart;
-    private long mLastUpdateTime;
+    private long mLastNotificationUpdateTime;
+    private long mLastHotwordUpdateTime;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -73,6 +80,7 @@ public class WiFiScanService extends Service {
         mFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         mFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         mFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        mFilter.addAction(Intent.ACTION_SCREEN_ON);
         mContext = this.getApplicationContext();
         mReceiver = new BroadcastReceiver() {
             @Override
@@ -82,6 +90,7 @@ public class WiFiScanService extends Service {
         };
         mConnected.set(Utils.isHasWifiConnection(this));
         mNotificationHandler = ServiceNotificationHandler.getInstance(this);
+        mLastHotwordUpdateTime = Utils.getHotwordUpdateTime(this);
         registerReceiver(mReceiver, mFilter);
     }
 
@@ -93,13 +102,14 @@ public class WiFiScanService extends Service {
                     .updateNoficationMessage(
                             getString(R.string.wifi_service_notificaion_no_wifi),
                             false);
-            mNotificationHandler.updateNoficationHotWord(null);
+            mNotificationHandler.updateNoficationHotWord(true);
         } else {
             WifiInfo info = mWifiManager.getConnectionInfo();
             String ssid = info.getSSID();
             mNotificationHandler.updateNoficationMessage(
                     getString(R.string.wifi_service_notificaion_connect_wifi,
                             ssid), true);
+            mNotificationHandler.updateNoficationHotWord(false);
         }
     }
 
@@ -125,34 +135,58 @@ public class WiFiScanService extends Service {
             isStart = false;
         } else if (WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
             Logger.debug(TAG, "status: SCAN_RESULTS_AVAILABLE_ACTION");
-            if (!mConnected.get() && shouldUpdateTimer()) {
+            if (!mConnected.get() && shouldUpdateNotification()) {
                 updateAvaibleNetworkNotification();
+            }
+            if (mConnected.get() && shoudUpdateHotWord()) {
+
             }
         } else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
             int status = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                     WifiManager.WIFI_STATE_UNKNOWN);
             if (status == WifiManager.WIFI_STATE_DISABLED) {
-                resetUpdateTime();
+                resetNotificationUpdateTime();
+            }
+        } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
+            Logger.debug(TAG, "android.intent.action.SCREEN_ON");
+            if (!mConnected.get()) {
+                updateAvaibleNetworkNotification();
+                mLastNotificationUpdateTime = System.currentTimeMillis();
             }
         }
     }
 
-    private void resetUpdateTime() {
+    private void resetNotificationUpdateTime() {
         Logger.debug(TAG, "resetUpdateTime");
         if (mWifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
-            mLastUpdateTime = 0;
+            mLastNotificationUpdateTime = 0;
         }
     }
 
-    private boolean shouldUpdateTimer() {
+    private boolean shouldUpdateNotification() {
         long current = System.currentTimeMillis();
         boolean shouldUpdate = false;
-        if (mLastUpdateTime == 0) {
+        if (mLastNotificationUpdateTime == 0) {
             shouldUpdate = true;
-            mLastUpdateTime = current;
-        } else if (current - mLastUpdateTime > UPDATE_INTERVAL) {
+            mLastNotificationUpdateTime = current;
+        } else if (current - mLastNotificationUpdateTime > UPDATE_NOTIFICATION_INTERVAL) {
             shouldUpdate = true;
-            mLastUpdateTime = current;
+            mLastNotificationUpdateTime = current;
+        } else {
+            shouldUpdate = false;
+        }
+        return shouldUpdate;
+    }
+
+    private boolean shoudUpdateHotWord() {
+        boolean shouldUpdate = false;
+        long current = System.currentTimeMillis();
+        if (mLastHotwordUpdateTime == 0) {
+            shouldUpdate = true;
+            mLastHotwordUpdateTime = current;
+        } else if (current - mLastHotwordUpdateTime > UPDATE_HOTWORD_INTERVAL) {
+            shouldUpdate = true;
+            mLastHotwordUpdateTime = current;
         } else {
             shouldUpdate = false;
         }
@@ -255,6 +289,7 @@ public class WiFiScanService extends Service {
     @Override
     public void onDestroy() {
         Logger.debug(TAG, "onDestroy");
+        Utils.setHotwordUpdateTime(this, mLastHotwordUpdateTime);
         if (mReceiver != null) {
             unregisterReceiver(mReceiver);
         }
@@ -293,6 +328,7 @@ public class WiFiScanService extends Service {
         }
     }
 
+    // TODO delete this method
     @SuppressWarnings("deprecation")
     @TargetApi(11)
     private void sendNotificationForICS(boolean isConnect) {
@@ -328,6 +364,7 @@ public class WiFiScanService extends Service {
         }
     }
 
+    // TODO delete this method
     @SuppressWarnings("deprecation")
     private void showAdDialog() {
         AdShowDialog dialog = new AdShowDialog(mContext);
@@ -493,6 +530,35 @@ public class WiFiScanService extends Service {
             }
             Utils.setLoginStatus(mContext, result);
             Utils.setIsServiceUpdate(mContext, true);
+        }
+    }
+
+    class HotwordUpdateTask extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = null;
+            try {
+                result = getHotJson();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        private String getHotJson() throws JSONException {
+            JSONObject hotJSON = HttpUtils.sendPostRequest(HOT_WORD_URL);
+            int errno = hotJSON.getInt("errNo");
+            return hotJSON.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (TextUtils.isEmpty(result)) {
+            } else {
+
+            }
         }
     }
 }

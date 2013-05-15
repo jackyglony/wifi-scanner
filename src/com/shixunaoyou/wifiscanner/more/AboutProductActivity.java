@@ -24,7 +24,8 @@ public class AboutProductActivity extends BaseCustomActivity {
 
             @Override
             public void action(Context context) {
-
+                Intent intent = new Intent(context, ProductInfoWebViewActivity.class);
+                context.startActivity(intent);
             }
         },
         Questions {
@@ -35,6 +36,8 @@ public class AboutProductActivity extends BaseCustomActivity {
 
             @Override
             public void action(Context context) {
+                Intent intent = new Intent(context, QuestionWebViewActivity.class);
+                context.startActivity(intent);
             }
         },
         AboutCompany {
