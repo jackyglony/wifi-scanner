@@ -459,14 +459,14 @@ public class WifiListActivity extends PreferenceActivity implements
         if (!mConnected.get()) {
             mNotificationHandler.sendNotification();
             mNotificationHandler
-                    .updateNoficationMessage(
+                    .updateNotificationMessage(
                             getString(R.string.wifi_service_notificaion_no_wifi),
                             false);
-            mNotificationHandler.updateNoficationHotWord(true);
+            mNotificationHandler.updateNotificationHotWord(true);
         } else {
             WifiInfo info = mWifiManager.getConnectionInfo();
             String ssid = info.getSSID();
-            mNotificationHandler.updateNoficationMessage(
+            mNotificationHandler.updateNotificationMessage(
                     getString(R.string.wifi_service_notificaion_connect_wifi,
                             ssid), false);
         }
@@ -475,7 +475,7 @@ public class WifiListActivity extends PreferenceActivity implements
     private void updateLoginNotification() {
         WifiInfo info = mWifiManager.getConnectionInfo();
         String ssid = info.getSSID();
-        mNotificationHandler.updateNoficationMessage(
+        mNotificationHandler.updateNotificationMessage(
                 getString(R.string.wifi_service_notification_login_wifi, ssid),
                 false);
     }

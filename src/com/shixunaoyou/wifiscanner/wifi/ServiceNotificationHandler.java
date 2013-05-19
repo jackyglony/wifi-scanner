@@ -1,15 +1,24 @@
 package com.shixunaoyou.wifiscanner.wifi;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -17,12 +26,17 @@ import android.widget.RemoteViews;
 import com.shixunaoyou.wifiscanner.R;
 import com.shixunaoyou.wifiscanner.WifiScannerMainTabActivity;
 import com.shixunaoyou.wifiscanner.util.Constants;
+import com.shixunaoyou.wifiscanner.util.Logger;
 import com.shixunaoyou.wifiscanner.util.Utils;
+import com.umeng.analytics.j;
 
 public class ServiceNotificationHandler {
+    private static final String TAG = "ServiceNotificationHandler";
+
     private static ServiceNotificationHandler mInstance;
     private static final String SERVICE_NOTIFICATION_TAG = "com.cm.wifiscanner.service";
     private static final int SERVICE_NOTIFICATION_ID = R.id.service_notification_logo;
+    private static final String BAIDU_TN_URL = "&tn=www.591wifi.com";
     private static final String SEARCH_URL = "http://www.baidu.com/s?wd=";
     private Context mContext;
     private Notification mServiceNotification;
@@ -54,13 +68,15 @@ public class ServiceNotificationHandler {
     private ServiceNotificationHandler(Context context) {
         mContext = context;
         mHotwordIndex = 0;
+        mAllHotwordList = new ArrayList<String>();
+        mAllHotwordMap = new HashMap<String, String>();
         mNm = (NotificationManager) mContext
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         mMessage = mContext
                 .getString(R.string.wifi_service_notificaion_no_wifi);
-        updateAllHotword();
         initNotification();
         updateConfigure();
+        updateAllHotword();
     }
 
     @SuppressWarnings("deprecation")
@@ -83,7 +99,7 @@ public class ServiceNotificationHandler {
         mContentView.setTextViewText(R.id.service_notifcation_hotword_title,
                 mContext.getString(R.string.wifi_service_notification_title));
         setNotificationMessage(mMessage);
-        setNotifcationHotWord(false);
+        setNotificationHotWord(false);
         mServiceNotification.contentView = mContentView;
     }
 
@@ -92,7 +108,7 @@ public class ServiceNotificationHandler {
         mContentView.setTextViewText(R.id.service_notifcation_message, message);
     }
 
-    private void setNotifcationHotWord(boolean shouldHide) {
+    private void setNotificationHotWord(boolean shouldHide) {
         if (shouldHide || TextUtils.isEmpty(mHotWord)) {
             mContentView.setViewVisibility(
                     R.id.service_notification_hotword_container, View.GONE);
@@ -104,19 +120,26 @@ public class ServiceNotificationHandler {
             PendingIntent pendingIntent = PendingIntent.getActivity(mContext,
                     0, getHotWordIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
             mContentView.setOnClickPendingIntent(
-                    R.id.service_notification_hotword_container, pendingIntent);
+                    R.id.service_notification_hotword_layout, pendingIntent);
         }
     }
 
     private Intent getHotWordIntent() {
         Intent intent = new Intent(mContext, HotwordHandlerActivity.class);
-        intent.setAction(Constants.OPEN_HOTWORD_ACTION);
         intent.putExtra(Constants.HOT_WORD, mHotWord);
-        intent.putExtra(Constants.HOT_WORD_URL, mAllHotwordMap.get(mHotWord));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        String url = mAllHotwordMap.get(mHotWord);
+        if(TextUtils.isEmpty(url)) {
+            url = SEARCH_URL + mHotWord + BAIDU_TN_URL;
+        }
+        intent.putExtra(Constants.HOT_WORD_URL, url);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.setData(Uri.parse(mAllHotwordMap.get(mHotWord)));
         return intent;
     }
 
-    public void updateNoficationMessage(String message, boolean showTicker) {
+    public void updateNotificationMessage(String message, boolean showTicker) {
         setNotificationMessage(message);
         if (isEnableShowNotification) {
             if (showTicker) {
@@ -129,11 +152,14 @@ public class ServiceNotificationHandler {
         }
     }
 
-    public void updateNoficationHotWord(boolean shouldHide) {
-        if(!shouldHide) {
-            mHotWord = getNextHotword();;
+    public void updateNotificationHotWord(boolean shouldHide) {
+        if (mAllHotwordList.size() == 0) {
+            return;
         }
-        setNotifcationHotWord(shouldHide);
+        if (!shouldHide) {
+            mHotWord = getNextHotword();
+        }
+        setNotificationHotWord(shouldHide);
         if (isEnableShowNotification) {
             mNm.notify(SERVICE_NOTIFICATION_TAG, SERVICE_NOTIFICATION_ID,
                     mServiceNotification);
@@ -142,21 +168,40 @@ public class ServiceNotificationHandler {
     }
 
     public void updateAllHotword() {
-        mAllHotwordList = new ArrayList<String>();
-        mAllHotwordMap = new HashMap<String, String>();
         String hotwordList = Utils.getHotwordList(mContext);
-        //TestData
-        mAllHotwordList.add("test1");
-        mAllHotwordList.add("test2");
-        mAllHotwordMap.put("test1", SEARCH_URL + "test1");
-        mAllHotwordMap.put("test2", SEARCH_URL + "test2");
-        mHotwordIndex = 0;
-        mHotWord = mAllHotwordList.get(mHotwordIndex);
+        if (!TextUtils.isEmpty(hotwordList)) {
+            parseJSONAndGenerateHotList(hotwordList);
+        }
+    }
+
+    private void parseJSONAndGenerateHotList(String hotwordList) {
+        Logger.debug(TAG, "parseJSONAndGenerateHotList");
+        try {
+            JSONObject result = new JSONObject(hotwordList);
+            JSONArray hotwordArray = result.getJSONArray("allData");
+            mAllHotwordList.clear();
+            mAllHotwordMap.clear();
+            for (int i = 0; i < hotwordArray.length(); i++) {
+                JSONObject item = hotwordArray.getJSONObject(i);
+                String hotword = Html.fromHtml(item.getString("sKeyword"))
+                        .toString();
+                String url = Html.fromHtml(item.getString("sURL")).toString() + BAIDU_TN_URL;
+                mAllHotwordList.add(hotword);
+                mAllHotwordMap.put(hotword, url);
+                mHotwordIndex = 0;
+                Logger.debug(TAG, "keyword id: " + hotword + " url:" + url);
+                mHotWord = mAllHotwordList.get(mHotwordIndex);
+                updateNotificationHotWord(false);
+            }
+        } catch (JSONException e) {
+            Logger.debug(TAG, e.toString());
+            e.printStackTrace();
+        }
     }
 
     private String getNextHotword() {
         mHotwordIndex++;
-        if(mHotwordIndex >= mAllHotwordList.size()) {
+        if (mHotwordIndex >= mAllHotwordList.size()) {
             mHotwordIndex = 0;
         }
         return mAllHotwordList.get(mHotwordIndex);

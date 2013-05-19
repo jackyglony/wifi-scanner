@@ -91,7 +91,6 @@ public class WifiEnabler implements Preference.OnPreferenceChangeListener {
         } else {
             mCheckBox.setSummary(R.string.wifi_error);
         }
-
         // Don't update UI to opposite state until we're sure
         return false;
     }

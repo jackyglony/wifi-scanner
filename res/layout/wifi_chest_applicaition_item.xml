@@ -2,8 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusable="true"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -21,10 +19,13 @@
             android:contentDescription="@null" />
 
         <LinearLayout
+            android:id="@+id/wifi_app_real_click_container"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/footer_margin_left"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical" >
 
             <RelativeLayout
@@ -131,6 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:background="@drawable/btn_download" />
+
         <Button
             android:id="@+id/wifi_app_install_btn"
             android:layout_width="wrap_content"
@@ -147,6 +149,37 @@
         android:background="@color/wifi_general_gray_color"
         android:orientation="vertical"
         android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/wifi_app_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/footer_margin_top"
+            android:layout_marginRight="@dimen/footer_margin_top"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wifi_app_delete_file"
+                style="@style/panel_btn"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/footer_margin_top"
+                android:layout_marginRight="@dimen/footer_margin_top"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/wifi_app_delete"
+                android:text="@string/wifi_app_delete" />
+
+            <Button
+                android:id="@+id/wifi_app_redownload"
+                style="@style/panel_btn"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/footer_margin_top"
+                android:layout_marginRight="@dimen/footer_margin_top"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/wifi_app_redownload"
+                android:text="@string/wifi_app_redownload" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

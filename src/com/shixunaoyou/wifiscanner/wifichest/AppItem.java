@@ -282,4 +282,11 @@ public class AppItem {
     public void updateStatus() {
         checkApkFile();
     }
+
+    public void deleteApkFile() {
+        File file = new File(getApkFullPath());
+        if (file.exists()) {
+            file.delete();
+        }
+    }
 }

@@ -38,5 +38,6 @@
     <dimen name="wifi_app_list_item_divider_width">1dip</dimen>
     <dimen name="wifi_service_notification_small_text_size">10sp</dimen>
     <dimen name="wifi_service_notification_medium_text_size">16sp</dimen>
-
+    <dimen name="wifi_service_notification_middle_text_size">14sp</dimen>
+    <dimen name="wifi_service_notification_title_text_size">18sp</dimen>
 </resources>

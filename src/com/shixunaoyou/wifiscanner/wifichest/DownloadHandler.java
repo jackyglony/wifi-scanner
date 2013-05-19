@@ -116,6 +116,7 @@ public class DownloadHandler {
                 }
                 fos.write(buf, 0, numread);
             } while (true);
+            
         }
 
         @Override
